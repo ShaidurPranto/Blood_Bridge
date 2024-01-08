@@ -2,6 +2,7 @@ const oracledb = require('oracledb');
 const express = require('express');
 const app = express();
 
+oracledb.outFormat=oracledb.OUT_FORMAT_OBJECT;
 const port = 3000;
 app.listen(port);
 
