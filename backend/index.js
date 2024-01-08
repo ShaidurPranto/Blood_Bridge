@@ -2,6 +2,7 @@ const oracledb = require('oracledb');
 const express = require('express');
 const app = express();
 app.use(express.static('../frontend'));
+
 const port = 3000;
 app.listen(port);
 
@@ -9,7 +10,7 @@ async function run(query) {
     const connection = await oracledb.getConnection({
         user          : "BB",
         password      : "bb",
-        connectString : "localhost/ORCL"
+        connectString : "localhost/ORCLPDB"
     });
 
     console.log("requested query is ",query);
@@ -31,7 +32,7 @@ app.get('/user/:userid', async(req,res)=>{
 app.get('/donor/:bloodGroup/:Rh', async(req,res)=>{
     const bloodGroup = req.params.bloodGroup;
     const rh = req.params.Rh;
-    console.log("received request for blood group: ",userid," - rh: ",rh);
+     console.log("received request for blood group: ",bloodGroup," - rh: ",rh);
     const data = await run(`SELECT * FROM DONOR_BLOOD_INFO WHERE BLOODGROUP = '${bloodGroup}' AND RH = '${rh}'`);
     console.log("sending the response ",data.rows);
     res.send(data.rows);
