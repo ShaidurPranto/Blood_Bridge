@@ -72,6 +72,12 @@ border: border-box;
     color: antiquewhite;
     background-color:#432E36;
 }
+
+#submitButton
+{
+    position: relative;
+    top: 15px; /* Adjust the top value as needed */
+}
 .table
 {
     height:50px;
