@@ -1,0 +1,82 @@
+/* h1{
+    color :#FDFFFF;
+    font-size: 80px;
+    font-family:'Trebuchet M';
+    text-align: center;
+}
+
+body{
+
+    background-color: #260C1A;
+} */
+
+*{
+
+margin: 0;
+font-family: Arial;
+border: border-box;
+}
+
+.navbar
+{
+    background-color: #432E36 ;
+    height: 150px;
+    color:antiquewhite;
+}
+.header
+{
+    height: 150px;
+}
+#head
+{
+    height: 150px;
+    font-size: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bodybar
+{
+    height:600px;
+    background-color:antiquewhite;
+    
+}
+
+.label
+{
+    height: 50px;
+    
+}
+#labelname
+{
+    font-size:20px ;
+    color: #432E36;
+    position: relative;
+    top: 15px; /* Adjust the top value as needed */
+}
+#dropdown
+{
+    height: 30px;
+
+    font-size: 20px;
+    color:#260C1A;
+    background-color: #432E36; /* Set your desired background color */
+    border: 1px solid antiquewhite; /* Set the border color */
+    border-radius: 3px; /* Optional: Add border-radius for rounded corners */
+    position: relative;
+    top: 15px; /* Adjust the top value as needed */
+}
+
+ #dropdown:focus,
+     #dropdown:active {
+    color: antiquewhite;
+    background-color:#432E36;
+}
+.table
+{
+    height:50px;
+    position: relative;
+    top: 25px; /* Adjust the top value as needed */
+}
+
+
