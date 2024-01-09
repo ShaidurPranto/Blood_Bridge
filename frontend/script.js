@@ -19,9 +19,6 @@ async function processInput() {
     console.log(bloodType);
     console.log(rhFactor);
 
-    if(rhFactor == '+') rhFactor = 'positive';
-    if(rhFactor == '-') rhFactor = 'negative';
-    console.log(rhFactor);
     
     const response = await fetch(`/donor/${bloodType}/${rhFactor}`);
     const data = await response.json();
