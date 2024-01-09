@@ -11,6 +11,7 @@ async function run(query) {
         user          : "BB",
         password      : "bb",
         connectString : "localhost/ORCLPDB"
+        //connectString : "localhost/ORCL"
     });
 
     console.log("requested query is ",query);
