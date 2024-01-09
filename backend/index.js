@@ -11,6 +11,7 @@ async function run(query) {
         user          : "BB",
         password      : "bb",
         connectString : "localhost/ORCLPDB"
+        //connectString : "localhost/ORCL"
     });
 
     console.log("requested query is ",query);
@@ -31,7 +32,9 @@ app.get('/user/:userid', async(req,res)=>{
 
 app.get('/donor/:bloodGroup/:Rh', async(req,res)=>{
     const bloodGroup = req.params.bloodGroup;
-    const rh = req.params.Rh;
+    let rh = req.params.Rh;
+    rh = rh.toUpperCase();
+
      console.log("received request for blood group: ",bloodGroup," - rh: ",rh);
     const data = await run(`SELECT * FROM DONOR_BLOOD_INFO WHERE BLOODGROUP = '${bloodGroup}' AND RH = '${rh}'`);
     console.log("sending the response ",data.rows);
