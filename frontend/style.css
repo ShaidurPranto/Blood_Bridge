@@ -39,12 +39,14 @@ border: border-box;
 {
     height:600px;
     background-color:antiquewhite;
+    text-align: center; /* Center the content */
     
 }
 
 .label
 {
     height: 50px;
+    text-align: center; /* Center the content */
     
 }
 #labelname
@@ -76,13 +78,62 @@ border: border-box;
 #submitButton
 {
     position: relative;
-    top: 15px; /* Adjust the top value as needed */
+    top: 12px; /* Adjust the top value as needed */
+    padding: 5.5px;
 }
-.table
-{
-    height:50px;
+#text
+{   
+    height: 300px;
     position: relative;
-    top: 25px; /* Adjust the top value as needed */
+    top: 40px; /* Adjust the top value as needed */
+    text-align: center; /* Center the content */
+    width: 80%;
+    margin: 0 auto;
+}
+
+.user
+{
+    height: 200 px;
+    text-align: center; /* Center the content */
+}
+
+#CreateUserButton
+{   position: relative;
+    margin-bottom: 10px; /* Add margin below each input box */
+    padding: 8px; /* Increase padding to make the input boxes bigger */
+}
+input
+{
+    margin-bottom: 10px; /* Add margin below each input box */
+    padding: 8px; /* Increase padding to make the input boxes bigger */
+    width: 200px; /* Set a specific width for the input boxes */
+    box-sizing: border-box; 
 }
 
 
+
+
+#table {
+    font-family: 'Arial', sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #table th, #table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  #table th {
+    background-color: #f2f2f2;
+  }
+  
+  #table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  #table tr:hover {
+    background-color: #e1f5fe;
+  }
+  
