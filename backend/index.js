@@ -10,8 +10,8 @@ async function run(query) {
     const connection = await oracledb.getConnection({
         user          : "BB",
         password      : "bb",
-        connectString : "localhost/ORCLPDB"
-        //connectString : "localhost/ORCL"
+        //connectString : "localhost/ORCLPDB"
+        connectString : "localhost/ORCL"
     });
 
     console.log("requested query is ",query);
@@ -21,6 +21,9 @@ async function run(query) {
     await connection.close();
     return result;
 }
+app.get('/', async(req,res)=>{
+    res.send("dfsdf");
+});
 
 app.get('/user/:userid', async(req,res)=>{
     const userid = req.params.userid;
