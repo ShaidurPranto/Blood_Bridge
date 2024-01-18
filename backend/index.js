@@ -10,8 +10,8 @@ async function run(query) {
     const connection = await oracledb.getConnection({
         user          : "BB",
         password      : "bb",
-        //connectString : "localhost/ORCLPDB"
-        connectString : "localhost/ORCL"
+        connectString : "localhost/orclpdb"
+        //connectString : "localhost/ORCL"
     });
 
     console.log("requested query is ",query);
@@ -69,5 +69,3 @@ app.get('/donor/:bloodGroup/:Rh', async(req,res)=>{
 
 
 console.log("everything executed");
-
-

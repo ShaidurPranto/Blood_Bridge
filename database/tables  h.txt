@@ -1,0 +1,44 @@
+----------
+(foreign key heirerchy)
+
+USER -> USER_DONOR -> DONOR -> DONOR_BLOOD_INFO
+  |                          -> DONOR_MOBILE_NUMBER
+  |                          -> DONOR_DONATES -> BANK_DONOR_APPOINTMENTS
+  |
+  |
+  |
+  |  -> USER_REQUEST -> BLOOD_REQUEST ->DONOR_USER_APPOINTMENTS
+                                      ->BANK_USER_APPOINTMENTS
+
+
+
+BLOOD_BANK -> BLOOD_BANK_INFO
+
+
+----------------
+(varchar2 size)
+
+NAME , EMAIL , PASSWORD , ID(IF VARCHAR2) : 50
+BLOODGROUP , GENDER , RH , TIME , STATUS : 10
+DATE : 7
+REVIEW : 200
+
+
+---------------
+(data types of id)
+
+ONLY DONORID VARCHAR2(50)
+OTHER IDs NUMBER
+
+
+---------------
+(changes of table name from schema)
+
+USER_BECOMES_DONOR -> USER_DONOR
+USER_MAKES_REQUEST -> USER_REQUEST
+
+
+(changes of column name)
+
+IN BLOOD_REQUEST : DATE -> REQUIRED_DATE
+                   LOCATION -> DISTRICT , AREA
