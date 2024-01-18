@@ -21,6 +21,7 @@ async function run(query) {
     await connection.close();
     return result;
 }
+
 app.get('/', async(req,res)=>{
     res.send("dfsdf");
 });
@@ -58,10 +59,10 @@ app.get('/donor/:bloodGroup/:Rh', async(req,res)=>{
     // const data = await run(`SELECT * FROM DONOR_BLOOD_INFO WHERE BLOODGROUP = '${bloodGroup}' AND RH = '${rh}'`);
     const data = await run(`SELECT
     DBI.DONORID,D.GENDER,D.AREA,D.DISTRICT,
-    DBI.BLOODGROUP,DBI.RH
+    DBI.BLOOD_GROUP,DBI.RH
     FROM DONOR_BLOOD_INFO DBI
     JOIN DONOR D ON DBI.DONORID = D.DONORID
-    WHERE DBI.BLOODGROUP = '${bloodGroup}' AND DBI.RH = '${rh}'
+    WHERE DBI.BLOOD_GROUP = '${bloodGroup}' AND DBI.RH = '${rh}'
     `);
     console.log("sending the response ",data.rows);
     res.send(data.rows);
