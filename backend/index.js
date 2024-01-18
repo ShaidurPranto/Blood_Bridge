@@ -10,8 +10,8 @@ async function run(query) {
     const connection = await oracledb.getConnection({
         user          : "BB",
         password      : "bb",
-        connectString : "localhost/orclpdb"
-        //connectString : "localhost/ORCL"
+        //connectString : "localhost/orclpdb"
+        connectString : "localhost/ORCL"
     });
 
     console.log("requested query is ",query);
