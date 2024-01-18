@@ -1,6 +1,12 @@
 const oracledb = require('oracledb');
+const path = require('path');  // Add this line
 const express = require('express');
-const app = express();
+const app = express(); 
+
+// app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, '../views'));
+
+
 app.use(express.static('../frontend'));
 
 const port = 3000;
@@ -10,10 +16,9 @@ async function run(query) {
     const connection = await oracledb.getConnection({
         user          : "BB",
         password      : "bb",
-        //connectString : "localhost/ORCLPDB"
-        connectString : "localhost/ORCL"
-    });
-
+        connectString : "localhost/ORCLPDB"
+        //connectString : "localhost/ORCL"
+    })
     console.log("requested query is ",query);
     const result =await connection.execute(query);
     console.log("result is ",result.rows);
@@ -21,9 +26,6 @@ async function run(query) {
     await connection.close();
     return result;
 }
-app.get('/', async(req,res)=>{
-    res.send("dfsdf");
-});
 
 app.get('/user/:userid', async(req,res)=>{
     const userid = req.params.userid;
@@ -65,6 +67,7 @@ app.get('/donor/:bloodGroup/:Rh', async(req,res)=>{
     `);
     console.log("sending the response ",data.rows);
     res.send(data.rows);
+
 });
 
 
