@@ -16,16 +16,9 @@ async function run(query) {
     const connection = await oracledb.getConnection({
         user          : "BB",
         password      : "bb",
-<<<<<<< HEAD
         connectString : "localhost/ORCLPDB"
         //connectString : "localhost/ORCL"
     })
-=======
-        connectString : "localhost/orclpdb"
-        //connectString : "localhost/ORCL"
-    });
-
->>>>>>> 97aea127bf6cd42f08c0cff581e5a7cf1aaf3cf3
     console.log("requested query is ",query);
     const result =await connection.execute(query);
     console.log("result is ",result.rows);
@@ -33,13 +26,6 @@ async function run(query) {
     await connection.close();
     return result;
 }
-<<<<<<< HEAD
-=======
-
-app.get('/', async(req,res)=>{
-    res.send("dfsdf");
-});
->>>>>>> 97aea127bf6cd42f08c0cff581e5a7cf1aaf3cf3
 
 app.get('/user/:userid', async(req,res)=>{
     const userid = req.params.userid;
