@@ -16,9 +16,16 @@ async function run(query) {
     const connection = await oracledb.getConnection({
         user          : "BB",
         password      : "bb",
+<<<<<<< HEAD
         connectString : "localhost/ORCLPDB"
         //connectString : "localhost/ORCL"
     })
+=======
+        connectString : "localhost/orclpdb"
+        //connectString : "localhost/ORCL"
+    });
+
+>>>>>>> 97aea127bf6cd42f08c0cff581e5a7cf1aaf3cf3
     console.log("requested query is ",query);
     const result =await connection.execute(query);
     console.log("result is ",result.rows);
@@ -26,6 +33,13 @@ async function run(query) {
     await connection.close();
     return result;
 }
+<<<<<<< HEAD
+=======
+
+app.get('/', async(req,res)=>{
+    res.send("dfsdf");
+});
+>>>>>>> 97aea127bf6cd42f08c0cff581e5a7cf1aaf3cf3
 
 app.get('/user/:userid', async(req,res)=>{
     const userid = req.params.userid;
@@ -60,10 +74,10 @@ app.get('/donor/:bloodGroup/:Rh', async(req,res)=>{
     // const data = await run(`SELECT * FROM DONOR_BLOOD_INFO WHERE BLOODGROUP = '${bloodGroup}' AND RH = '${rh}'`);
     const data = await run(`SELECT
     DBI.DONORID,D.GENDER,D.AREA,D.DISTRICT,
-    DBI.BLOODGROUP,DBI.RH
+    DBI.BLOOD_GROUP,DBI.RH
     FROM DONOR_BLOOD_INFO DBI
     JOIN DONOR D ON DBI.DONORID = D.DONORID
-    WHERE DBI.BLOODGROUP = '${bloodGroup}' AND DBI.RH = '${rh}'
+    WHERE DBI.BLOOD_GROUP = '${bloodGroup}' AND DBI.RH = '${rh}'
     `);
     console.log("sending the response ",data.rows);
     res.send(data.rows);
@@ -72,5 +86,3 @@ app.get('/donor/:bloodGroup/:Rh', async(req,res)=>{
 
 
 console.log("everything executed");
-
-
