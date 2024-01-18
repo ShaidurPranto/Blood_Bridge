@@ -1,7 +1,7 @@
 const dropdown=document.getElementById("dropdown");
 const submitButton = document.getElementById("submitButton");
- const text = document.getElementById("text");
- const table = document.getElementById("table");
+const text = document.getElementById("text");
+const table = document.getElementById("table");
 // const mail = document.getElementById("Email");
 // const pass = document.getElementById("Password");
 
