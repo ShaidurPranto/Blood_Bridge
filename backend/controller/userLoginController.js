@@ -13,9 +13,9 @@ async function userLoginVerification(req,res)
     {
         email: email
     };
-    let result = await databaseConnection.execute(query,binds);
-
-    if(result.rows.length == 0)
+    let result = (await databaseConnection.execute(query,binds)).rows;
+    console.log("length of the result array: ",result.length);
+    if(result.length == 0)
     {
         console.log("no user found with the email: ",email);
         res.send({
@@ -23,10 +23,10 @@ async function userLoginVerification(req,res)
             message: "no user with this email"
         });
     }
-    else if(result.rows.length == 1)
+    else if(result.length == 1)
     {
         console.log("one user found with the email: ",email);
-        const firstRow = result.rows[0];
+        const firstRow = result[0];
         if(firstRow)
         {
             let resultEmail = firstRow[0];
@@ -52,6 +52,10 @@ async function userLoginVerification(req,res)
     else
     {
         console.log("multiple user found with the email: ",email);
+        res.send({
+            status: " ",
+            message: " "
+        });
     }  
 }
 

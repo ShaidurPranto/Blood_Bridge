@@ -31,6 +31,7 @@ async function getConnection()
 async function execute(sql,binds)
 {
     let connection = await getConnection();
+    let result;
     try
     {
         console.log("attempting to execute the following sql and binds");
@@ -62,13 +63,28 @@ async function execute(sql,binds)
             }
         }
     }
+    return result;
 }
 
-// let query = 'SELECT * FROM USERS WHERE NAME = :name AND PASSWORD = :password';
-// let binds = {
-//     name: 'Pranto',
-//     password: '123'
-// };
-//execute(query,binds);
+// async function getMaxUserId() {
+//     let sql2 = 'SELECT MAX(USERID) AS MID FROM USERS';
+//     let binds ={};
+//     const result = await execute(sql2,binds);
+//     const maxID = result.rows[0]['MID'];
+//     const nextID = maxID+1;
+//     console.log("the next userid will be ",nextID);
+
+//     let sql3 = 'INSERT INTO USERS (USERID,NAME,EMAIL,PASSWORD) VALUES (:userid,:name,:email,:pass)';
+//     let binds3 ={
+//         userid: nextID,
+//         name: "Shanto",
+//         email: "shanto@gmail.com",
+//         pass: "sss"
+//     }
+//     await execute(sql3,binds3);
+//     console.log("insertion successful");
+// }
+
+// getMaxUserId();
 
 module.exports = {execute};

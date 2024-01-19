@@ -1,3 +1,8 @@
 const express = require('express');
-const databaseConnection = require('../database/databaseConnection');
+const userSignupController = require('../controller/userSignupController');
 
+const userSignupRouter = express.Router();
+
+userSignupRouter.route('/:name/:email/:pass').get(userSignupController);
+
+module.exports = userSignupRouter;
