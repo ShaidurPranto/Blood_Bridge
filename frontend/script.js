@@ -1,12 +1,12 @@
-// const dropdown=document.getElementById("dropdown");
-// const submitButton = document.getElementById("submitButton");
-// const text = document.getElementById("text");
-// const table = document.getElementById("table");
+const dropdown=document.getElementById("dropdown");
+const submitButton = document.getElementById("submitButton");
+const text = document.getElementById("text");
+const table = document.getElementById("table");
 // const mail = document.getElementById("Email");
 // const pass = document.getElementById("Password");
 
 // const CreateUserButton = document.getElementById("CreateUserButton");
-// submitButton.addEventListener("click", processInput);
+submitButton.addEventListener("click", processInput);
 // CreateUserButton.addEventListener("click", processInput2);
 
 
@@ -58,14 +58,3 @@ async function processInput() {
 //     console.log(data);
 
 // }
-
-
-async function abc()
-{
-console.log("sending req");
-const response = await fetch("/", {
-    method: "GET"
-  });
-const result = await response.json();
-console.log(result);
-}
