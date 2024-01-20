@@ -14,7 +14,7 @@ async function userLoginVerification(req,res)
         email: email
     };
     let result = (await databaseConnection.execute(query,binds)).rows;
-    console.log("length of the result array: ",result.length);
+
     if(result.length == 0)
     {
         console.log("no user found with the email: ",email);
@@ -29,8 +29,9 @@ async function userLoginVerification(req,res)
         const firstRow = result[0];
         if(firstRow)
         {
-            let resultEmail = firstRow[0];
-            let resultPass = firstRow[1];
+            let resultEmail = firstRow["EMAIL"];
+            let resultPass = firstRow["PASSWORD"];
+
             if(resultPass == pass)
             {
                 console.log("password matched");
