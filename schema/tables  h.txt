@@ -14,6 +14,10 @@ USER -> USER_DONOR -> DONOR -> DONOR_BLOOD_INFO
 
 BLOOD_BANK -> BLOOD_BANK_INFO
 
+--------------
+(added primary key)
+USER_DONOR_APPOINTMENTS: DONORID
+USER_BANK_APPOINTMENSTS: BANKID
 
 ----------------
 (varchar2 size)

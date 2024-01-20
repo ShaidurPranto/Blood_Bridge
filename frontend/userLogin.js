@@ -4,8 +4,8 @@ const passInputId = document.getElementById("passwordInputID");
 async function userLoginRequest()
 {
     const emailValue = emailInputId.value;
-    const passwordValue = passInputId.value;
-    
+    const passwordValue= passInputId.value;
+
     console.log("Email:", emailValue);
     console.log("Password:", passwordValue);
 
@@ -22,6 +22,7 @@ async function userLoginRequest()
     if(status == 'successful')
     {
         console.log("successful login");
+        //redirect to user's home page
     }
     else
     {
