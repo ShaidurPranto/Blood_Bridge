@@ -1,7 +1,7 @@
 const dropdown=document.getElementById("dropdown");
 const submitButton = document.getElementById("submitButton");
-const text = document.getElementById("text");
-const table = document.getElementById("table");
+ const text = document.getElementById("text");
+ const table = document.getElementById("table");
 // const mail = document.getElementById("Email");
 // const pass = document.getElementById("Password");
 
@@ -44,17 +44,9 @@ async function processInput() {
 
     }
 
-    // text.innerHTML=content; 
+  
 
 }
 
-// async function processInput2() {
-//     const Name = naam.value;
-//     const Email = mail.value;
-//     const password = pass.value;
-//     const response = await fetch(`/createUser/${Name}/${Email}/${password}`);
-//     const data = await response.json();
 
-//     console.log(data);
 
-// }
