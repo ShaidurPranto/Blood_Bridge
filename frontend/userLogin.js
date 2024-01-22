@@ -23,8 +23,19 @@ async function userLoginRequest(event)
     if(status == 'successful')
     {
         console.log("successful login");
-        window.location.href = '/userNotDonorHpage';
-      
+        //window.location.href = '/userHomepage';
+        const isDonor_response = await fetch(`/userHomePage/isDonor/${emailValue}`);
+        const isDonor_response_data = await isDonor_response.json();
+        console.log(isDonor_response_data);
+        if(isDonor_response_data["isDonor"] == 'yes')
+        {
+            
+            //request to render userHomePage for donor
+        }
+        else
+        {
+            //request to render userHomePage for user who is not donor
+        }
     }
     else
     {
