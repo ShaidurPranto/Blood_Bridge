@@ -3,17 +3,23 @@ const path = require('path');
 
 const app = express(); 
 
+app.use(express.static('../frontend'));
 
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views'));
-app.use(express.static('../frontend'));
+
+
 
 const port = 3000;
 // Define a route for the root URL
 app.get('/', (req, res) => {
     res.render('index', { message: 'Hello, World!' });
   });
+
+  app.get('/userNotDonorHpage', (req, res) => {
+    res.render('userNotDonorHPage'); 
+  })
 
   app.get('/userHomePage', (req, res) => {
     res.render('userHomePage'); 
