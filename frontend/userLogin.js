@@ -1,8 +1,9 @@
-const emialInputId = document.getElementById("emailInpuId");
+const emailInputId = document.getElementById("emailInputId");
 const passInputId = document.getElementById("passwordInputID");
 
-async function userLoginRequest()
-{
+async function userLoginRequest(event)
+{   
+     event.preventDefault();
     const emailValue = emailInputId.value;
     const passwordValue= passInputId.value;
 
@@ -22,7 +23,8 @@ async function userLoginRequest()
     if(status == 'successful')
     {
         console.log("successful login");
-        //redirect to user's home page
+        window.location.href = '/userHomepage';
+      
     }
     else
     {
@@ -36,3 +38,4 @@ async function userLoginRequest()
         }
     }
 }
+

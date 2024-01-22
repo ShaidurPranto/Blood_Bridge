@@ -10,7 +10,7 @@
 <body>
     <section>
         <div class="form-box">
-            <form action="">
+            <form id="me">
                 <h2>Login</h2>
                 <div class="inputbox">
                     <ion-icon name="mail-outline"></ion-icon>
@@ -24,10 +24,10 @@
                     <label for="password">Password</label>
                 </div>
                 <div class="forget">
-                    <label for=""><input type="checkbox">Remember Me<a href="#">Forget Password</a></label>
+                    <label><input type="checkbox">Remember Me<a href="#">Forget Password</a></label>
                     
                 </div>
-                <button onclick="userLoginRequest()">Log in</button>
+                <button onclick="userLoginRequest(event)">Log in</button>
                 <div class="register">
                     <p>Don't have an account?<a href="userSignup2.html">Register</a></p>
                 </div>
