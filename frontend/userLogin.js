@@ -29,12 +29,11 @@ async function userLoginRequest(event)
         console.log(isDonor_response_data);
         if(isDonor_response_data["isDonor"] == 'yes')
         {
-            
-            //request to render userHomePage for donor
+            window.location.href = '/renderUserHomePageForDonor'; 
         }
         else
         {
-            //request to render userHomePage for user who is not donor
+            window.location.href ='/renderNonDonorUserHomePage';
         }
     }
     else

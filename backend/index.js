@@ -17,15 +17,18 @@ const port = 3000;
 app.get('/', (req, res) => {
     res.render('index', { message: 'Hello, World!' });
   });
+  // app.get('/userHomePage', (req, res) => {
+  //   res.render('userHomePage'); 
+  // });
+  
+  app.get('/renderUserHomePageForDonor',(req,res) =>{
+    res.render('userHomePage');
 
-  app.get('/userNotDonorHpage', (req, res) => {
-    res.render('userNotDonorHPage'); 
-  })
-
-  app.get('/userHomePage', (req, res) => {
-    res.render('userHomePage'); 
-  })
-
+  });
+  app.get('/renderNonDonorUserHomePage',(req,res)=>{
+    res.render('userNotDonorHPage');
+  });
+  
 
 const userLoginRouter = require('./router/userLoginRouter');
 const userSignupRouter = require('./router/userSignupRouter');
