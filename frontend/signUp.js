@@ -12,7 +12,6 @@ else
 
 }
 
-
 async function signUpRequest()
 {
     try

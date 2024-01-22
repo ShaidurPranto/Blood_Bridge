@@ -42,10 +42,17 @@ async function userLoginRequest(event)
         if(message == "no user with this email")
         {
             console.log("email not found");
+            alert("Email not registered!");
+
+            emailInputId.value = '';
+            passInputId.value = '';
         }
         else if(message == "wrong password")
         {
             console.log("incorrect password");
+            alert("Incorrect password. Please try again.");
+
+            passInputId.value = '';
         }
     }
 }
