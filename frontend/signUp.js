@@ -1,10 +1,3 @@
-// // clearFields.js
-
-// window.onload = function () {
-//     document.getElementById('Email').value = '';
-//     document.getElementById('Password').value = '';
-// };
-
 
 const inputName = document.getElementById("nameInputId");
 const inputEmail = document.getElementById("emailInputId");
