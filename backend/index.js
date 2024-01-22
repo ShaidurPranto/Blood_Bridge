@@ -15,19 +15,16 @@ const port = 3000;
 
 
 app.get('/', (req, res) => {
-  res.render('index', { message: 'Hello, World!' });
-});
+    res.render('index', { message: 'Hello, World!' });
+  });
 
-app.get('/userHomePage', (req, res) => {
-  res.render('userHomePage'); 
-});
+  app.get('/userNotDonorHpage', (req, res) => {
+    res.render('userNotDonorHPage'); 
+  })
 
-app.get('/renderUserHomePageForDonor',(req,res) =>{
-  
-});
-app.get('/renderNonDonorUserHomePage',(req,res)=>{
-
-});
+  app.get('/userHomePage', (req, res) => {
+    res.render('userHomePage'); 
+  })
 
 
 const userLoginRouter = require('./router/userLoginRouter');
