@@ -15,11 +15,11 @@ async function isDonor(req,res)
     const binds1 = {
         email: email
     };
-
+    var name ;
     const result =(await databaseConnection.execute(query1,binds1)).rows;
     if(result)
     {
-        const name = result[0]["NAME"];
+         name = result[0]["NAME"];
         const userid = result[0]["USERID"];
         console.log("name of the user is : ",name);
         console.log("userid of the user is : ",userid);
@@ -48,13 +48,21 @@ async function isDonor(req,res)
                 name: name,
                 isDonor: "yes",
                 donorid: donorid
-            });            
+            }); 
+
+                   
         }
     }
     else
     {
         console.log("no data found with this email");
     }
+
+    const data = {
+        namee: name
+    };
+
+   
 
 }
 

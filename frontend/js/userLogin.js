@@ -26,15 +26,20 @@ async function userLoginRequest(event)
         //window.location.href = '/userHomepage';
         const isDonor_response = await fetch(`/userHomePage/isDonor/${emailValue}`);
         const isDonor_response_data = await isDonor_response.json();
-        console.log(isDonor_response_data);
+        //console.log(isDonor_response_data);
+        const name=isDonor_response_data["name"];
+        console.log(name);
         if(isDonor_response_data["isDonor"] == 'yes')
         {
-            window.location.href = '/renderUserHomePageForDonor'; 
+            window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}`; 
         }
         else
         {
-            window.location.href ='/renderNonDonorUserHomePage';
+            window.location.href =`/NonDonorUserHomePage?name=${encodeURIComponent(name)}`;
         }
+
+        
+        
     }
     else
     {
