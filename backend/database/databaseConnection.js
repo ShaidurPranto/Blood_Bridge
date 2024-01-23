@@ -14,8 +14,8 @@ async function getConnection()
         ({
             user          : "BB",
             password      : "bb",
-            connectString : "localhost/ORCLPDB"
-            //connectString : "localhost/ORCL"
+            //connectString : "localhost/ORCLPDB"
+            connectString : "localhost/ORCL"
         });
         console.log("database connection successful");
     }
@@ -24,7 +24,6 @@ async function getConnection()
         console.log("database connection failed");
         console.log(err.message);
     }
-
     return connection;
 }
 
@@ -66,25 +65,4 @@ async function execute(sql,binds)
     return result;
 }
 
-// async function getMaxUserId() {
-//     let sql2 = 'SELECT MAX(USERID) AS MID FROM USERS';
-//     let binds ={};
-//     const result = await execute(sql2,binds);
-//     const maxID = result.rows[0]['MID'];
-//     const nextID = maxID+1;
-//     console.log("the next userid will be ",nextID);
-
-//     let sql3 = 'INSERT INTO USERS (USERID,NAME,EMAIL,PASSWORD) VALUES (:userid,:name,:email,:pass)';
-//     let binds3 ={
-//         userid: nextID,
-//         name: "Shanto",
-//         email: "shanto@gmail.com",
-//         pass: "sss"
-//     }
-//     await execute(sql3,binds3);
-//     console.log("insertion successful");
-// }
-
-// getMaxUserId();
-
-module.exports = {execute};
+module.exports = {execute,getConnection};
