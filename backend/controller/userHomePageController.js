@@ -1,4 +1,9 @@
+const { autoCommit } = require('oracledb');
 const databaseConnection = require('../database/databaseConnection');
+
+
+
+//logic handling functions
 
 async function isDonor(req,res)
 {
@@ -53,4 +58,178 @@ async function isDonor(req,res)
 
 }
 
-module.exports = isDonor;
+
+async function donorSignup(req,res)
+{
+    //data in the request must be like the following example
+
+    //userid = 123
+    //dateOfBirth = '2002-01-28'
+    //gender = 'MALE'
+    //bloodGroup = 'O'
+    //rh = '+'
+    //mobileNumber = '123456789'
+    //district = 'JHENAIDAh'
+    //area = 'ADARSHA PARA'
+    //lastDonationDate = '2020-11-17'
+
+    const {userid,dateOfBirth,gender,bloodGroup,rh,mobileNumber,district,area,lastDonationDate} = req.body;
+
+
+    const connection = await databaseConnection.getConnection();
+    if(!connection)
+    {
+        console.log("could not get connection");
+        res.send({
+            status: "unsuccessful"
+        })
+        return;
+    }
+    connection.autoCommit = false;
+
+    let isSuccessful = 0;
+    
+    const query1 = `INSERT INTO USER_DONOR
+    SELECT USERID , NAME || USERID
+    FROM USERS
+    WHERE USERID = :userid `;
+
+    const binds1 = {
+        userid : userid
+    }
+    
+    try
+    {
+        const result = await connection.execute(query1,binds1);
+        if(result.rowsAffected && result.rowsAffected > 0)
+        {
+            console.log("sucessfully inserted into user_donor table");
+
+            const query2 =` INSERT INTO DONOR 
+            SELECT DONORID , :GENDER , TO_DATE(:dateOfBirth, 'YYYY-MM-DD'), :area, :district, TO_DATE(:lastDonationDate, 'YYYY-MM-DD')
+            FROM USER_DONOR
+            WHERE USERID = :userid `;
+
+            const binds2 = {
+                GENDER: gender,
+                dateOfBirth: dateOfBirth,
+                area: area,
+                district: district,
+                lastDonationDate: lastDonationDate,
+                userid: userid
+            }
+
+            try
+            {
+                const insertIntoDonorResut = await connection.execute(query2,binds2);
+                if(insertIntoDonorResut.rowsAffected && insertIntoDonorResut.rowsAffected > 0)
+                {
+                    console.log("sucessfully inserted into user_donor table");
+
+                    //inserting into donor_blood_info
+                    const donorBloodInfoQuery = `INSERT INTO DONOR_BLOOD_INFO
+                    SELECT DONORID , :bloodGroup , :rh
+                    FROM DONOR
+                    WHERE DONORID = (SELECT DONORID FROM USER_DONOR WHERE USERID = :userid)`;
+
+                    const donorBloodInfoBinds = {
+                        bloodGroup: bloodGroup,
+                        rh: rh,
+                        userid: userid
+                    }
+
+                    try
+                    {
+                        const donorBloodInfoResult = await connection.execute(donorBloodInfoQuery,donorBloodInfoBinds);
+                        if(donorBloodInfoResult.rowsAffected && donorBloodInfoResult.rowsAffected > 0)
+                        {
+                            console.log("successfully inserted into donor blood info table");
+                            isSuccessful++;
+                        }
+                        else
+                        {
+                            console.log('Query did not affect any rows or encountered an issue while inserting into donor blood info');
+                        }
+
+                    }
+                    catch(err)
+                    {
+                        console.log("could not insert into donor_blood_info table\n",err.message);
+                    }
+
+                    //now inserting into donor mobile number
+                    const donorMobileQuery = `INSERT INTO DONOR_MOBILE_NUMBER
+                    SELECT DONORID , :mobileNumber
+                    FROM DONOR
+                    WHERE DONORID = (SELECT DONORID FROM USER_DONOR WHERE USERID = :userid)`;
+
+                    const donorMobileBinds = {
+                        mobileNumber: mobileNumber,
+                        userid: userid
+                    }
+
+                    try
+                    {
+                        const donorMobileResult = await connection.execute(donorMobileQuery,donorMobileBinds);
+                        if(donorMobileResult.rowsAffected && donorMobileResult.rowsAffected > 0)
+                        {
+                            console.log("successfully inserted into donor_mobile_number table");
+                            isSuccessful++;
+                        }
+                        else
+                        {
+                            console.log('Query did not affect any rows or encountered an issue while inserting into donor_mobile_number');
+                        }
+                    }
+                    catch(err)
+                    {
+                        console.log("could not insert into donor_mobie_number",err.message);
+                    }                    
+                    //
+                }
+                else
+                {
+                    console.log('Query did not affect any rows or encountered an issue while inserting into donor');
+                }
+            }
+            catch(err)
+            {
+                console.log("could not insert into donor table\n",err.message);
+            }
+        }
+        else
+        {
+            console.log('Query did not affect any rows or encountered an issue while inserting into user_donor');
+        }
+    }
+    catch(err)
+    {
+        console.log('Error executing the query\n', err.message);
+    }
+    finally
+    {
+        if(isSuccessful == 2)
+        {
+            console.log("user successfully registered as a donor");
+            connection.commit();
+            res.send({
+                status:"successful"
+            })
+        }
+        else
+        {
+            console.log("user is not registered as a donor");
+            connection.rollback();
+            res.send({
+                status: "unsuccessful"
+            })
+        }
+        connection.autoCommit = true;
+        await connection.close();
+    }
+}
+
+
+
+//
+module.exports = {isDonor,donorSignup};
