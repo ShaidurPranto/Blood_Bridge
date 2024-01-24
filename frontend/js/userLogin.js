@@ -17,6 +17,7 @@ async function userLoginRequest(event)
     
     const status = data["status"];
     const message = data["message"];
+    const userId = data["userId"]; 
     console.log("status :" ,status);
     console.log("message: ",message);
 
@@ -28,14 +29,18 @@ async function userLoginRequest(event)
         const isDonor_response_data = await isDonor_response.json();
         //console.log(isDonor_response_data);
         const name=isDonor_response_data["name"];
+        const userid=isDonor_response_data["userid"];
+    
         console.log(name);
+        console.log(userid);
+
         if(isDonor_response_data["isDonor"] == 'yes')
         {
-            window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}`; 
+            window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}&userid=${encodeURIComponent(userid)}`; 
         }
         else
         {
-            window.location.href =`/NonDonorUserHomePage?name=${encodeURIComponent(name)}`;
+           window.location.href =`/NonDonorUserHomePage?name=${encodeURIComponent(name)}&userid=${encodeURIComponent(userId)}`;
         }
 
         
