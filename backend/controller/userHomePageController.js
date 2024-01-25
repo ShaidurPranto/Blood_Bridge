@@ -85,7 +85,7 @@ async function donorSignup(req,res)
 
     const {userid,dateOfBirth,gender,bloodGroup,rh,mobileNumber,district,area,lastDonationDate} = req.body;
 
-
+     console.log(bloodGroup);
     const connection = await databaseConnection.getConnection();
     if(!connection)
     {

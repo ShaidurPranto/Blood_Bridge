@@ -1,17 +1,10 @@
-// public/js/donorSignup.js
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Wait for the DOM to be fully loaded
-
-    // Select the form element
+document.addEventListener("DOMContentLoaded", async function () {
     const signupForm = document.querySelector('form');
 
-    // Add an event listener for form submission
-    signupForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent the default form submission
+    signupForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
 
-        // Retrieve values from form inputs
-        const userId = document.getElementById('userid').value;
+        const userid = document.getElementById('userid').value;
         const dateOfBirth = document.getElementById('dateOfBirth').value;
         const gender = document.getElementById('gender').value;
         const bloodGroup = document.getElementById('bloodGroup').value;
@@ -21,20 +14,68 @@ document.addEventListener("DOMContentLoaded", function () {
         const area = document.getElementById('area').value;
         const lastDonationDate = document.getElementById('lastDonationDate').value;
 
-        // Do something with the retrieved values (you can send them to the server)
+        if (!userid || !dateOfBirth || !gender || !bloodGroup || !rh || !mobileNumber || !district || !area ) {
+            alert('One or more elements is null. Please fill in all fields.');
+        } else {
+            if (!userid || userid == null) {
+                alert("User ID cannot be null");
+            } else if (!isDateOfBirthValid(dateOfBirth)) {
+                alert("Invalid Date of Birth. Age should be at least 18 years.");
+            } else if (!gender || gender == null) {
+                alert("Gender cannot be null");
+            } else if (!bloodGroup || bloodGroup == null) {
+                alert("Blood Group cannot be null");
+            } else if (!rh || rh == null) {
+                alert("Rh Factor cannot be null");
+            } else if (!mobileNumber || mobileNumber == null || isNaN(mobileNumber) || mobileNumber.length !== 11) {
+                alert("Mobile Number must be a numeric value of length 11");
+            } else if (!district || district == null) {
+                alert("District cannot be null");
+            } else if (!area || area == null) {
+                alert("Area cannot be null");
+            } else {
+                const formData = {
+                    userid: userid,
+                    dateOfBirth: dateOfBirth,
+                    gender: gender,
+                    bloodGroup: bloodGroup,
+                    rh: rh,
+                    mobileNumber: mobileNumber,
+                    district: district,
+                    area: area,
+                    lastDonationDate: lastDonationDate
+                };
 
-        // For example, log the values to the console
-        console.log("User ID:", userId);
-        console.log("Date of Birth:", dateOfBirth);
-        console.log("Gender:", gender);
-        console.log("Blood Group:", bloodGroup);
-        console.log("Rh Factor:", rh);
-        console.log("Mobile Number:", mobileNumber);
-        console.log("District:", district);
-        console.log("Area:", area);
-        console.log("Last Donation Date:", lastDonationDate);
+                // Send a POST request to the backend
+                const response = await fetch('/userHomePage/donorSignup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
 
-        // You can send an AJAX request to the server with these values
-        // For simplicity, I'm just logging them to the console here
+                // Check the response
+                if (response.ok) {
+                    // Handle a successful response
+                    const responseData = await response.json();
+                    alert(JSON.stringify(responseData));
+                    // Redirect or perform other actions as needed
+                } else {
+                    // Handle an error response
+                    alert('Error submitting the form');
+                }
+            }
+        }
     });
+
+    function isDateOfBirthValid(dateOfBirth) {
+        // Calculate age based on date of birth
+        const today = new Date();
+        const birthDate = new Date(dateOfBirth);
+        const age = today.getFullYear() - birthDate.getFullYear();
+
+        // Check if the user is at least 18 years old
+        return age >= 18;
+    }
 });
