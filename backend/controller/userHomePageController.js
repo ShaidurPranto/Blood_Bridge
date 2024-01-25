@@ -239,7 +239,39 @@ async function donorSignup(req,res)
     }
 }
 
+async function getName(req,res)
+{
+    console.log("request recieved for letting know what is user's name");
+    const userid = req.params.userid;
+    console.log("user id is ",userid);
 
+    const query1 = 'SELECT NAME FROM USERS WHERE USERID = :userid';
+    const binds1 = {
+        userid: userid
+    };
+    var name ;
+    const result =(await databaseConnection.execute(query1,binds1)).rows;
+    if(result)
+    {
+         name = result[0]["NAME"];
+        
+        console.log("name of the user is : ",name);
+        
+
+            res.send({
+                name: name,
+               
+            });
+        }
+
+        else
+        {
+            console.log("cannot retrive the name");
+        }
+        
+   
+
+}
 
 //
-module.exports = {isDonor,donorSignup};
+module.exports = {isDonor,donorSignup,getName};

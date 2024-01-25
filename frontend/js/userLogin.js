@@ -36,11 +36,12 @@ async function userLoginRequest(event)
 
         if(isDonor_response_data["isDonor"] == 'yes')
         {
-            window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}&userid=${encodeURIComponent(userid)}`; 
+            //window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}&userid=${encodeURIComponent(userId)}`;
+            window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}`;  
         }
         else
         {
-           window.location.href =`/NonDonorUserHomePage?name=${encodeURIComponent(name)}&userid=${encodeURIComponent(userId)}`;
+          window.location.href =`/NonDonorUserHomePage?name=${encodeURIComponent(name)}&userid=${encodeURIComponent(userId)}`;
         }
 
         

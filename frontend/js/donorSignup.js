@@ -54,6 +54,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                     },
                     body: JSON.stringify(formData)
                 });
+                const responses = await fetch(`/userHomePage/getName/${userid}`);
+                const responses_data = await responses.json();
+                //console.log(isDonor_response_data);
+                const name=responses_data["name"];
 
                 // Check the response
                 if (response.ok) {
@@ -61,6 +65,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                     const responseData = await response.json();
                     alert(JSON.stringify(responseData));
                     // Redirect or perform other actions as needed
+
+                    window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}`;
                 } else {
                     // Handle an error response
                     alert('Error submitting the form');
