@@ -26,8 +26,9 @@ app.get('/', (req, res) => {
   
   app.get('/UserHomePageForDonor', (req, res) => {
     const name = req.query.name;
-    // const userid = req.query.userid;
-    res.render('userHomePage', { name: name });
+    
+    const userid = req.query.userid;
+    res.render('userHomePage', { name: name,userid: userid});
 });
 
 
@@ -44,6 +45,13 @@ app.get('/', (req, res) => {
   {
     const userid=req.query.userid;
     res.render('donorSignup',{userid: userid });
+  
+  });
+
+  app.get('/bloodRequest',(req,res)=>
+  {
+    const userid=req.query.userid;
+    res.render('bloodRequest',{userid: userid });
   
   });
   

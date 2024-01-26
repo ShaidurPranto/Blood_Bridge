@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     alert(JSON.stringify(responseData));
                     // Redirect or perform other actions as needed
 
-                    window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}`;
+                    window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}&userid=${encodeURIComponent(userid)}`;
                 } else {
                     // Handle an error response
                     alert('Error submitting the form');

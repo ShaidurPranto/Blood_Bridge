@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Banks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #550011, #4e4e4c);
+    padding: 20px;
+    color: #fff;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+.search-bar i {
+    position: absolute;
+    margin-left: 790px;
+    margin-top: 12px;
+    color: #555;
+}
+
+.search-bar input {
+    padding-left: 30px; 
+    width: 60%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.search-bar button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+}
+
+.blood-bank {
+    background: linear-gradient(to right, #ffffff, #ddd);
+    background-color: #fff;
+    color: #333;
+    position: relative;
+    z-index: 1;
+    padding: 10px; /* Increased padding for thicker bars */
+    margin: 15px auto; /* Center the bars and apply margin on top and bottom */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.9);
+    max-width: 500px; /* Set a maximum width for the bars */
+    width: 100%; /* Make the bars responsive and fill the available width */
+}
+
+
+.blood-bank:hover {
+    background: linear-gradient(to right, #f8f8f8,#550011);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.details-box {
+    display: none;
+    position: absolute;
+    bottom: 10%; /* Adjusted position to show below the blood-bank bar */
+    left: 50%;
+    transform: translateX(50%);
+    background-color: #4e4e4c;
+    border: 1px solid #ddd;
+    padding: 10px; /* Adjusted padding for a smaller box */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    width: 200px;
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.blood-bank:hover .details-box {
+    display: block;
+}
+
+.donate-button {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+}
+
+.blood-donation-info {
+    flex: 0 1 25%; /* Slim column, but can shrink if needed */
+    margin-right: 20px; /* Space between the info box and the bars */
+    padding: 10px;
+    background-color: #fff; /* Light background for contrast */
+    color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin-bottom: 20px; /* Space at the bottom */
+}
+#bloodBankResults {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adds space between the cards */
+}
+
+.blood-bank-card {
+    background: linear-gradient(to left, #4e4e4c 0%, #ffffff 70%); /* Improved gradient effect */
+    color: #333;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 0 0 calc(32% - 20px); /* Three cards per row */
+    margin-bottom: 20px;
+    height: 220px; /* Fixed height for square shape */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.blood-bank-card:hover {
+    transform: translateY(-9px);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
+}
+
+.card-header h4, .card-body p {
+    font-family: 'Arial', sans-serif; /* Change as per your preference */
+    text-transform: uppercase; /* Capitalize all text */
+}
+
+.card-header {
+    margin-bottom: 10px;
+}
+
+.card-body {
+    font-size: 18px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .blood-bank-card {
+        flex: 0 0 calc(50% - 20px); /* Two cards per row on medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .blood-bank-card {
+        flex: 0 0 100%; /* One card per row on small screens */
+    }
+}
+
+    </style>
+    <script>
+        const userid = '<%= userid %>';
+    </script>
+    <script type="text/javascript" src="/js/bloodRequest.js" defer></script>
+</head>
+<body>
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search Blood Banks">
+        <button>Search</button>
+    </div>
+    <!-- <div class="container">
+    <div class="blood-donation-info">
+        <h2>Why Donate Blood?</h2>
+        <p>Donating blood saves lives and helps those in need. Here are some reasons why you should consider donating blood:</p>
+        <ul>
+            <li>It can save a life in emergencies and surgeries.</li>
+            <li>It helps patients suffering from various medical conditions.</li>
+            <li>Regular blood donation ensures a stable blood supply in hospitals.</li>
+            <li>You can make a positive impact on your community and society.</li>
+            <li>It has health benefits for the donor, such as reducing the risk of certain diseases.</li>
+        </ul>
+    </div>
+</div> -->
+
+    <div id="bloodBankResults"></div>
+    <!-- <h4><%=userid %></h4>
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search Blood Banks">
+        <button>Search</button>
+    </div>
+
+    <div class="blood-bank">
+        Blood Bank 1
+        <div class="details-box">
+            <p><strong>Description:</strong> Random Description</p>
+            <p><strong>Details:</strong> Random Details</p>
+            <button class="donate-button">Donate Blood</button>
+        </div>
+    </div>
+
+    <div class="blood-bank">
+        Blood Bank 2
+        <div class="details-box">
+            <p><strong>Description:</strong> Random Description</p>
+            <p><strong>Details:</strong> Random Details</p>
+            <button class="donate-button">Donate Blood</button>
+        </div>
+    </div>
+
+    <div class="blood-bank">
+        Blood Bank 3
+        <div class="details-box">
+            <p><strong>Description:</strong> Random Description</p>
+            <p><strong>Details:</strong> Random Details</p>
+            <button class="donate-button">Donate Blood</button>
+        </div>
+    </div>
+
+    <div class="blood-bank">
+        Blood Bank 4
+        <div class="details-box">
+            <p><strong>Description:</strong> Random Description</p>
+            <p><strong>Details:</strong> Random Details</p>
+            <button class="donate-button">Donate Blood</button>
+        </div>
+    </div>
+
+    <div class="blood-bank">
+        Blood Bank 5
+        <div class="details-box">
+            <p><strong>Description:</strong> Random Description</p>
+            <p><strong>Details:</strong> Random Details</p>
+            <button class="donate-button">Donate Blood</button>
+        </div>
+    </div>
+ -->
+
+</body>
+</html>
+

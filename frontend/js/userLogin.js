@@ -36,8 +36,8 @@ async function userLoginRequest(event)
 
         if(isDonor_response_data["isDonor"] == 'yes')
         {
-            //window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}&userid=${encodeURIComponent(userId)}`;
-            window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}`;  
+            window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}&userid=${encodeURIComponent(userId)}`;
+            // window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}`;  
         }
         else
         {
