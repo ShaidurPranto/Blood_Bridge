@@ -3,6 +3,7 @@ const path = require('path');
 
 
 const app = express(); 
+app.use(express.json());
 
 app.use(express.static('../frontend'));
 app.use(express.static('../frontend/css'));
@@ -25,13 +26,33 @@ app.get('/', (req, res) => {
   
   app.get('/UserHomePageForDonor', (req, res) => {
     const name = req.query.name;
-    res.render('userHomePage', { name: name });
+    
+    const userid = req.query.userid;
+    res.render('userHomePage', { name: name,userid: userid});
 });
 
 
   app.get('/NonDonorUserHomePage',(req,res)=>{
     const name = req.query.name;
-    res.render('userNotDonorHPage',{ name: name });
+    const userid=req.query.userid;
+    console.log(userid);
+    res.render('userNotDonorHPage',{ name: name, userid: userid });
+  
+    
+  });
+
+  app.get('/donorSignup',(req,res)=>
+  {
+    const userid=req.query.userid;
+    res.render('donorSignup',{userid: userid });
+  
+  });
+
+  app.get('/bloodRequest',(req,res)=>
+  {
+    const userid=req.query.userid;
+    res.render('bloodRequest',{userid: userid });
+  
   });
   
 

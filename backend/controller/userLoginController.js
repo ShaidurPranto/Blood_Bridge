@@ -8,7 +8,7 @@ async function userLoginVerification(req,res)
     console.log("email: ",email);
     console.log("pass: ",pass);
     
-    let query = 'SELECT EMAIL,PASSWORD FROM USERS WHERE EMAIL = :email ';
+    let query = 'SELECT USERID,EMAIL,PASSWORD FROM USERS WHERE EMAIL = :email ';
     let binds =
     {
         email: email
@@ -31,13 +31,15 @@ async function userLoginVerification(req,res)
         {
             let resultEmail = firstRow["EMAIL"];
             let resultPass = firstRow["PASSWORD"];
+            let userId = firstRow["USERID"];
 
             if(resultPass == pass)
             {
                 console.log("password matched");
                 res.send({
                     status: "successful",
-                    message: " "
+                    message: "",
+                    userId: userId
                 });
             }
             else
