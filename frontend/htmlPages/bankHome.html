@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bankHome.css">
+    <title>Blood Banks Home</title>
+</head>
+<body>
+    <div class="menu-bar" id="menuBar">
+        <div class="menu-btn" onclick="toggleMenu()">☰</div>
+        <div class="menu-panel" id="menuPanel">
+            <div class="box">
+                <button onclick="refreshContent()">Home</button>
+            </div>
+            <div class="box">
+                <button onclick="showDonorRequests()">Donor Requests</button>
+            </div>
+            <div class="box">
+                <button onclick="showUserRequests()">User Requests</button>
+            </div>
+            <div class="box">
+                <button onclick="showProfile()">Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <!-- Your main content goes here -->
+        <p>Main Content Goes Here</p>
+    </div>
+
+    <script src="js/bankHome.js"></script>
+</body>
+</html>

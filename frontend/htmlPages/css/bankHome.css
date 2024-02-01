@@ -1,0 +1,103 @@
+body {
+    background-color: azure;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.menu-bar {
+    color: white;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    align-items: center;
+}
+
+.menu-btn {
+    background-color:black;
+    width: 30px;
+    cursor: pointer;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding-left: 10px;
+
+    user-select: none;
+}
+
+.menu-panel {
+    background-color: black;
+    height: 100%;
+    display: none;
+}
+
+
+.box button{
+    width: 80%;
+    height: 20px;
+    
+    margin-top: 20px;
+    margin-left: 20px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.main-content {
+    margin-left: 200px; /* Adjust the margin based on the width of the menu bar */
+    padding-left: 100px;
+    padding-top: 50px;
+    transition: margin-left 0.3s;
+}
+
+button {
+    user-select: none;
+}
+.donorRequestsDiv{
+    margin-bottom: 100px;
+}
+.userRequestsDiv{
+    margin-bottom: 100px;
+}
+.bloodBankInfoDiv{
+    margin-bottom: 100px;
+}
+
+.donorRequestsTable{
+    width: 70%;
+    background-color: rgb(183, 133, 41);
+    color: black;
+    text-align: center;
+}
+
+.userRequestsTable{
+    width: 70%;
+    background-color: darkseagreen;
+    color: black;
+    text-align: center;
+}
+
+.bloodBankInfoTable{
+    width: 70%;
+    background-color: brown;
+    color: black;
+    text-align: center;
+}
+
+.detailsDiv{
+    background-color: black;
+    color: white;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
