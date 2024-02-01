@@ -252,17 +252,45 @@ async function getName(req, res) {
         console.log("User ID is ", userid);
 
         const query1 = `
-            SELECT NAME, DISTRICT, AREA
-            FROM BLOOD_BANK
-            WHERE UPPER(DISTRICT) = (
-                SELECT UPPER(DISTRICT)
-                FROM DONOR
-                WHERE DONORID = (
-                    SELECT DONORID
-                    FROM USER_DONOR
-                    WHERE USERID = :userid
-                )
-            )`;
+ 
+SELECT NAME, DISTRICT, AREA
+FROM BANK_SIGNUP_REQEUSTS 
+WHERE REQUESTID IN(
+SELECT REQUESTID
+FROM BLOOD_BANK
+WHERE BANKID IN
+(
+    SELECT C.BANKID
+    FROM DONOR D
+    JOIN DONOR_BLOOD_INFO DBI ON D.DONORID = DBI.DONORID
+    JOIN BLOOD_BANK_INFO C ON DBI.BLOOD_GROUP = C.BLOOD_GROUP AND DBI.RH = C.RH
+    WHERE D.DONORID = (
+        SELECT DONORID
+        FROM USER_DONOR
+        WHERE USERID = :userid
+    )
+    AND C.CAPACITY <> C.QUANTITY
+))
+        
+        INTERSECT
+        
+        
+SELECT NAME, DISTRICT, AREA
+FROM BANK_SIGNUP_REQEUSTS 
+WHERE UPPER(AREA) IN (
+        SELECT UPPER(AREA)
+        FROM DONOR D JOIN DONOR_BLOOD_INFO DB ON
+        D.DONORID = (
+            SELECT DONORID
+            FROM USER_DONOR
+            WHERE USERID = :userid
+        )
+
+
+)
+
+
+`;
 
         const binds1 = {
             userid: userid

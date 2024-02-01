@@ -57,7 +57,7 @@ function displayBloodBanks(bloodBanks) {
 
         bloodBankCard.innerHTML = `
             <div class="card-header">
-                <h4>${bloodBank.name}</h4>
+                <h1>${bloodBank.name}</h1>
             </div>
             <div class="card-body">
                 <p><strong>District:</strong> ${bloodBank.district}</p>
