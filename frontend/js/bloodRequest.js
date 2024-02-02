@@ -47,24 +47,40 @@ async function getBloodBanks() {
 // //    --<p><strong>Description:</strong> ${bloodBank.description || 'N/A'}</p>
 //         //     // <p><strong>Details:</strong> ${bloodBank.details || 'N/A'}</p>
 
-function displayBloodBanks(bloodBanks) {
+async function displayBloodBanks(bloodBanks) {
     const bloodBankResultsDiv = document.getElementById('bloodBankResults');
+
+    
+   
+
+
     
 
     bloodBanks.forEach(bloodBank => {
         const bloodBankCard = document.createElement('div');
         bloodBankCard.classList.add('blood-bank-card');
-
+        console.log(userid);
+        let bloodBankName=bloodBank.name;
+        let requestId=bloodBank.requestid;
+        console.log(requestId);
+        
         bloodBankCard.innerHTML = `
             <div class="card-header">
                 <h1>${bloodBank.name}</h1>
             </div>
+            
             <div class="card-body">
                 <p><strong>District:</strong> ${bloodBank.district}</p>
                 <p><strong>Area:</strong> ${bloodBank.area}</p>
-                <button class="donate-button">Donate Blood</button>
+             <a href="/donationForm?userid=${encodeURIComponent(userid)}&bloodBankName=${encodeURIComponent(bloodBankName)}&requestid=${encodeURIComponent(requestId)}" class="donate-button">Donate Blood</a>
+       
+         
+
             </div>
         `;
         bloodBankResultsDiv.appendChild(bloodBankCard);
+        // <a href="/donationForm?userid=${encodeURIComponent(userid)}&bloodBankName=${encodeURIComponent(bloodBankName)}" class="donate-button">Donate Blood</a>
     });
+
+    
 }

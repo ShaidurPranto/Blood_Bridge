@@ -65,6 +65,17 @@ app.get('/', (req, res) => {
   
   });
 
+  app.get('/donationForm',(req,res)=>
+  {
+    const userid=req.query.userid;
+    const bloodBankName=req.query.bloodBankName;
+    const requestid=req.query.requestid;
+    console.log(userid);
+    console.log(bloodBankName);
+    res.render('donationForm',{userid: userid,bankName:bloodBankName,requestid: requestid});
+  
+  });
+
 //request to navigate to admin page
 app.get('/admin', (req, res) => {
   console.log("Navigating user to the admin page");
@@ -75,7 +86,7 @@ app.get('/admin', (req, res) => {
 //
 const userLoginRouter = require('./router/userLoginRouter');
 const userSignupRouter = require('./router/userSignupRouter');
-const userHomePageRouter = require('./router/userHomePageRouter');
+const userHomePageRouter= require('./router/userHomepageRouter');
 const bankLoginRouter = require('./router/bankLoginRouter');
 
 

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4; /* Light background for contrast */
+            color: #333; /* Dark text for readability */
+        }
+        .navbar {
+            background-color: #550011; /* Red background for navbar */
+            color: #ffffff; /* White text */
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .content {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px;
+        }
+        .rules, .form-section, .benefits {
+            border: 2px solid #bcbcbc; /* Thin ash border */
+            padding: 20px;
+            margin: 10px;
+            flex-basis: 30%; /* Equal width and spacing */
+            background-color: #ffffff; /* White background for content */
+        }
+        .popup-message {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #550011;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    z-index: 1000; /* Ensure it's above other content */
+    display: none; /* Initially hidden */
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+
+        label, input, select, button {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+        }
+        button {
+            background-color: #4e4e4c; /* Dark grey */
+            color: #ffffff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #333333;
+        }
+        .agreement-box {
+            margin: 15px 0;
+        }
+        .alert-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #550011; /* Example color */
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000; /* Ensure it's above other content */
+    text-align: center;
+}
+
+.alert-box p {
+    margin: 10px 0;
+}
+
+.alert-box button {
+    background-color: #4e4e4c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+    </style>
+     <script>
+        const userid = '<%= userid %>';
+        const requestid='<%= requestid %>';
+        console.log(userid);
+    </script>
+     <script type="text/javascript" src="/js/donationForm.js" defer></script>
+</head>
+<body>
+    <div class="navbar">
+        <h1><%= userid %></h1>
+    </div>
+    <div class="content">
+        <div class="rules">
+            <h2>Rules of Blood Donation</h2>
+            <p>Include your rules here...</p>
+        </div>
+        <div class="form-section">
+            <h2>Donation Form</h2>
+            <form action="">
+                <!-- <form id="yourFormId"> -->
+                <label for="donationDate">Donation Date:</label>
+                <input type="date" id="donationDate" name="donationDate" required>
+                
+                <label for="donationTime">Donation Time:</label>
+                <input type="time" id="donationTime" name="donationTime" required>
+                
+                <div class="agreement-box">
+                    <input type="checkbox" id="agreement" name="agreement" required>
+                    <label for="agreement">I agree to the terms and conditions.</label>
+                </div>
+                
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="benefits">
+            <h2>Benefits of Blood Donation</h2>
+            <p>Include benefits here...</p>
+        </div>
+    </div>
+
+    <!-- <div id="popupMessage" class="popup-message hidden">
+        Your appointment is on process.
+    </div>
+     -->
+    
+</body>
+</html>
