@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const responseBank = await fetch(`/userHomePage/getBankID/${requestid}`);
             const bankData = await responseBank.json();
             const bankid = bankData["bankid"]; // Assuming this is the correct path to the bank ID
-            // console.log(bankid);
+            console.log(bankid);
             console.log(userid);
 
             const formData = {
@@ -138,6 +138,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 body: JSON.stringify(formData)
             });
 
+            const responses = await fetch(`/userHomePage/getName/${userid}`);
+            const responses_data = await responses.json();
+           
+            const name=responses_data["name"];
+
             if (!responseAppointment.ok) {
                 throw new Error(`HTTP error! status: ${responseAppointment.status}`);
             }
@@ -146,6 +151,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             console.log(responseJson);
             alert("Appointment successfully created.");
             // Additional logic for success handling here
+            window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}&userid=${encodeURIComponent(userid)}`;
+
         } catch (error) {
             console.error('Error:', error);
             alert("There was an error with your appointment. Please try again.");
