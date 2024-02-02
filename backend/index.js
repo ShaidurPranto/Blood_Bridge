@@ -18,7 +18,7 @@ const sessionConfig = {
 app.use(express.json());
 
 app.use(express.static('../frontendPages'));
-// app.use(express.static('../frontend/css'));
+app.use(express.static('../frontend/css'));
 app.use(express.static('../pictures'));
 
 app.use(session(sessionConfig));
@@ -66,15 +66,15 @@ app.get('/', (req, res) => {
   });
 
   app.get('/donationForm',(req,res)=>
-  {
-    const userid=req.query.userid;
-    const bloodBankName=req.query.bloodBankName;
-    const requestid=req.query.requestid;
-    console.log(userid);
-    console.log(bloodBankName);
-    res.render('donationForm',{userid: userid,bankName:bloodBankName,requestid: requestid});
-  
-  });
+{
+  const userid=req.query.userid;
+  const bloodBankName=req.query.bloodBankName;
+  const requestid=req.query.requestid;
+  console.log(userid);
+  console.log(bloodBankName);
+  res.render('donationForm',{userid: userid,bankName:bloodBankName,requestid: requestid});
+
+});
 
 //request to navigate to admin page
 app.get('/admin', (req, res) => {
@@ -86,8 +86,10 @@ app.get('/admin', (req, res) => {
 //
 const userLoginRouter = require('./router/userLoginRouter');
 const userSignupRouter = require('./router/userSignupRouter');
-const userHomePageRouter= require('./router/userHomepageRouter');
+const userHomePageRouter = require('./router/userHomepageRouter');
 const bankLoginRouter = require('./router/bankLoginRouter');
+
+
 
 
 app.use('/userLogin',userLoginRouter);
