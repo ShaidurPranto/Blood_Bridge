@@ -18,6 +18,7 @@ const sessionConfig = {
 app.use(express.json());
 
 app.use(express.static('../frontendPages'));
+// app.use(express.static('../frontend/css'));
 app.use(express.static('../pictures'));
 
 app.use(session(sessionConfig));
