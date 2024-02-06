@@ -18,7 +18,6 @@ const sessionConfig = {
 app.use(express.json());
 
 app.use(express.static('../frontendPages'));
-app.use(express.static('../frontend/css'));
 app.use(express.static('../pictures'));
 
 app.use(session(sessionConfig));
@@ -88,8 +87,6 @@ const userLoginRouter = require('./router/userLoginRouter');
 const userSignupRouter = require('./router/userSignupRouter');
 const userHomePageRouter = require('./router/userHomepageRouter');
 const bankLoginRouter = require('./router/bankLoginRouter');
-
-
 
 
 app.use('/userLogin',userLoginRouter);
