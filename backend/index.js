@@ -90,6 +90,7 @@ const userLoginRouter = require('./router/userLoginRouter');
 const userSignupRouter = require('./router/userSignupRouter');
 const userHomePageRouter = require('./router/userHomepageRouter');
 const bankLoginRouter = require('./router/bankLoginRouter');
+const bankHomeRouter = require('./router/bankHomeRouter');
 
 
 
@@ -98,6 +99,7 @@ app.use('/userLogin',userLoginRouter);
 app.use('/userSignup',userSignupRouter);
 app.use('/userHomePage',userHomePageRouter);
 app.use('/bankLogin',bankLoginRouter);
+app.use('/bankHome',bankHomeRouter);
 
 
 app.listen(port,()=>{
