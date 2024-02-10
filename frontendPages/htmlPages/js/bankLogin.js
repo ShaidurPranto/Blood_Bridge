@@ -1,6 +1,7 @@
 console.log("this is bank login script");
 async function sendCredentials()
 {
+    console.log("trying to send credentials");
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
 

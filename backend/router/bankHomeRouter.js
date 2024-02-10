@@ -3,6 +3,7 @@ const bankHomeController = require('../controller/bankHomeController');
 
 const bankHomeRouter = express.Router();
 
+bankHomeRouter.route('/logout').get(bankHomeController.logout);
 bankHomeRouter.route('/pendingDonorAppointments').get(bankHomeController.pendingDonorAppointments);
 bankHomeRouter.route('/acceptedDonorAppointments').get(bankHomeController.acceptedDonorAppointments);
 bankHomeRouter.route('/declinedDonorAppointments').get(bankHomeController.declinedDonorAppointments);

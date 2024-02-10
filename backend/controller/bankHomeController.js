@@ -1,5 +1,17 @@
 const databaseConnection = require('../database/databaseConnection');
 
+async function logout(req, res) {
+    const bankId = req.session.bank.BANKID;
+    console.log("bank id is ",bankId);
+    console.log("destroying session for bank with id: ",bankId);
+    try {
+        req.session.destroy();
+        res.status(200).send(`Logging out bank with id: ${bankId}`);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
+
 async function pendingDonorAppointments(req, res) {
     try {
         const bankId = req.session.bank.BANKID;
@@ -96,5 +108,6 @@ module.exports = {
     pendingUserAppointments,
     acceptedUserAppointments,
     declinedUserAppointments,
-    canceledUserAppointments
+    canceledUserAppointments,
+    logout
 };
