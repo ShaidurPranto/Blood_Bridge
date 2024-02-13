@@ -1,5 +1,22 @@
 console.log('this is bank home page js');
 
+//initialize the page
+let isLoaded = false;
+document.addEventListener('DOMContentLoaded',()=>{
+    isLoaded = true;
+    refreshContent();
+});
+
+function refreshContent(){
+    console.log('Refreshing content...');
+    if(isLoaded){
+        showDonorRequests();
+    }
+    else{
+        console.log("dom is not loaded");
+    }
+}
+
 //logout
 async function logOut(){
     console.log('Logging out...');
@@ -9,85 +26,6 @@ async function logOut(){
         console.log('Logged out:', data);
     } catch (error) {
         console.error('Error logging out:', error);
-    }
-}
-
-//initialize the page
-let isLoaded = false;
-document.addEventListener('DOMContentLoaded',()=>{
-    isLoaded = true;
-    refreshContent();
-});
-
-function refreshContent() {
-    console.log('Refreshing content...');
-
-    if(isLoaded)
-    {
-        showDonorRequests();
-        return;
-        const mainContentDiv = document.getElementById('mainContent');
-        mainContentDiv.innerHTML = '';
-
-        const donorRequestsDiv = document.createElement('div');
-        donorRequestsDiv.classList.add('donorRequestsDiv');
-
-        const donorReqeustsHeader = document.createElement('h1');
-        donorReqeustsHeader.textContent = 'Donor Appointments';
-        donorRequestsDiv.appendChild(donorReqeustsHeader);
-
-        const donorRequestTable = getDonorRequestsTable();
-        donorRequestTable.classList.add('donorRequestsTable');
-
-        const donorRows = donorRequestTable.querySelectorAll('tr');
-        donorRows.forEach((row,index)=>{
-            if(index != 0)
-            {
-                row.addEventListener('click',()=>{
-                    const appointmentid = row.dataset.appointmentid;
-                    console.log("clicked on the row with the appointmentID: ",appointmentid);
-                    showDonorRequestDetail(appointmentid);  
-                })
-            }
-        })
-
-
-
-        donorRequestsDiv.appendChild(donorRequestTable);
-
-        mainContentDiv.appendChild(donorRequestsDiv);
-
-        //load userRequestsTable
-        const userRequestsDiv = document.createElement('div');
-        userRequestsDiv.classList.add('userRequestsDiv');
-
-        const userReqeustsHeader = document.createElement('h1');
-        userReqeustsHeader.textContent = 'User Appointments';
-        userRequestsDiv.appendChild(userReqeustsHeader);
-
-        const userRequestTable = getUserRequestsTable();
-        userRequestTable.classList.add('userRequestsTable');
-        userRequestsDiv.appendChild(userRequestTable);
-
-        mainContentDiv.appendChild(userRequestsDiv);
-
-        //load blood bank info
-        const bloodBankInfoDiv = document.createElement('div');
-        bloodBankInfoDiv.classList.add('bloodBankInfoDiv');
-
-        const bloodBankInfoHeader = document.createElement('h1');
-        bloodBankInfoHeader.textContent = 'Qunatity and capacities of different blood groups';
-        bloodBankInfoDiv.appendChild(bloodBankInfoHeader);
-
-        const bloodBankInfoTable = getBloodInfoTable();
-        bloodBankInfoTable.classList.add('bloodBankInfoTable');
-        bloodBankInfoDiv.appendChild(bloodBankInfoTable);
-
-        mainContentDiv.appendChild(bloodBankInfoDiv);
-    }
-    else
-    {
-        console.log("dom is not loaded");
     }
 }
 
@@ -130,31 +68,24 @@ let pendingDonorAppointments = [];
 let acceptedDonorAppointments = [];
 let declinedDonorAppointments = [];
 
-const donorRequests = [
-    {appointmentid: 1,bloodGroup: 'O',rh:'+',name: 'John Doe',address: '1234 Main St, Anytown, USA',mobileNumber: '123-456-7890',date: '2021-01-01',time: '12:00 PM'},
-    {appointmentid: 2,bloodGroup: 'O',rh:'-',name: 'Alex Smith',address: '5678 Elm St, Anytown, USA',mobileNumber: '123-456-7890',date: '2021-01-01',time: '12:00 PM'},
-    {appointmentid: 3,bloodGroup: 'AB',rh:'-',name: 'Jane Doe',address: '91011 Oak St, Anytown, USA',mobileNumber: '123-456-7890',date: '2021-01-01',time: '12:00 PM'},
-    {appointmentid: 4,bloodGroup: 'O',rh:'+',name: 'Bob Smith',address: '121314 Pine St, Anytown, USA',mobileNumber: '123-456-7890',date: '2021-01-01',time: '12:00 PM'},
-    {appointmentid: 5,bloodGroup: 'O',rh:'-',name: 'John Doe',address: '1234 Main St, Anytown, USA',mobileNumber: '123-456-7890',date: '2021-01-01',time: '12:00 PM'},
-    {appointmentid: 6,bloodGroup: 'AB',rh:'-',name: 'Alex Hales',address: '5678 Elm St, Anytown, USA',mobileNumber: '123-456-7890',date: '2021-01-01',time: '12:00 PM'},
-    {appointmentid: 7,bloodGroup: 'O',rh:'+',name: 'Q de kock',address: '91011 Oak St, Anytown, USA',mobileNumber: '123-456-7890',date: '2021-01-01',time: '12:00 PM'},
-];
-
 //fetching data from server
 async function loadPendingDonorAppointments() {
     console.log('Loading pending donor appointments...');
     try {
         const response = await fetch('/bankHome/pendingDonorAppointments');
-        pendingDonerAppointments = await response.json();
-        console.log('Pending donor appointments:', pendingDonerAppointments);
+        pendingDonorAppointments = await response.json();
+        console.log('from server , pending donor appointments are:', pendingDonorAppointments);
     } catch (error) {
         console.error('Error loading pending donor appointments:', error);
     }
 }
 
 //generating table
-function getDonorRequestsTable()
+async function getDonorRequestsTable()
 {
+    console.log('Generating donor requests table...');
+    await loadPendingDonorAppointments();
+    console.log('Pending donor appointments while creating table:', pendingDonorAppointments);
     const donorRequestTable = document.createElement('table');
     const headerRow = donorRequestTable.insertRow();
     ['BLood Group','Requested Date','Requested Time','Donor Name'].forEach(value =>{
@@ -163,7 +94,7 @@ function getDonorRequestsTable()
         headerRow.appendChild(th);
     });
 
-    donorRequests.forEach(request =>{
+    pendingDonorAppointments.forEach(request =>{
         const row = donorRequestTable.insertRow();
         row.dataset.appointmentid = request.appointmentid;
         const tempCell = row.insertCell();
@@ -177,7 +108,7 @@ function getDonorRequestsTable()
 }
 
 //displaying the table
-function showDonorRequests() {
+async function showDonorRequests() {
     console.log('Showing donor requests...');
     const mainContentDiv = document.getElementById('mainContent');
     mainContentDiv.innerHTML = '';
@@ -195,7 +126,7 @@ function showDonorRequests() {
     headerDiv.appendChild(donorReqeustsHeader);
     donorRequestsDiv.appendChild(headerDiv);
 
-    const donorRequestTable = getDonorRequestsTable();
+    const donorRequestTable = await getDonorRequestsTable();
     donorRequestTable.classList.add('donorRequestsTable');
 
     const donorRows = donorRequestTable.querySelectorAll('tr');
@@ -215,30 +146,21 @@ function showDonorRequests() {
 }
 
 //showing details of an appointment
-const donorName = 'John Doe';
-const donorAddress = '1234 Main St, Anytown, USA';
-const donorMobileNumber = '123-456-7890';
-const appointmentDate = '2021-01-01';
-const appointmentTime = '12:00 PM';
-
-
 function showDonorRequestDetail(appointmentID) {
     console.log("Showing details about appointment ID: ", appointmentID);
-
     const mainContent = document.getElementById('mainContent');
-
-    const request = donorRequests.find(request => request.appointmentid == appointmentID);
-
+    const request = pendingDonorAppointments.find(request => request.appointmentid == appointmentID);
     const detailsDiv = document.createElement('div');
     detailsDiv.classList.add('detailsDiv');
+
     detailsDiv.innerHTML = `
     <h2>Donor Appointment</h2>
-    <p><strong>Blood Type:</strong> ${request.bloodGroup+" "+request.rh}</p>
-    <p><strong>Donor Name:</strong> <a href="#" onclick="showDonorDetails(${request.donorId})">${donorName}</a></p>
-    <p><strong>Donor Address:</strong> ${donorAddress}</p>
-    <p><strong>Donor Mobile Number:</strong> ${donorMobileNumber}</p>
-    <p><strong>Appointment Date:</strong> ${appointmentDate}</p>
-    <p><strong>Appointment Time:</strong> ${appointmentTime}</p>
+    <p><strong>Blood Type:</strong> ${request["bloodGroup"]+" "+request["rh"]}</p>
+    <p><strong>Donor Name:</strong> <a href="#" onclick="showDonorDetails(${request["donorid"]})">${request["name"]}</a></p>
+    <p><strong>Donor Address:</strong> ${request["address"]}</p>
+    <p><strong>Donor Mobile Number:</strong> ${request["mobileNumber1"]} ,  ${request["mobileNumber2"]}</p>
+    <p><strong>Appointment Date:</strong> ${request["date"]}</p>
+    <p><strong>Appointment Time:</strong> ${request["time"]}</p>
     <button class="acceptButton" onclick="approveDonorRequest(${request.appointmentid})">Approve</button>
     <button class="declineButton" onclick="declineDonorRequest(${request.appointmentid})">Decline</button>
     `;
@@ -254,53 +176,73 @@ function showDonorDetails(donorId) {
 
 
 //after approving donor request
-function approveDonorRequest(requestId) {
+async function approveDonorRequest(requestId) {
     console.log(`Donor Request ${requestId} approved`);
-    console.log('Initializing the home page again');
-    //refreshContent();
+    
+    const request = pendingDonorAppointments.find(request => request.appointmentid == requestId);
 
-    // Create the div for the appointment summary
+    const result = await fetch('/bankHome/acceptPendingDonorAppointment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({appointmentid: requestId,donorid: request.donorid})
+    });
+    console.log('Result:', result);
+
     const appointmentSummaryDiv = document.createElement('div');
     appointmentSummaryDiv.classList.add('appointmentSummaryDiv');
-    appointmentSummaryDiv.textContent = `Donor appointment has been approved. Date: ${appointmentDate}, Time: ${appointmentTime}, Donor: ${donorName}.`;
+    appointmentSummaryDiv.textContent = `Donor appointment has been approved. Date: ${request["date"]}, Time: ${request["time"]}, Donor: ${request["name"]}.`;
 
-    // Append appointmentSummaryDiv to mainContent
+    //Append appointmentSummaryDiv to mainContent
     const mainContent = document.getElementById('mainContent');
     mainContent.appendChild(appointmentSummaryDiv);
 
-    // Automatically remove the div after 7 seconds
+    //remove the div after 7 seconds
     setTimeout(function() {
+        refreshContent();
         mainContent.removeChild(appointmentSummaryDiv);
-    }, 7000); // 7000 milliseconds = 7 seconds
+    }, 7000); //7000 miliseconds 
 }
 
 //after declining donor request
-function declineDonorRequest(requestId) {
+async function declineDonorRequest(requestId) {
     console.log(`Donor Request ${requestId} declined`);
 
-    // Create the div for the declining reason
+    const request = pendingDonorAppointments.find(request => request.appointmentid == requestId);
+
+    //div for the declining reason
     const declineReasonDiv = document.createElement('div');
     declineReasonDiv.classList.add('declineReasonDiv');
 
-    // Create input fields for the declining reason
+    //input fields for the declining reason
     const declineReasonLabel = document.createElement('label');
     declineReasonLabel.textContent = 'Reason for declining:';
     const declineReasonInput = document.createElement('input');
     declineReasonInput.type = 'text';
     declineReasonInput.classList.add('declineReasonInput');
 
-    // Create button to submit declining reason
+    //button to submit declining reason
     const submitButton = document.createElement('button');
     submitButton.textContent = 'Submit';
     submitButton.classList.add('submitButton');
-    submitButton.onclick = function() {
+    submitButton.onclick = async function() {
         const reason = declineReasonInput.value;
         console.log('Declining reason:', reason);
+        const result = await fetch('/bankHome/rejectPendingDonorAppointment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({appointmentid: requestId,donorid: request.donorid,reason: reason})
+        });
+        console.log('Result:', result);
         declineReasonDiv.innerHTML = '';
         declineReasonDiv.textContent = `Donor request declined. Reason: ${reason}.`;
         setTimeout(function() {
+            refreshContent();
             declineReasonDiv.innerHTML = '';
-        }, 7000); // 7000 milliseconds = 7 seconds
+        }, 7000); //7 seconds
     }
 
     // Append input fields and button to declineReasonDiv
