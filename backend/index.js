@@ -18,7 +18,7 @@ const sessionConfig = {
 app.use(express.json());
 
 app.use(express.static('../frontendPages'));
-// app.use(express.static('../frontend/css'));
+app.use(express.static('../frontend/css'));
 app.use(express.static('../pictures'));
 
 app.use(session(sessionConfig));
@@ -79,27 +79,29 @@ app.get('/', (req, res) => {
 //request to navigate to admin page
 app.get('/admin', (req, res) => {
   console.log("Navigating user to the admin page");
-  res.sendFile('htmlPages/adminHome.html', { root: '../frontendPages' });
+  res.sendFile('htmlPages/adminHome.html', { root: '../frontend' });
 });
+app.get('/myAppointments',(req,res)=>
+  { 
+    const userid=req.query.userid;
+    res.render('myAppointments',{userid: userid});
+
+  });
 
 
 //
-const renderRouter = require('./renderRouter/renderRouter');
-
 const userLoginRouter = require('./router/userLoginRouter');
 const userSignupRouter = require('./router/userSignupRouter');
 const userHomePageRouter = require('./router/userHomepageRouter');
 const bankLoginRouter = require('./router/bankLoginRouter');
-const bankHomeRouter = require('./router/bankHomeRouter');
 
 
 
-app.use('/render',renderRouter);
+
 app.use('/userLogin',userLoginRouter);
 app.use('/userSignup',userSignupRouter);
 app.use('/userHomePage',userHomePageRouter);
 app.use('/bankLogin',bankLoginRouter);
-app.use('/bankHome',bankHomeRouter);
 
 
 app.listen(port,()=>{
