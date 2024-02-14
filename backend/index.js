@@ -79,7 +79,7 @@ app.get('/', (req, res) => {
 //request to navigate to admin page
 app.get('/admin', (req, res) => {
   console.log("Navigating user to the admin page");
-  res.sendFile('htmlPages/adminHome.html', { root: '../frontend' });
+  res.sendFile('htmlPages/adminHome.html', { root: '../frontendPages' });
 });
 app.get('/myAppointments',(req,res)=>
   { 
@@ -90,18 +90,22 @@ app.get('/myAppointments',(req,res)=>
 
 
 //
+const renderRouter = require('./renderRouter/renderRouter');
+
 const userLoginRouter = require('./router/userLoginRouter');
 const userSignupRouter = require('./router/userSignupRouter');
 const userHomePageRouter = require('./router/userHomepageRouter');
 const bankLoginRouter = require('./router/bankLoginRouter');
+const bankHomeRouter = require('./router/bankHomeRouter');
 
 
 
-
+app.use('/render',renderRouter);
 app.use('/userLogin',userLoginRouter);
 app.use('/userSignup',userSignupRouter);
 app.use('/userHomePage',userHomePageRouter);
 app.use('/bankLogin',bankLoginRouter);
+app.use('/bankHome',bankHomeRouter);
 
 
 app.listen(port,()=>{

@@ -1,6 +1,7 @@
 console.log("this is bank login script");
 async function sendCredentials()
 {
+    console.log("trying to send credentials");
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
 
@@ -29,8 +30,7 @@ async function sendCredentials()
             console.log("successful login");
 
             //the path is relative to the owner of this js (i.e. bankLogin.html) not relative to the bankLogin.js
-            window.location.href = 'bankHome.html';
-            
+            window.location.href = '/htmlPages/bankHome.html';
 
             // fetch('/bankLogin/homePage', { method: 'GET' })
             //   .then(response => {
