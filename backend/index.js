@@ -81,6 +81,12 @@ app.get('/admin', (req, res) => {
   console.log("Navigating user to the admin page");
   res.sendFile('htmlPages/adminHome.html', { root: '../frontend' });
 });
+app.get('/myAppointments',(req,res)=>
+  { 
+    const userid=req.query.userid;
+    res.render('myAppointments',{userid: userid});
+
+  });
 
 
 //
