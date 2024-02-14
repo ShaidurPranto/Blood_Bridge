@@ -177,5 +177,132 @@ main {
 }
 
 
+/* Dropdown Button */
+.dropbtn {
+    background-color: transparent;
+    color: #333;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the Dropdown */
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Style the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #ddd;
+}
+.nav-option {
+    color: #333;
+    padding: 12px 16px;
+    font-size: 18px;
+    text-decoration: none;
+    display: inline-block;
+    position: relative; /* Add relative positioning */
+    left: -10px; /* Move it 10 pixels to the left */
+}
+
+.nav-option:hover {
+    color: #550011; /* Text color on hover */
+    text-decoration: underline; /* Add underline on hover */
+}.container {
+    display: flex;
+    height: 100vh;
+}
+
+.reviews {
+    flex: 3; /* Larger part takes 75% of the width */
+    background-color: #f1f1f1;
+    padding: 20px;
+    overflow-y: auto; /* Add overflow-y to enable vertical scrolling */
+}
+
+.card-wrapper {
+    flex: 1; /* Smaller part takes 25% of the width */
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-container {
+    max-width: 600px; /* Set maximum width for review cards */
+    margin: 0 auto; /* Center the container horizontally */
+}
+
+.card {
+    width: 100%; /* Take full width of the container */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
 
 
+
+.card-header {
+    background-color: #550011;
+    color: #fff;
+    padding: 15px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.card-body p {
+    margin: 10px 0;
+}
+
+.card-body p strong {
+    font-weight: bold;
+}
+
+.comment-section {
+    margin-top: 20px;
+}
+
+.comment-input {
+    width: calc(100% - 20px); /* Adjust width to account for padding */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.comment-btn {
+    background-color: #550011;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
