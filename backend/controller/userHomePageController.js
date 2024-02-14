@@ -320,6 +320,68 @@ WHERE UPPER(AREA) IN (
     }
 }
 
+async function getBloodBank(req, res) {
+    console.log("Request received for letting know the blood banks");
+    const userid = req.params.userid;
+    const parameter = req.query.parameter;
+
+    console.log("User ID is ", userid);
+    console.log("Parameter is ", parameter);
+
+    const query1 = `
+
+    SELECT REQUESTID, NAME, DISTRICT, AREA
+    FROM BANK_SIGNUP_REQEUSTS 
+    WHERE REQUESTID IN (
+        SELECT REQUESTID
+        FROM BLOOD_BANK
+        WHERE BANKID IN (
+            SELECT C.BANKID
+            FROM DONOR D
+            JOIN DONOR_BLOOD_INFO DBI ON D.DONORID = DBI.DONORID
+            JOIN BLOOD_BANK_INFO C ON DBI.BLOOD_GROUP = C.BLOOD_GROUP AND DBI.RH = C.RH
+            WHERE D.DONORID = (
+                SELECT DONORID
+                FROM USER_DONOR
+                WHERE USERID = :userid
+            )
+            AND C.CAPACITY <> C.QUANTITY
+        )
+    )
+    AND REGEXP_LIKE(TRIM(DISTRICT), '.*' || :parameter || '.*', 'i')
+`;
+
+    const binds1 = {
+        userid: userid,
+        parameter: parameter
+       
+    };
+
+    try {
+        const result = (await databaseConnection.execute(query1, binds1)).rows;
+
+        if (result && result.length > 0) {
+            const bloodBanks = result.map(({ REQUESTID, NAME, DISTRICT, AREA }) => ({ requestid: REQUESTID, name: NAME, district: DISTRICT, area: AREA }));
+            console.log("Details of the user's blood banks are: ", bloodBanks);
+
+            res.send({
+                bloodBanks: bloodBanks
+            });
+        } else {
+            console.log("Cannot retrieve blood bank details");
+            res.status(404).send({
+                error: "Blood bank details not found",
+            });
+        }
+    } catch (error) {
+        console.error("Error fetching blood bank details:", error.message);
+        res.status(500).send({
+            error: "Internal Server Error",
+        });
+    }
+}
+
+
 
 async function getBankId(req, res) {
     console.log("request recieved for letting know what is BankId");
@@ -362,7 +424,8 @@ async function getDonorID(req, res) {
 
     const query1 = 'SELECT DONORID FROM USER_DONOR WHERE USERID=:userid';
     const binds1 = {
-        userid: userid
+        userid: userid,
+        parameter: parameter,
     };
     var donorid;
     const result = (await databaseConnection.execute(query1, binds1)).rows;
@@ -388,6 +451,8 @@ async function getDonorID(req, res) {
 
 
 }
+
+
 
 async function donationDonorAppointment(req, res) {
     const { DONORID, BANKID, DONATION_DATE, TIME, STATUS, USERID } = req.body;
@@ -490,7 +555,7 @@ async function getUserData(req, res) {
 
     const query1 = `
     
-SELECT S.NAME,S.EMAIL,E.AREA, E.DISTRICT,E.GENDER, 
+SELECT S.NAME,S.EMAIL,S.PASSWORD,E.AREA, E.DISTRICT,E.GENDER, 
 TO_CHAR(E.BIRTH_DATE, 'DD Month, YYYY') AS BIRTH_DATE_, E.LAST_DONATION_DATE,T.BLOOD_GROUP,T.RH,P.MOBILE_NUMBER,TRUNC((SYSDATE-E.BIRTH_DATE)/365,0) AS AGE
 FROM DONOR E 
 JOIN USER_DONOR U ON E.DONORID = U.DONORID 
@@ -517,6 +582,12 @@ WHERE E.DONORID = (
         bloodGroup=result[0]["BLOOD_GROUP"]+result[0]["RH"];
         phone=result[0]["MOBILE_NUMBER"];
         age=result[0]["AGE"];
+        Password=result[0]["PASSWORD"];
+        BloodGroup=result[0]["BLOOD_GROUP"],
+        Rh=result[0]["RH"],
+        District=result[0]["DISTRICT"];
+        Area=result[0]["AREA"];
+
 
         res.send({
            Name: Name,
@@ -527,6 +598,11 @@ WHERE E.DONORID = (
            bloodGroup: bloodGroup,
            phone: phone,
            age: age,
+           Password:Password,
+           District: District,
+           Area: Area,
+           BloodGroup:BloodGroup,
+           Rh:Rh,
 
 
         });
@@ -545,4 +621,4 @@ WHERE E.DONORID = (
 
 
 //
-module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID,getUserData };
+module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID,getUserData,getBloodBank };

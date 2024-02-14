@@ -489,3 +489,53 @@ header {
 .timeline_about .contact_info ul .site span {
   color: var(--f5-color);
 }
+.userDetail {
+    display: none;
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the card */
+    background-color: white; /* Background color */
+    border: 1px solid #550011; /* Border color */
+    padding: 20px; /* Padding */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    width: 20%; /* Box shadow for shaded effect */
+    z-index: 999; /* Ensure it's above other elements */
+    display: none; /* Initially hidden */
+    
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+    backdrop-filter: blur(5px); /* Apply blur effect to the background */
+    z-index: 998; /* Ensure it's below userDetail */
+    display: none; /* Initially hidden */
+}
+.updateProfileForm {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center-align items horizontally */
+    text-align: center; /* Center-align text */
+    max-width: 500px; /* Maximum width of the form */
+    margin: 0 auto; /* Center the form in the parent */
+    padding: 20px; /* Add some padding around the form */
+
+}
+.updateProfileForm label {
+    
+    width: 100%; /* Ensure labels take up full width */
+    text-align: left; /* Align label text to the left */
+    color: #550011; /* Label text color */
+    margin-bottom: 10px; /* Add spacing between labels */
+}
+.updateProfileForm input,
+.updateProfileForm select,
+.updateProfileForm button {
+    width: 100%; /* Ensure inputs take up full width */
+    margin-bottom: 5px; /* Add spacing between form elements */
+    padding: 2px; /* Add some padding inside the inputs */
+}

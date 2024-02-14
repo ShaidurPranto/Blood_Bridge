@@ -20,6 +20,24 @@ async function getBloodBanks() {
     }
 }
 
+
+async function getBloodBank(parameter) {
+    try {
+        console.log(userid);
+        const response = await fetch(`/userHomePage/getBloodBank/${userid}?parameter=${parameter}`);
+        const data = await response.json();
+        console.log(data);
+
+        if (response.ok) {
+            displayBloodBanks(data.bloodBanks);
+        } else {
+            console.error('Error fetching blood banks. Status:', response.status);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 // function displayBloodBanks(bloodBanks) {
 //     console.log("Hi");
 //     const bloodBankResultsDiv = document.getElementById('bloodBankResults');
@@ -51,7 +69,7 @@ async function displayBloodBanks(bloodBanks) {
     const bloodBankResultsDiv = document.getElementById('bloodBankResults');
 
     
-   
+    bloodBankResultsDiv.innerHTML = '';
 
 
     
@@ -78,9 +96,29 @@ async function displayBloodBanks(bloodBanks) {
 
             </div>
         `;
+
         bloodBankResultsDiv.appendChild(bloodBankCard);
         // <a href="/donationForm?userid=${encodeURIComponent(userid)}&bloodBankName=${encodeURIComponent(bloodBankName)}" class="donate-button">Donate Blood</a>
     });
 
     
 }
+const searchInput = document.getElementById('searchInput');
+// searchInput.addEventListener('input', function() {
+//     const parameter = searchInput.value; // Get the value of the search input
+//     console.log(parameter);
+//     getBloodBank(parameter); // Call the function with the input value as parameter
+// });
+
+searchInput.addEventListener('input', function(event) {
+    const parameter = searchInput.value; // Get the value of the search input
+    console.log(parameter);
+    // Check if the pressed key is not the Backspace key (key code 8)
+    if (event.inputType !== 'deleteContentBackward') {
+        getBloodBank(parameter); // Call the function with the input value as parameter
+    }
+});
+
+
+
+
