@@ -55,14 +55,102 @@
                     Dashboard
                 </label>
             </h2>
-            <div class="user-wrapper">
+            <!-- <div class="user-wrapper">
                 <img src="/img.jpg" width="30 px" height="30px" alt="">
                 <div>
                     <h4><%=name %></h4>
                 </div>
+                <a href="/my-appointments">My Appointments</a>
+            </div> -->
+            <div class="user-wrapper">
+                <img src="/img.jpg" width="30px" height="30px" alt="">
+                <div class="dropdown">
+                    
+                    <button onclick="toggleDropdown()" class="dropbtn"><%= name %></button>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a href="#" onclick="logout()">Logout</a>
+                    </div>
+                </div>
+                
             </div>
+            
         </header>
-       </div>
-
+    </div>
+        <div class="main-content">
+           
+            
+            <div class="container">
+                <div class="reviews">
+                    <!-- Larger part content (reviews) -->
+                    <div class="card-wrapper">
+                        <div class="card-container">
+                    <div class="card">
+                        <h2>Review 1</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <div class="comment-section">
+                            <input type="text" class="comment-input" placeholder="Add a comment...">
+                            <button class="comment-btn">Add Comment</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h2>Review 1</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <div class="comment-section">
+                            <input type="text" class="comment-input" placeholder="Add a comment...">
+                            <button class="comment-btn">Add Comment</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h2>Review 1</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <div class="comment-section">
+                            <input type="text" class="comment-input" placeholder="Add a comment...">
+                            <button class="comment-btn">Add Comment</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h2>Review 1</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <div class="comment-section">
+                            <input type="text" class="comment-input" placeholder="Add a comment...">
+                            <button class="comment-btn">Add Comment</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h2>Review 1</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <div class="comment-section">
+                            <input type="text" class="comment-input" placeholder="Add a comment...">
+                            <button class="comment-btn">Add Comment</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h2>Review 2</h2>
+                        <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <div class="comment-section">
+                            <input type="text" class="comment-input" placeholder="Add a comment...">
+                            <button class="comment-btn">Add Comment</button>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                </div>
+                <div class="card-wrapper">
+                    <!-- Smaller part content (single card) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Bank Name</h2>
+                            <span class="status">Status</span>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Donation Date:</strong> January 1, 2024</p>
+                            <p><strong>Donation Time:</strong> 10:00 AM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+       
 </body>
 </html>
