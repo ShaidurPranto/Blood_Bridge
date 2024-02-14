@@ -17,8 +17,8 @@
             BLOOD BRIDGE
         </span></h1> </div>  
       <div class="sidebar-menu">
-           <ul>
-            <li><a href="" class="active"><span class="las la-user-circle">
+        <ul>
+            <li><a href="/DonorProfile?userid=<%= encodeURIComponent(userid) %>" class="active"><span class="las la-user-circle">
              <span>Profile</span>
             </span></a></li> 
            </ul>
@@ -75,6 +75,15 @@
             </div>
             
         </header>
+    </div>
+    <div id="profileCard" class="profile-card">
+        <h1>Name</h1>
+        <p>Email: email@example.com</p>
+        <p>Gender: Male</p>
+        <p>Birthdate: January 1, 1990</p>
+        <p>Area: Area Name</p>
+        <p>District: District Name</p>
+        <p>Last Donation Date: January 1, 2023</p>
     </div>
         <div class="main-content">
            
@@ -150,7 +159,18 @@
                 </div>
             </div>
         </div>
-    
+        <script>
+            function logout() {
+            
+                window.location.href = '/htmlPages/userLogin.html';
+            }
+            function toggleProfile() {
+                console.log("Hi");
+                var profileCard = document.getElementById('profileCard');
+                profileCard.classList.toggle('show');
+            }
+
+            </script>
        
 </body>
 </html>

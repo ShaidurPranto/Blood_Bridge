@@ -87,7 +87,12 @@ app.get('/myAppointments',(req,res)=>
     res.render('myAppointments',{userid: userid});
 
   });
-
+  app.get('/DonorProfile',(req,res)=>
+  {
+    const userid=req.query.userid;
+    res.render('profile',{userid: userid });
+  
+  });
 
 //
 const renderRouter = require('./renderRouter/renderRouter');

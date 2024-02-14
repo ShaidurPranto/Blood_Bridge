@@ -10,7 +10,7 @@ userHomePageRouter.route('/getBloodBanks/:userid').get(userHomePageController.ge
 //userHomePageRouter.route('/donationForm').get(userHomePageController.getBloodBanks);
 userHomePageRouter.route('/getBankID/:requestid').get(userHomePageController.getBankId);
 userHomePageRouter.route('/getDonorID/:userid').get(userHomePageController.getDonorID);
-
+userHomePageRouter.route('/getUserData/:userid').get(userHomePageController.getUserData);
 userHomePageRouter.route('/donationDonorAppointment').post(userHomePageController.donationDonorAppointment);
 
 

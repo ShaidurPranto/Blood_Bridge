@@ -1,0 +1,86 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #eee;
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.profile-info h1 {
+    margin: 0;
+}
+
+.location {
+    font-style: italic;
+}
+
+.rating {
+    font-weight: bold;
+}
+
+.stars {
+    color: gold;
+}
+
+.profile-actions button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    background-color: #ddd;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.tab-button.active {
+    border-bottom: 2px solid blue;
+}
+
+.about-section {
+    display: flex;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.contact-info, .basic-info {
+    flex: 1;
+    padding: 0 10px;
+}
+
+.contact-info h2, .basic-info h2 {
+    margin-top: 0;
+}

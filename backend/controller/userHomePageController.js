@@ -483,9 +483,66 @@ async function donationDonorAppointment(req, res) {
 
 
 
+async function getUserData(req, res) {
+    console.log("request recieved for letting know what is donorID");
+    const userid = req.params.userid;
+    console.log("User id is ", userid);
+
+    const query1 = `
+    
+SELECT S.NAME,S.EMAIL,E.AREA, E.DISTRICT,E.GENDER, 
+TO_CHAR(E.BIRTH_DATE, 'DD Month, YYYY') AS BIRTH_DATE_, E.LAST_DONATION_DATE,T.BLOOD_GROUP,T.RH,P.MOBILE_NUMBER,TRUNC((SYSDATE-E.BIRTH_DATE)/365,0) AS AGE
+FROM DONOR E 
+JOIN USER_DONOR U ON E.DONORID = U.DONORID 
+JOIN USERS S ON U.USERID = S.USERID
+JOIN DONOR_BLOOD_INFO T ON T.DONORID=E.DONORID
+JOIN DONOR_MOBILE_NUMBER P ON P.DONORID=E.DONORID
+WHERE E.DONORID = (
+    SELECT D.DONORID
+    FROM USERS S
+    JOIN USER_DONOR D ON S.USERID = D.USERID
+    WHERE S.USERID = :userid
+)
+    `;
+    const binds1 = {
+        userid: userid
+    };
+    const result = (await databaseConnection.execute(query1, binds1)).rows;
+    if (result) {
+        Name = result[0]["NAME"];
+        Email=result[0]["EMAIL"];
+        Address=result[0]["AREA"]+","+result[0]["DISTRICT"];
+        Gender=result[0]["GENDER"];
+        birthday=result[0]["BIRTH_DATE_"];
+        bloodGroup=result[0]["BLOOD_GROUP"]+result[0]["RH"];
+        phone=result[0]["MOBILE_NUMBER"];
+        age=result[0]["AGE"];
+
+        res.send({
+           Name: Name,
+           Email: Email,
+           Address: Address,
+           gender: Gender,
+           birthday: birthday,
+           bloodGroup: bloodGroup,
+           phone: phone,
+           age: age,
+
+
+        });
+
+    }
+
+    else {
+        console.log("cannot retrive the id");
+    }
+
+
+
+}
 
 
 
 
 //
-module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID };
+module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID,getUserData };

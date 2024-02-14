@@ -306,3 +306,37 @@ main {
     border-radius: 4px;
     cursor: pointer;
 }
+/* Initial state of the profile card - hidden */
+.profile-card {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+    position: fixed;
+    top: -100%; /* Move the card above the viewport */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%; /* Adjust width as needed */
+    max-width: 400px; /* Limit maximum width */
+    background-color: rgba(85, 0, 17, 0.9); /* Red color with opacity */
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    z-index: 1000; /* Ensure it's above other content */
+    color: white;
+    backdrop-filter: blur(100px); /* Apply blur effect to background */
+}
+
+/* State of the profile card when it should be shown */
+.show {
+    visibility: visible;
+    opacity: 1;
+    top: 50%; /* Move the card to the center of the viewport */
+}
+
+/* Additional styling for the profile card */
+.profile-card h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Add more styles as needed */
