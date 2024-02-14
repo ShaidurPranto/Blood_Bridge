@@ -1,0 +1,125 @@
+/*whole body*/
+
+body {
+    background-color: #ffffff;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
+
+.full-body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+/*//////////////////////////////////////////////////////////header//////////////////////////////////////////////////////*/
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color:rgb(240, 230, 230);
+    background-color: #524040; 
+    height: 70px;
+    width: 100%;
+    padding: 10px;
+}
+
+
+/*//////////////////////////////////////////////////////main body//////////////////////////////////////////////////////*/
+
+.main-body {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+}
+
+
+
+/*//////////////////////////////////////////////////////donor info//////////////////////////////////////////////////////*/
+.donor-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.picture-div{
+    flex: 1;
+    background-image: url("../image/login.png");
+    background-size: cover;
+    background-position: center;
+    padding-left: 50px;
+}
+
+.side-div{
+    flex:1.5;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    padding-left: 150px;
+    font-size: small;
+}
+
+.bio-div{
+    margin-top: 20px;
+    align-items: right;
+    font-size: small;
+}
+.report-div{
+    margin-top: 20px;
+    align-items: top;
+    align-items: right;
+    padding-right: 50px;
+    font-size: small;
+    height: 100%;
+
+}
+/*//////////////////////////////////////////////////////request-div/////////////////////////////////////////////////////////*/
+.request-div{
+    margin-top: 10px;
+    padding-right: 70px;
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+    background-color: rgb(105, 65, 61);
+}
+
+/*//////////////////////////////////////////////////////donor details//////////////////////////////////////////////////////*/
+.donor-details{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin-top: 20px;
+    padding-left: 30px;
+}
+
+.bank-reviews{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.review-header{
+    margin-top: 20px;
+    width: 100%;
+}
+
+.review-body{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.user-reviews{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+}

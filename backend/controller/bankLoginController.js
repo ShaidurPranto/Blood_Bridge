@@ -1,5 +1,5 @@
 const databaseConnection = require('../database/databaseConnection');
-const sessionManager = require('../sessionManager');
+const sessionManager = require('../sessionManager/sessionManager');
 
 
 async function bankLogin(req,res)
