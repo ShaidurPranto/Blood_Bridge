@@ -319,7 +319,6 @@ WHERE UPPER(AREA) IN (
         });
     }
 }
-
 async function getBloodBank(req, res) {
     console.log("Request received for letting know the blood banks");
     const userid = req.params.userid;
@@ -425,7 +424,6 @@ async function getDonorID(req, res) {
     const query1 = 'SELECT DONORID FROM USER_DONOR WHERE USERID=:userid';
     const binds1 = {
         userid: userid,
-        parameter: parameter,
     };
     var donorid;
     const result = (await databaseConnection.execute(query1, binds1)).rows;
@@ -787,12 +785,12 @@ async function getAppointmentData(req, res) {
             appointmentTime: appointmentTime,
         });
     } else {
+        res.send({
+           Status:"no",
+        });
         console.log("cannot retrieve the id");
     }
 }
 
 module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID, getUserData, getBloodBank, donorProfileUpdate, getAppointmentData };
 
-
-//
-module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID,getUserData,getBloodBank,donorProfileUpdate,getAppointmentData };

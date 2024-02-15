@@ -119,7 +119,8 @@
             <form action="">
                 <!-- <form id="yourFormId"> -->
                 <label for="donationDate">Donation Date:</label>
-                <input type="date" id="donationDate" name="donationDate" required>
+                <input type="date" id="donationDate" name="donationDate" min="<%= currentDate %>" required>
+
                 
                 <label for="donationTime">Donation Time:</label>
                 <input type="time" id="donationTime" name="donationTime" required>

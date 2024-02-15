@@ -6,11 +6,22 @@ async function checkDonationStatusAndNotify() {
     const appointmentData = await response.json();
     // Store the current status
     const currentStatus = appointmentData.Status;
-    console.log(currentStatus);
+    if(currentStatus==="no")
+    {   
+        const secondCardWrapper = document.querySelectorAll('.card-wrapper')[1]; // Select the second card wrapper
+        secondCardWrapper.style.display = 'none'; // Hide the second card wrapper
+        console.log(currentStatus);
+    }
+   
+    else{
     // If the current status is different from the last status, update the card
     if (currentStatus !== lastStatus) {
         // Update the last status
+
         lastStatus = currentStatus;
+        const secondCardWrapper = document.querySelectorAll('.card-wrapper')[1]; // Select the second card wrapper
+secondCardWrapper.style.display = 'flex'; // Hide the second card wrapper
+
 
         // Select the card wrapper element
         document.getElementById('bankName').textContent = appointmentData.bankName;
@@ -21,5 +32,6 @@ async function checkDonationStatusAndNotify() {
       
     }
 }
+}
 
-setInterval(checkDonationStatusAndNotify, 5000);
+setInterval(checkDonationStatusAndNotify, 1000);

@@ -104,10 +104,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // Assume `userid` and `requestid` are defined somewhere in your script.
         // If not, you need to define them here based on your application's logic.
 
+        const response = await fetch(`/userHomePage/getAppointmentData/${userid}`);
+        
+    const appointmentData = await response.json();
+    const donationDate1 = new Date(appointmentData.donationDate);
+        
         const donationDate = document.getElementById('donationDate').value;
+        const donationDate2=new Date(donationDate);
         const donationTime = document.getElementById('donationTime').value;
+        
+        const differenceInMonths = getMonthDifference(donationDate1, donationDate2);
+        // console.log(differenceInMonths);
         const Status = "pending";
 
+
+      if(appointmentData.Status==="no"){
         try {
             const responseDonor = await fetch(`/userHomePage/getDonorID/${userid}`);
             const donorData = await responseDonor.json();
@@ -156,7 +167,44 @@ document.addEventListener('DOMContentLoaded', (event) => {
             console.error('Error:', error);
             alert("There was an error with your appointment. Please try again.");
         }
+    }
+    else if(differenceInMonths<3)
+    {
+        alert("You have already an appointment pending on "+donationDate1+" You can always Donate in 3 months!");
+    }
+    else if(differenceInMonths>3)
+    {
+        alert("You can have maximum 1 appointment in present")
+    }
     });
+    
 });
+function getMonthDifference(date1, date2) {
+    // Ensure date1 is the earlier date
+    if (date1 > date2) {
+        [date1, date2] = [date2, date1];
+    }
 
+    const year1 = date1.getFullYear();
+    const year2 = date2.getFullYear();
+    const month1 = date1.getMonth();
+    const month2 = date2.getMonth();
+
+    // Calculate the difference in years and months
+    const yearsDifference = year2 - year1;
+    const monthsDifference = month2 - month1;
+
+    // Total difference in months
+    const totalMonthsDifference = (yearsDifference * 12) + monthsDifference;
+
+    // Adjust for cases where the day of month in date2 is less than the day of month in date1
+    const day1 = date1.getDate();
+    const day2 = date2.getDate();
+    if (day2 < day1) {
+        // This means a full month hasn't passed for the final month
+        return totalMonthsDifference - 1;
+    } else {
+        return totalMonthsDifference;
+    }
+}
 
