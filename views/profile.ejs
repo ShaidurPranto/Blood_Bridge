@@ -181,37 +181,40 @@
             <h1 class="heading" style="color: #550011;">Update Profile</h1>
             <form id="profileForm">
                 <label for="name" style="color: #550011;">Name:</label><br>
-                <input type="text" id="name" name="name"><br>
+                <input type="text" id="name" name="name" required><br>
     
                 <label for="phone" style="color: #550011;">Phone:</label><br>
-                <input type="tel" id="phone" name="phone"><br>
+                <input type="tel" id="phone" name="phone" required><br>
     
                 <label for="area" style="color: #550011;">Area:</label><br>
-                <input type="text" id="area" name="area"><br>
+                <input type="text" id="area" name="area" required><br>
     
                 <label for="district" style="color: #550011;">District:</label><br>
-                <input type="text" id="district" name="district"><br>
+                <input type="text" id="district" name="district" required><br>
     
                 <label for="password" style="color: #550011;">Password:</label><br>
                 <div style="position: relative;">
-                    <input type="password" id="password" name="password">
+                    <input type="password" id="password" name="password" required>
                     <i class="far fa-eye" id="togglePassword" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
                 </div>
     
                 <label for="email" style="color: #550011;">Email:</label><br>
-                <input type="email" id="email" name="email"><br>
-    
+                <input type="email" id="email" name="email" required><br>
+                    
+                
+
                 <label for="gender" style="color: #550011;">Gender:</label><br>
-                <input type="text" id="gender" name="gender"><br>
+                <input type="text" id="gender" name="gender" required><br>
     
                 <label for="bloodGroup" style="color: #550011;">Blood Group:</label><br>
-                <input type="text" id="bloodGroup" name="bloodGroup"><br>
+                <input type="text" id="bloodGroup" name="bloodGroup" required><br>
     
                 <label for="rh" style="color: #550011;">Rh:</label><br>
-                <input type="text" id="rh" name="rh"><br>
+                <input type="text" id="rh" name="rh" required><br>
     
-                <input type="submit" value="Submit" style="background-color: #550011; color: white;">
+                
             </form>
+            <button id="submit" style="background-color: #550011; color: white;">Submit</button>
             <button id="cancelUpdate" style="background-color: #550011; color: white;">Cancel</button>
 
         </div>

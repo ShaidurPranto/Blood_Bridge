@@ -67,9 +67,4 @@ async function userLoginRequest(event)
     }
 }
 
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Backspace') {
-        event.preventDefault(); // Prevent the default backspace action
-    }
-});
 

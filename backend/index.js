@@ -37,7 +37,6 @@ app.get('/', (req, res) => {
   
   app.get('/UserHomePageForDonor', (req, res) => {
     const name = req.query.name;
-    
     const userid = req.query.userid;
     res.render('userHomePage', { name: name,userid: userid});
 });
@@ -62,7 +61,6 @@ app.get('/', (req, res) => {
   {
     const userid=req.query.userid;
     res.render('bloodRequest',{userid: userid });
-  
   });
 
   app.get('/donationForm',(req,res)=>
@@ -81,12 +79,14 @@ app.get('/admin', (req, res) => {
   console.log("Navigating user to the admin page");
   res.sendFile('htmlPages/adminHome.html', { root: '../frontendPages' });
 });
+
 app.get('/myAppointments',(req,res)=>
   { 
     const userid=req.query.userid;
     res.render('myAppointments',{userid: userid});
 
   });
+
   app.get('/DonorProfile',(req,res)=>
   {
     const userid=req.query.userid;
@@ -102,8 +102,6 @@ const userSignupRouter = require('./router/userSignupRouter');
 const userHomePageRouter = require('./router/userHomepageRouter');
 const bankLoginRouter = require('./router/bankLoginRouter');
 const bankHomeRouter = require('./router/bankHomeRouter');
-
-
 
 app.use('/render',renderRouter);
 app.use('/userLogin',userLoginRouter);

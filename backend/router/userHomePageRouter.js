@@ -13,8 +13,7 @@ userHomePageRouter.route('/getBankID/:requestid').get(userHomePageController.get
 userHomePageRouter.route('/getDonorID/:userid').get(userHomePageController.getDonorID);
 userHomePageRouter.route('/getUserData/:userid').get(userHomePageController.getUserData);
 userHomePageRouter.route('/donationDonorAppointment').post(userHomePageController.donationDonorAppointment);
-
-
-
+userHomePageRouter.route('/donorProfileUpdate').post(userHomePageController.donorProfileUpdate);
+userHomePageRouter.route('/getAppointmentData/:userid').get(userHomePageController.getAppointmentData);
 
 module.exports = userHomePageRouter;

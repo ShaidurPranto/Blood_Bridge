@@ -1,4 +1,5 @@
 // Function to fetch user data from the server
+let lastDonationDate;
 async function getUserData() {
     try {
         const response = await fetch(`/userHomePage/getUserData/${userid}`);
@@ -14,7 +15,8 @@ async function showProfile() {
     const userData = await getUserData();
 
     if (userData) {
-     
+         
+        lastDonationDate=userData.lastDonationDate;
         // Update user name
         const userName = document.querySelector('.userName .name');
         console.log(userName.Name);
@@ -90,6 +92,7 @@ document.querySelector('.sendMsg.active a').addEventListener('click', async func
     // Populate the form fields with the retrieved data
     if (userData) {
         console.log("Navi:");
+        
         document.getElementById('name').value = userData.Name;
         document.getElementById('phone').value = userData.phone;
         document.getElementById('area').value = userData.Area;
@@ -115,6 +118,63 @@ function toggleProfileForm() {
 
 document.getElementById('cancelUpdate').addEventListener('click', function(event) {
     event.preventDefault();
+
+    // Hide userDetail and overlay divs when cancel button is clicked
+    document.querySelector('.userDetail').style.display = 'none';
+    document.querySelector('.overlay').style.display = 'none';
+    document.querySelector('.updateProfileForm').style.display = 'none';
+});
+
+
+document.getElementById('submit').addEventListener('click', async function(event) {
+    event.preventDefault();
+
+     
+        Name=document.getElementById('name').value;
+        phone=document.getElementById('phone').value;
+        area=document.getElementById('area').value;
+        district=document.getElementById('district').value;
+        password=document.getElementById('password').value;
+        email=document.getElementById('email').value;
+        gender=document.getElementById('gender').value;
+        bloodgroup=document.getElementById('bloodGroup').value ;
+        rh=document.getElementById('rh').value ;
+        lastDonationDate=lastDonationDate;
+
+        var data = {
+            userid: userid,
+            name: Name,
+            phone: phone,
+            area: area,
+            district: district,
+            password: password,
+            email: email,
+            gender: gender,
+            bloodGroup: bloodgroup,
+            rh: rh,
+            lastDonationDate: lastDonationDate,
+        };
+
+        const response = await fetch('/userHomePage/donorProfileUpdate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.status===200) {
+            // Handle a successful response
+            const responseData = await response.json();
+            alert('Successfully Updated your profile');
+            // Redirect or perform other actions as needed
+
+           
+        } else {
+            // Handle an error response
+            alert('Error updating! Please try again');
+        }
+    
 
     // Hide userDetail and overlay divs when cancel button is clicked
     document.querySelector('.userDetail').style.display = 'none';

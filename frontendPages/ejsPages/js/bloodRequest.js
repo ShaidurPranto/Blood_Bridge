@@ -117,6 +117,10 @@ searchInput.addEventListener('input', function(event) {
     if (event.inputType !== 'deleteContentBackward') {
         getBloodBank(parameter); // Call the function with the input value as parameter
     }
+    else
+    {
+        getBloodBanks();
+    }
 });
 
 
