@@ -5,13 +5,11 @@ const bankHomeRouter = express.Router();
 
 bankHomeRouter.route('/logout').get(bankHomeController.logout);
 bankHomeRouter.route('/pendingDonorAppointments').get(bankHomeController.pendingDonorAppointments);
-bankHomeRouter.route('/acceptedDonorAppointments').get(bankHomeController.acceptedDonorAppointments);
-bankHomeRouter.route('/declinedDonorAppointments').get(bankHomeController.declinedDonorAppointments);
-bankHomeRouter.route('/canceledDonorAppointments').get(bankHomeController.canceledDonorAppointments);
-// bankLoginRouter.route('/pendingUserAppointments').get(bankLoginController.pendingUserAppointments);
-// bankLoginRouter.route('/acceptedUserAppointments').get(bankLoginController.acceptedUserAppointments);
-// bankLoginRouter.route('/declinedUserAppointments').get(bankLoginController.declinedUserAppointments);
-// bankLoginRouter.route('/canceledUserAppointments').get(bankLoginController.canceledUserAppointments);
+bankHomeRouter.route('/acceptPendingDonorAppointment').post(bankHomeController.acceptPendingDonorAppointment);
+bankHomeRouter.route('/rejectPendingDonorAppointment').post(bankHomeController.rejectPendingDonorAppointment);
+bankHomeRouter.route('/scheduledDonorAppointmentsOfToday').get(bankHomeController.scheduledDonorAppointmentsOfToday);
+bankHomeRouter.route('/successfulDonorAppointment').post(bankHomeController.successfulBloodDonation);
+bankHomeRouter.route('/bankReportsDonor').post(bankHomeController.bankReportsIssueOfDonor);
 
 
 module.exports = bankHomeRouter;
