@@ -92,6 +92,11 @@ async function donorSignup(req, res) {
 
     let isSuccessful = 0;
 
+    let user_donor_insertion = false;
+    let donor_insertion = false;
+    let donor_blood_info_insertion = false;
+    let donor_mobile_number_insertion = false;
+
     const query1 = `INSERT INTO USER_DONOR
     SELECT USERID , NAME || USERID
     FROM USERS
@@ -105,6 +110,7 @@ async function donorSignup(req, res) {
         const result = await connection.execute(query1, binds1);
         if (result.rowsAffected && result.rowsAffected > 0) {
             console.log("sucessfully inserted into user_donor table");
+            user_donor_insertion = true;
 
             const query2 = ` INSERT INTO DONOR 
             SELECT DONORID , :GENDER , TO_DATE(:dateOfBirth, 'YYYY-MM-DD'), :area, :district, TO_DATE(:lastDonationDate, 'YYYY-MM-DD')
@@ -123,7 +129,8 @@ async function donorSignup(req, res) {
             try {
                 const insertIntoDonorResut = await connection.execute(query2, binds2);
                 if (insertIntoDonorResut.rowsAffected && insertIntoDonorResut.rowsAffected > 0) {
-                    console.log("sucessfully inserted into user_donor table");
+                    console.log("sucessfully inserted into donor table");
+                    donor_insertion = true;
 
                     //inserting into donor_blood_info
                     const donorBloodInfoQuery = `INSERT INTO DONOR_BLOOD_INFO
@@ -142,6 +149,7 @@ async function donorSignup(req, res) {
                         if (donorBloodInfoResult.rowsAffected && donorBloodInfoResult.rowsAffected > 0) {
                             console.log("successfully inserted into donor blood info table");
                             isSuccessful++;
+                            donor_blood_info_insertion = true;
                         }
                         else {
                             console.log('Query did not affect any rows or encountered an issue while inserting into donor blood info');
@@ -168,6 +176,7 @@ async function donorSignup(req, res) {
                         if (donorMobileResult.rowsAffected && donorMobileResult.rowsAffected > 0) {
                             console.log("successfully inserted into donor_mobile_number table");
                             isSuccessful++;
+                            donor_mobile_number_insertion = true;
                         }
                         else {
                             console.log('Query did not affect any rows or encountered an issue while inserting into donor_mobile_number');
@@ -203,6 +212,43 @@ async function donorSignup(req, res) {
         }
         else {
             console.log("user is not registered as a donor");
+            console.log("undoing the insertions");
+            if(donor_mobile_number_insertion){
+                const donorMobileQuery = `DELETE FROM DONOR_MOBILE_NUMBER
+                WHERE DONORID = (SELECT DONORID FROM USER_DONOR WHERE USERID = :userid)`;
+                const donorMobileBinds = {
+                    userid: userid
+                }
+                connection.execute(donorMobileQuery, donorMobileBinds);
+                console.log("deleted from donor_mobile_number");
+            }
+            if(donor_blood_info_insertion){
+                const donorBloodInfoQuery = `DELETE FROM DONOR_BLOOD_INFO
+                WHERE DONORID = (SELECT DONORID FROM USER_DONOR WHERE USERID = :userid)`;
+                const donorBloodInfoBinds = {
+                    userid: userid
+                }
+                connection.execute(donorBloodInfoQuery, donorBloodInfoBinds);
+                console.log("deleted from donor_blood_info");
+            }
+            if(donor_insertion){
+                const query2 = `DELETE FROM DONOR
+                WHERE DONORID = (SELECT DONORID FROM USER_DONOR WHERE USERID = :userid)`;
+                const binds2 = {
+                    userid: userid
+                }
+                connection.execute(query2, binds2);
+                console.log("deleted from donor");
+            }
+            if(user_donor_insertion){
+                const query1 = `DELETE FROM USER_DONOR
+                WHERE USERID = :userid`;
+                const binds1 = {
+                    userid: userid
+                }
+                connection.execute(query1, binds1);
+                console.log("deleted from user_donor");
+            }
             connection.rollback();
             res.send({
                 status: "unsuccessful"
