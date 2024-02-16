@@ -14,8 +14,8 @@ async function getConnection()
         ({
             user          : "BB",
             password      : "bb",
-            //connectString : "localhost/ORCLPDB"
-            connectString : "localhost/ORCL"
+            connectString : "localhost/ORCLPDB"
+            //connectString : "localhost/ORCL"
         });
         console.log("database connection successful");
     }
