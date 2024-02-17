@@ -1,12 +1,13 @@
 const databaseConnection = require('../database/databaseConnection');
 const oracledb = require('oracledb');
-
-// async function sessionTimeout(req,res){
-//     console.log("Session timeout");
-//     res.sendFile('htmlPages/userLogin.html', { root: '../frontendPages' });  
-// };
+const fs = require('fs');
+const path = require('path');
 
 async function logout(req, res) {
+    if(req.session.bank === undefined){
+        res.status(401).send("Unauthorized");
+        return;
+    }
     const bankId = req.session.bank.BANKID;
     console.log("bank id is ",bankId);
     console.log("destroying session for bank with id: ",bankId);
@@ -20,6 +21,10 @@ async function logout(req, res) {
 
 
 async function successfulBloodDonation(req, res) {
+    if(req.session.bank === undefined){
+        res.status(401).send("Unauthorized");
+        return;
+    }
     console.log("recieved request for successful blood donation");
     const bankID = req.session.bank.BANKID;
     const appointmentID = req.body.appointmentid;
@@ -42,14 +47,41 @@ async function successfulBloodDonation(req, res) {
 };
 
 async function bankReportsIssueOfDonor(req, res) {
+    if(req.session.bank === undefined){
+        res.status(401).send("Unauthorized");
+        return;
+    }
     const bankID = req.session.bank.BANKID;
     const appointmentID = req.body.appointmentid;
     const issue = req.body.issue;
-    const query = `INSERT INTO BANK_REPORTS_DONOR VALUES(:appointmentID,:issue)`;
-    const binds = {
-        appointmentID: appointmentID,
-        issue: issue
-    };
+    const disease = req.body.disease;
+
+    console.log("recieved request for marking issue of donor appointment");
+    console.log("appointment id is ",appointmentID);
+    console.log("issue is ",issue);
+    console.log("disease is ",disease);
+
+    let query;
+    let binds;
+    let filename;
+    
+    if(req.file){
+        filename = req.file.filename;
+        console.log("filename is ",filename);
+        query = `INSERT INTO BANK_REPORTS_DONOR VALUES(:appointmentID,:disease,:filename)`;
+        binds = {
+            appointmentID: appointmentID,
+            disease: disease,
+            filename: filename
+        };
+    }
+    else{
+        query = `INSERT INTO BANK_REPORTS_DONOR VALUES(:appointmentID,:issue)`;
+        binds = {
+            appointmentID: appointmentID,
+            issue: issue
+        };
+    }
     try {
         await databaseConnection.execute(query, binds);
         res.status(200).send(`Marked issue appointment with id: ${appointmentID}`);
@@ -60,6 +92,10 @@ async function bankReportsIssueOfDonor(req, res) {
 
 
 async function acceptPendingDonorAppointment(req, res) {
+    if(req.session.bank === undefined){
+        res.status(401).send("Unauthorized");
+        return;
+    }
     const bankID = req.session.bank.BANKID;
     const donorID = req.body.donorid;
     const appointmentID = req.body.appointmentid;
@@ -79,6 +115,10 @@ async function acceptPendingDonorAppointment(req, res) {
 };
 
 async function rejectPendingDonorAppointment(req, res) {
+    if(req.session.bank === undefined){
+        res.status(401).send("Unauthorized");
+        return;
+    }
     const bankID = req.session.bank.BANKID;
     const donorID = req.body.donorid;
     const appointmentID = req.body.appointmentid;
@@ -100,6 +140,10 @@ async function rejectPendingDonorAppointment(req, res) {
 };
 
 async function pendingDonorAppointments(req, res) {
+    if(req.session.bank === undefined){
+        res.status(401).send("Unauthorized");
+        return;
+    }
 
     const bankID = req.session.bank.BANKID;
     const query1 = `SELECT DONATIONID FROM BANK_DONOR_APPOINTMENTS WHERE BANKID = :bankID AND STATUS = 'PENDING'`;
@@ -172,6 +216,13 @@ async function pendingDonorAppointments(req, res) {
 
 
 async function scheduledDonorAppointmentsOfToday(req, res) {
+
+    if(req.session.bank === undefined){
+        res.status(401).send("Unauthorized");
+        return;
+    }
+
+
     const bankID = req.session.bank.BANKID;
     const query1 = `SELECT DONATIONID FROM BANK_DONOR_APPOINTMENTS WHERE BANKID = :bankID AND STATUS = 'ACCEPTED' AND TRUNC(DONATION_DATE) = TRUNC(SYSDATE)`;
     const binds1 = {bankID: bankID};
