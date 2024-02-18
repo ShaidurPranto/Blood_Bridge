@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         const donationDate = document.getElementById('donationDate').value;
         const donationTime = document.getElementById('donationTime').value;
-        const Status = "pending";
+        const Status = "PENDING";
 
         try {
             const responseDonor = await fetch(`/userHomePage/getDonorID/${userid}`);
