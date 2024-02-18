@@ -110,12 +110,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const donationDate1 = new Date(appointmentData.donationDate);
         
         const donationDate = document.getElementById('donationDate').value;
+        console.log(donationDate);
         const donationDate2=new Date(donationDate);
         const donationTime = document.getElementById('donationTime').value;
         
         const differenceInMonths = getMonthDifference(donationDate1, donationDate2);
         // console.log(differenceInMonths);
-        const Status = "pending";
+        const Status = "PENDING";
 
 
       if(appointmentData.Status==="no"){
@@ -147,7 +148,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 },
                 body: JSON.stringify(formData)
             });
-
+            
             const responses = await fetch(`/userHomePage/getName/${userid}`);
             const responses_data = await responses.json();
            

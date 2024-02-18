@@ -839,4 +839,3 @@ async function getAppointmentData(req, res) {
 }
 
 module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID, getUserData, getBloodBank, donorProfileUpdate, getAppointmentData };
-

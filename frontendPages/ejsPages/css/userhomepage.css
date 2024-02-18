@@ -244,11 +244,18 @@ main {
 }
 
 .card-wrapper {
+    padding-top: 0;
+    margin-top: 0;
+    position: relative; 
     flex: 1; /* Smaller part takes 25% of the width */
     padding: 20px;
     display: flex;
+    align-items: flex-start; /* Align items to the start of the cross axis */
     justify-content: center;
     align-items: center;
+    max-width: 600px; /* or whatever the width of your card is */
+    margin: 0 auto; /* Center the wrapper in the available flex area */
+    flex-direction: column; /* Stack children vertically */
 }
 
 .card-container {
@@ -340,5 +347,16 @@ main {
     font-size: 24px;
     margin-bottom: 10px;
 }
-
-/* Add more styles as needed */
+.notification-section {
+    position: absolute;
+   
+    top: 0; /* This will position it right at the top of the card-wrapper */
+    width: 100%; /* Ensure it spans the full width of the card-wrapper */
+    
+    width: 100%; /* Take full width of the card-wrapper */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px; /* Spacing between the notification section and the card below */
+}
