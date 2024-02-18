@@ -13,7 +13,7 @@ async function checkDonationStatusAndNotify() {
         console.log(currentStatus);
     }
    
-    else{
+    else {
     // If the current status is different from the last status, update the card
     if (currentStatus !== lastStatus) {
         // Update the last status
