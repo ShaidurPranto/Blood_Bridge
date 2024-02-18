@@ -161,6 +161,10 @@ async function loadPendingDonorAppointments() {
     console.log('Loading pending donor appointments...');
     try {
         const response = await fetch('/bankHome/pendingDonorAppointments');
+        //if server responses Unauthorized(status 401) , then redirect to login page
+        if(response.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
         pendingDonorAppointments = await response.json();
         console.log('from server , pending donor appointments are:', pendingDonorAppointments);
     } catch (error) {
@@ -172,6 +176,10 @@ async function loadScheduledDonorAppointments(){
     console.log('Loading scheduled donor appointments...');
     try {
         const response = await fetch('/bankHome/scheduledDonorAppointmentsOfToday');
+        //if server responses Unauthorized(status 401) , then redirect to login page
+        if(response.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
         scheduledDonorAppointments = await response.json();
         console.log('from server , scheduled donor appointments are:', scheduledDonorAppointments);
     } catch (error) {
@@ -380,7 +388,7 @@ function scheduledDonorAppointmentsPage() {
         appointmentDiv.classList.add('appointmentDiv');
 
         const additionalDiv = document.createElement('div');
-        additionalDiv.classList.add('appointmentDiv');
+        additionalDiv.classList.add('additionalDiv');
 
         // Applying a hover effect
         appointmentDiv.addEventListener('mouseenter', () => {
@@ -433,6 +441,17 @@ async function successfulDonorDonation(container, appointmentID) {
     const approveDiv = document.createElement('div');
     approveDiv.classList.add('approveDiv');
 
+    const cancelButton = document.createElement('button');
+    cancelButton.textContent = 'Cancel';
+    cancelButton.classList.add('cancelButton');
+    cancelButton.onclick = function() {
+        cancelButton.style.visibility = 'hidden';
+        approveDiv.innerHTML = '';
+        scheduledDonorAppointmentsPage();
+    };
+
+    approveDiv.appendChild(cancelButton);
+
     const titleLabel = document.createElement('label');
     titleLabel.textContent = 'Give a rating (out of 5) for the donor:';
     titleLabel.classList.add('approveLabel');
@@ -453,8 +472,8 @@ async function successfulDonorDonation(container, appointmentID) {
 
     const submitButton = document.createElement('button');
     submitButton.textContent = 'Done';
-    submitButton.classList.add('submitButton');
-    submitButton.onclick = function() {
+    submitButton.classList.add('doneButton');
+    submitButton.onclick =async function() {
         const rating = ratingInput.value;
         const review = reviewTextarea.value;
         // Handle submission logic
@@ -463,13 +482,18 @@ async function successfulDonorDonation(container, appointmentID) {
         console.log('Review given:', review);
 
         // Send the rating and review to the server
-        fetch('/bankHome/successfulDonorAppointment', {
+        const result = await fetch('/bankHome/successfulDonorAppointment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({appointmentid: appointmentID,rating: rating,review: review})
-        })
+        });
+
+        //if server responses Unauthorized(status 401) , then redirect to login page
+        if(result.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
 
         //remove the appointment from the scheduledDonorAppointments
         scheduledDonorAppointments = scheduledDonorAppointments.filter(appointment => appointment.appointmentid != appointmentID);
@@ -486,6 +510,15 @@ async function reportDonorIssue(container, appointmentID) {
 
     const reportDiv = document.createElement('div');
     reportDiv.classList.add('reportDiv');
+
+    //create a label that says select jpeg/png/pdf file
+
+    const messageLabel = document.createElement('label');
+    messageLabel.textContent = 'Upload a file (JPEG/PNG/PDF) to report the issue:';
+    messageLabel.classList.add('reportLabel');
+    messageLabel.style.display = 'none';
+    reportDiv.appendChild(messageLabel);
+
     
     const titleLabel = document.createElement('label');
     titleLabel.textContent = 'Select the issue:';
@@ -505,21 +538,6 @@ async function reportDonorIssue(container, appointmentID) {
     medicalConditionOption.textContent = 'Donor has a medical condition';
     selectIssue.appendChild(medicalConditionOption);
 
-    selectIssue.addEventListener('change', function() {
-        const selectedOption = selectIssue.value;
-        if (selectedOption === 'medicalCondition') {
-            // Display options for reporting medical condition
-            selectDisease.style.display = 'block';
-            fileInput.style.display = 'block';
-        } else {
-            // Hide options for reporting medical condition
-            selectDisease.style.display = 'none';
-            fileInput.style.display = 'none';
-        }
-    });
-
-    reportDiv.appendChild(selectIssue);
-
     const selectDisease = document.createElement('select');
     selectDisease.classList.add('diseaseSelect');
     selectDisease.style.display = 'none'; // Initially hide the disease select
@@ -532,7 +550,22 @@ async function reportDonorIssue(container, appointmentID) {
         selectDisease.appendChild(option);
     });
 
-    reportDiv.appendChild(selectDisease);
+    selectIssue.addEventListener('change', function() {
+        const selectedOption = selectIssue.value;
+        if (selectedOption === 'medicalCondition') {
+            // Display options for reporting medical condition
+            selectDisease.style.display = 'block';
+            fileInput.style.display = 'block';
+            messageLabel.style.display = 'block';
+        } else {
+            // Hide options for reporting medical condition
+            selectDisease.style.display = 'none';
+            fileInput.style.display = 'none';
+            messageLabel.style.display = 'none';
+        }
+    });
+
+    reportDiv.appendChild(selectIssue);
 
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
@@ -540,10 +573,15 @@ async function reportDonorIssue(container, appointmentID) {
     fileInput.style.display = 'none'; // Initially hide the file input
     reportDiv.appendChild(fileInput);
 
+    reportDiv.appendChild(selectDisease);
+
+
     const submitButton = document.createElement('button');
     submitButton.textContent = 'Submit';
     submitButton.classList.add('submitButton');
-    submitButton.onclick = function() {
+    submitButton.onclick = async function() {
+        console.log("trying to report the issue");
+
         const selectedIssue = selectIssue.value;
         const selectedDisease = selectDisease.value;
         const uploadedFile = fileInput.files[0];
@@ -556,12 +594,45 @@ async function reportDonorIssue(container, appointmentID) {
             alert('Please upload a file.');
             return;
         }
+        else if(selectedIssue === 'medicalCondition' && uploadedFile.type !== 'image/jpeg' && uploadedFile.type !== 'image/png' && uploadedFile.type !== 'application/pdf'){
+            alert('Please upload a file of type JPEG, PNG, or PDF.');
+            return;
+        }
+        
+        //now we will create a from and append the data and the file to it , and send it to the server
+        const formData = new FormData();
 
-        // Handle submission logic
+        formData.append('appointmentid', appointmentID);
+        formData.append('issue', selectedIssue);
+        formData.append('disease', selectedDisease);
+        formData.append('file', uploadedFile);
+
+        const result = await fetch('/bankHome/bankReportsDonor', {
+            method: 'POST',
+            body: formData
+        });
+
+        //if server responses Unauthorized(status 401) , then redirect to login page
+        if(result.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
 
 
 
+        // fetch('/bankHome/bankReportsDonor')
+        // .then(response => response.blob())
+        // .then(photoBlob =>{
+        //     const url = URL.createObjectURL(photoBlob);
+        //     const photo = document.createElement('img');
+        //     photo.src = url;
+        //     container.appendChild(photo);
+        // })
 
+        console.log('Issue reported:', selectedIssue);
+
+        //remove the appointment from the scheduledDonorAppointments
+        scheduledDonorAppointments = scheduledDonorAppointments.filter(appointment => appointment.appointmentid != appointmentID);
+        scheduledDonorAppointmentsPage();
     };
     reportDiv.appendChild(submitButton);
 
@@ -724,6 +795,11 @@ async function approveDonorRequest(requestId) {
         },
         body: JSON.stringify({appointmentid: requestId,donorid: request.donorid})
     });
+    //if server responses Unauthorized(status 401) , then redirect to login page
+    if(result.status === 401){
+        window.location.href = 'bankLogin.html';
+    }
+
     console.log('Result:', result);
 
     const appointmentSummaryDiv = document.createElement('div');
@@ -775,6 +851,11 @@ async function declineDonorRequest(requestId) {
             },
             body: JSON.stringify({appointmentid: requestId,donorid: request.donorid,reason: reason})
         });
+        //if server responses Unauthorized(status 401) , then redirect to login page
+        if(result.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
+
         console.log('Result:', result);
         declineReasonDiv.innerHTML = '';
         declineReasonDiv.textContent = `Donor request declined. Reason: ${reason}.`;
@@ -993,9 +1074,10 @@ function getPendingUserAppointmentsTable() {
     return userRequestTable;
 }
 
-
 function showPendingUserRequests() {
     console.log('Showing user requests...');
+    //navigate to bankUPA.html page
+    window.location.href = "bankUPA.html";
 };
 
 
