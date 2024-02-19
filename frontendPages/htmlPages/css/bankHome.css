@@ -20,9 +20,9 @@ body {
     display: flex;
     align-items: center; 
     justify-content: space-between;
-    padding: 20px;
+    padding-right: 20px;
     color: rgb(255, 255, 255);
-    height: 30px;
+    height: 40px;
     user-select: none;
     background-color: rgb(106, 23, 23);
     position: fixed;
@@ -39,6 +39,8 @@ body {
     text-decoration: none;
     cursor: not-allowed;
     transition: color 0.3s;
+    user-select: none;
+    margin-left: 5px;
 }
 
 .header-menu {

@@ -11,6 +11,7 @@ bankHomeRouter.route('/rejectPendingDonorAppointment').post(bankHomeController.r
 bankHomeRouter.route('/scheduledDonorAppointmentsOfToday').get(bankHomeController.scheduledDonorAppointmentsOfToday);
 bankHomeRouter.route('/successfulDonorAppointment').post(bankHomeController.successfulBloodDonation);
 bankHomeRouter.route('/bankReportsDonor').post(upload.single('file'),bankHomeController.bankReportsIssueOfDonor);
+bankHomeRouter.route('/name').get(bankHomeController.getName);
 
 
 module.exports = bankHomeRouter;

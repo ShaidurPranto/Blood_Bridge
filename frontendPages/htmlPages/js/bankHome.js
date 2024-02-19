@@ -24,6 +24,23 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
 ///////////////////////////////////////////////home page
+let BankName = '';
+async function getName(){
+    console.log('Getting name...');
+    try {
+        const response = await fetch('/bankHome/name');
+        if(response.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
+        const data = await response.text();
+        console.log('Name:', data);
+        BankName = data;
+    } catch (error) {
+        console.error('Error getting name:', error);
+    }
+}
+getName();
+
 //caller
 function initialState() {
     currentPage = HOME_PAGE;
@@ -32,8 +49,8 @@ function initialState() {
     header.innerHTML = '';
         const headerTitle = document.createElement('div');
         headerTitle.classList.add('header-title');
-            const h2 = document.createElement('h2');
-            h2.textContent = 'Blood Bank';
+            const h2 = document.createElement('h3');
+            h2.textContent = BankName;
         headerTitle.appendChild(h2);
         // Create header menu
         const headerMenu = document.createElement('div');
@@ -96,13 +113,19 @@ function initialState() {
     // mainBody.appendChild(rightSidebar);
 };
 
+
 //logout
 async function logOut(){
     console.log('Logging out...');
     try {
         const response = await fetch('/bankHome/logout');
+
+        if(response.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
         const data = await response.json();
         console.log('Logged out:', data);
+
     } catch (error) {
         console.error('Error logging out:', error);
     }
@@ -764,7 +787,7 @@ function showDonorRequestDetail(appointmentID) {
     detailsDiv.innerHTML = `
     <h2>Donor Appointment</h2>
     <p><strong>Blood Type:</strong> ${request["bloodGroup"]+" "+request["rh"]}</p>
-    <p><strong>Donor Name:</strong> <a href="#" onclick="showDonorDetails(${request["donorid"]})">${request["name"]}</a></p>
+    <p><strong>Donor Name:</strong> <a href="bankVisitingDonor.html?donorid=${request["donorid"]}">${request["name"]}</a></p>
     <p><strong>Donor Address:</strong> ${request["address"]}</p>
     <p><strong>Donor Mobile Number:</strong> ${request["mobileNumber1"]} ,  ${request["mobileNumber2"]}</p>
     <p><strong>Appointment Date:</strong> ${request["date"]}</p>
@@ -778,9 +801,11 @@ function showDonorRequestDetail(appointmentID) {
 }
 
 //incase bank wants to see the details of the donor like review , previous appointments etc
-function showDonorDetails(donorId) {
-    console.log("Showing details about donor ID: ", donorId);
-}
+// function showDonorDetails(donorId) {
+//     console.log("going to donor visiting page");
+//     console.log("Showing details about donor ID: ", donorId);
+//     window.location.href = `bankVisitingDonor.html?donorid=${donorId}`;
+// }
 
 //after approving donor request
 async function approveDonorRequest(requestId) {
@@ -1096,8 +1121,8 @@ async function refreshDataFromServer(){
     await loadScheduledDonorAppointments();
     //await loadPendingUserAppointments();
     //await loadScheduledUserAppointments();
-    pendingUserAppointments = pendingDonorAppointments;
-    scheduledUserAppointments = scheduledDonorAppointments; //change this later
+    //pendingUserAppointments = pendingDonorAppointments;
+    //scheduledUserAppointments = scheduledDonorAppointments; //change this later
 }
 
 async function updatePages(){

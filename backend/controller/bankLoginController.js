@@ -9,7 +9,7 @@ async function bankLogin(req,res)
     console.log('email: ',email);
     console.log('password: ',password);
     
-    const query = `SELECT BANKID,EMAIL,PASSWORD,STATUS
+    const query = `SELECT BANKID,EMAIL,PASSWORD,STATUS,NAME
     FROM BLOOD_BANK B JOIN BANK_SIGNUP_REQEUSTS R ON B.REQUESTID=R.REQUESTID
     WHERE R.EMAIL= :email `;
     const binds={
@@ -33,9 +33,12 @@ async function bankLogin(req,res)
                 const bankID = result[0]["BANKID"];
                 console.log("bank's id is: ",bankID);
 
+                const name = result[0]["NAME"];
+                console.log("bank's name is: ",name);
+
                 console.log("saving this bank's session");
                 const session = sessionManager.getSession(req);
-                session.bank = {BANKID:bankID};
+                session.bank = {BANKID:bankID,NAME:name};
 
                 res.send({
                     status: 'successful',

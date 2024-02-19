@@ -19,6 +19,15 @@ async function logout(req, res) {
     }
 };
 
+async function getName(req, res) {
+    if(req.session.bank === undefined){
+        res.status(401).send("Unauthorized");
+        return;
+    }
+    res.status(200).send(req.session.bank.NAME);
+};
+//
+//
 
 async function successfulBloodDonation(req, res) {
     if(req.session.bank === undefined){
@@ -301,5 +310,6 @@ module.exports = {
     rejectPendingDonorAppointment,
     scheduledDonorAppointmentsOfToday,
     successfulBloodDonation,
-    bankReportsIssueOfDonor
+    bankReportsIssueOfDonor,
+    getName
 };
