@@ -135,7 +135,7 @@ async function pendingDonorAppointments(req, res) {
                 :time := GET_TIME;
                 :donorID := GET_DONORID;
             END;`;
-
+             
         const binds2 = {
             donationID: donationID,
             bloodGroup: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
@@ -222,8 +222,10 @@ async function scheduledDonorAppointmentsOfToday(req, res) {
         };
 
         const result2 = await databaseConnection.execute(query2, binds2);
+      
 
         donorRequests.push({
+        
             appointmentid: donationID,
             bloodGroup: result2.outBinds.bloodGroup,
             rh: result2.outBinds.rh,

@@ -809,7 +809,7 @@ async function getAppointmentData(req, res) {
     console.log("request received for letting know what is donorID");
     
     const query1 = `
-        SELECT BS.NAME,B.DONATION_DATE,B.TIME,B.STATUS
+        SELECT BS.NAME,B.DONATION_DATE,B.TIME,B.STATUS,B.BANK_REVIEW,B.BANK_RATING
         FROM BANK_SIGNUP_REQEUSTS BS 
         JOIN BLOOD_BANK BB ON BS.REQUESTID=BB.REQUESTID
         JOIN BANK_DONOR_APPOINTMENTS B ON B.BANKID=BB.BANKID
@@ -823,12 +823,16 @@ async function getAppointmentData(req, res) {
         Status = result[0]["STATUS"];
         donationDate = result[0]["DONATION_DATE"];
         appointmentTime = result[0]["TIME"];
+        bankReview=result[0]["BANK_REVIEW"];
+        bankRating=result[0]["BANK_RATING"];
 
         res.send({
             bankName: bankName,
             Status: Status,
             donationDate: donationDate,
             appointmentTime: appointmentTime,
+            bankReview: bankReview,
+             bankRating: bankRating, 
         });
     } else {
         res.send({
