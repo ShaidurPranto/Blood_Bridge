@@ -83,8 +83,8 @@ function initialState() {
         sidebar.classList.add('sidebar');
             const listGroup = document.createElement('div');
             listGroup.classList.add('list-group');
-                const sidebarItems = ['Profle','Home','Blood Stock','Pending Donation Appointments', 'Pending Collection Appointments', 'Scheduled Donation Appointments','Scheduled Collection Appointments'];
-                const sidebarFunctions = [showProfile,refreshContent,showBloodStock,showDonorRequests,showPendingUserRequests,scheduledDonorAppointmentsPage,scheduledUserAppointmentsPage];
+                const sidebarItems = ['Profle','Profile','Home','Blood Stock','Pending Donation Appointments', 'Pending Collection Appointments', 'Scheduled Donation Appointments','Scheduled Collection Appointments'];
+                const sidebarFunctions = [showProfile,showProfile,refreshContent,showBloodStock,showDonorRequests,showPendingUserRequests,scheduledDonorAppointmentsPage,scheduledUserAppointmentsPage];
                 sidebarItems.forEach((item, index) => {
                     const listItem = document.createElement('div');
                     listItem.classList.add('list-group-item');
@@ -132,6 +132,8 @@ async function logOut(){
 }
 //////////////////////////////  Blood Bank Part  //////////////////////////////
 function showProfile() {
+    console.log('Showing profile...');
+    window.location.href = 'bankProfile.html';
 };
 
 function showBloodStock() {
