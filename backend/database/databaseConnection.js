@@ -132,7 +132,4 @@ async function test4() {
     console.log(donorRequests);
 }
 
-//test4();
-
-
 module.exports = {execute,getConnection};

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel= "stylesheet" href= "https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" >
     <link rel="stylesheet" href="ejsPages/css/userhomepage.css">
     <script>
@@ -37,15 +38,42 @@
             </span></a></li> 
            </ul>
            <ul>
-            <li><a href="/bloodRequest?userid=<%= encodeURIComponent(userid) %>"><span class="las la-tint">
-             <span>Donate Blood</span>
-            </span></a></li> 
-           </ul>
-           <ul>
-            <li><a href=""><span class="las la-handshake">
+            <ul>
+                <li><a href="/bloodRequest?userid=<%= encodeURIComponent(userid) %>"><span class="las la-tint">
+                 <span>Donate Blood</span>
+                </span></a></li> 
+               </ul>
+          
+            <!-- <li><a href=""><span class="las la-hand-point-down">
              <span>Request Blood</span>
             </span></a></li> 
-           </ul>
+           </ul> -->
+    
+        
+         <!-- <ul>
+            <li style="margin-left: 55px;"><a href="/getblood?userid=<%= encodeURIComponent(userid) %>"><span class="las la-handshake">
+                <span style="font-size: 20px;">From Blood Banks</span>
+               </span></a></li> 
+        </ul> 
+        <ul>
+            <li style="margin-left: 55px;"><a href="/getblood?userid=<%= encodeURIComponent(userid) %>"><span class="las la-handshake">
+                <span style="font-size: 20px;">From Donors</span>
+               </span></a></li> 
+        </ul>  -->
+        <ul>
+            <li><a href="#" onclick="toggleBloodRequest()"><span class="las la-hand-point-down"><span>Request Blood</span></span></a></li>
+        </ul>
+    
+        <ul id="bloodBankLists" style="display: none;">
+            <li style="margin-left: 55px;"><a href="/getblood?userid=<%= encodeURIComponent(userid) %>"><span class="las la-handshake">
+                <span style="font-size: 20px;">From Blood Banks</span>
+               </span></a></li> 
+        </ul> 
+        <ul id="donorLists" style="display: none;">
+            <li style="margin-left: 55px;"><a href="/getblood?userid=<%= encodeURIComponent(userid) %>"><span class="las la-handshake">
+                <span style="font-size: 20px;">From Donors</span>
+               </span></a></li> 
+        </ul> 
         </div>
      
        </div>
@@ -53,11 +81,10 @@
        <div class="main-content">
         <header>
             <h2>
-                <label for="nav-toggle">
-                    <span class="las la-bars">
-                    </span>
-                    Dashboard
-                </label>
+                <button type="button" class="icon-button" onclick="toggleNotifications()">
+                    <span class="material-icons">notifications</span>
+                    <span class="icon-button__badge">2</span>
+                  </button>
             </h2>
             <!-- <div class="user-wrapper">
                 <img src="/img.jpg" width="30 px" height="30px" alt="">
@@ -67,6 +94,7 @@
                 <a href="/my-appointments">My Appointments</a>
             </div> -->
             <div class="user-wrapper">
+               
                 <img src="/img.jpg" width="30px" height="30px" alt="">
                 <div class="dropdown">
                     
@@ -75,7 +103,10 @@
                         <a href="#" onclick="logout()">Logout</a>
                     </div>
                 </div>
+                  
                 
+               
+                <!-- <i class="las la-envelope notification-icon" onclick="toggleNotifications()"></i> -->
             </div>
             
         </header>
@@ -99,6 +130,7 @@
                 <div class="reviews">
                     <!-- Larger part content (reviews) -->
                     <div class="card-wrapper">
+                        
                         <div class="card-container">
                     <div class="card">
                         <h2>Review 1</h2>
@@ -152,15 +184,45 @@
                     </div>
                 </div>
                
-               
+                
                     <!-- Second set of cards -->
                 <div class="card-wrapper">
                     <div class="notification-section">
                       
                         <h2>  <i class="las la-envelope"></i> Notifications</h2>
                         
-                        <p>~Stay updated with real-time alerts</p>
-                    </div>
+                        <p>~Stay updated with real-time alerts</p><br><br>
+                       
+                        <p id="noAppointmentMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Currently you have no appointment!<br><a class="donate-link" href="/bloodRequest?userid=<%= encodeURIComponent(userid) %>"> Donate now!</a>
+                        </a></p>
+                        <p id="pendingMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Plase wait! Your appointment is currently pending! </p>
+                        <p id="acceptMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Appointment Accepted! Please be on exact <b>time and date</b></p>
+                        <p id="bankname" style="display: none;">
+                            <h2 id="bname" class="las la-hand-holding-heart" style="display: none;">here</h2>
+                            
+                        </p>
+                        <div id="successMessage" style="display: none;">
+                            <i class="las la-heart"></i> <strong>Your donation with us was successful!</strong>
+                            <br>
+                            ~We wish you good health and encourage you to continue being kind to people.<br><br>
+                            <h4 id="br"><i class="las la-heart"></i>Bank's Review:</h4>
+                            <div id="bankMessage" class="bank-message" style="background-color: white; padding: 10px; margin-top: 10px; border-radius: 5px;">Bank's message here</div>
+                            <div class="rating-review" style="margin-top: 10px;">
+                                <label for="rating"><h4 id="br"><i class="las la-heart"></i>Give the bank a rating:</h4></label>
+                                <select name="rating" id="rating">
+                                    <option value="5">5 Stars</option>
+                                    <option value="4">4 Stars</option>
+                                    <option value="3">3 Stars</option>
+                                    <option value="2">2 Stars</option>
+                                    <option value="1">1 Star</option>
+                                </select>
+                                <br>
+                                <label for="review"><h4 id="br"><i class="las la-heart"></i>Give the bank a rating:</h4></label>
+                                <textarea id="review" rows="3" placeholder="Type your review here..."></textarea>
+                                <button onclick="submitReview()">Submit Review</button>
+                            </div>
+                        </div>
+                        
                 
                     <div class="card">
                         <div class="card-header">
@@ -174,6 +236,7 @@
                     </div>
                     
                 </div>
+           
                
                 
                

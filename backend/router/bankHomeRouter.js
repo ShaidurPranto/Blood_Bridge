@@ -1,5 +1,6 @@
 const express = require('express');
 const bankHomeController = require('../controller/bankHomeController');
+const upload = require('../multer/multer');
 
 const bankHomeRouter = express.Router();
 
@@ -9,7 +10,7 @@ bankHomeRouter.route('/acceptPendingDonorAppointment').post(bankHomeController.a
 bankHomeRouter.route('/rejectPendingDonorAppointment').post(bankHomeController.rejectPendingDonorAppointment);
 bankHomeRouter.route('/scheduledDonorAppointmentsOfToday').get(bankHomeController.scheduledDonorAppointmentsOfToday);
 bankHomeRouter.route('/successfulDonorAppointment').post(bankHomeController.successfulBloodDonation);
-bankHomeRouter.route('/bankReportsDonor').post(bankHomeController.bankReportsIssueOfDonor);
+bankHomeRouter.route('/bankReportsDonor').post(upload.single('file'),bankHomeController.bankReportsIssueOfDonor);
 
 
 module.exports = bankHomeRouter;
