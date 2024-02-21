@@ -96,12 +96,12 @@ app.get('/myAppointments',(req,res)=>
 
 //
 const renderRouter = require('./renderRouter/renderRouter');
-
 const userLoginRouter = require('./router/userLoginRouter');
 const userSignupRouter = require('./router/userSignupRouter');
 const userHomePageRouter = require('./router/userHomepageRouter');
 const bankLoginRouter = require('./router/bankLoginRouter');
 const bankHomeRouter = require('./router/bankHomeRouter');
+
 
 app.use('/render',renderRouter);
 app.use('/userLogin',userLoginRouter);
