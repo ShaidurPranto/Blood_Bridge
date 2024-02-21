@@ -83,6 +83,7 @@ const userSignupRouter = require('./router/userSignupRouter');
 const userHomePageRouter = require('./router/userHomepageRouter');
 const bankLoginRouter = require('./router/bankLoginRouter');
 const bankHomeRouter = require('./router/bankHomeRouter');
+const bankHomeProfileRouter = require('./router/bankHomeProfileRouter');
 
 app.use('/render', renderRouter);
 app.use('/userLogin', userLoginRouter);
@@ -90,6 +91,7 @@ app.use('/userSignup', userSignupRouter);
 app.use('/userHomePage', userHomePageRouter);
 app.use('/bankLogin', bankLoginRouter);
 app.use('/bankHome', bankHomeRouter);
+app.use('/bankHome/profile', bankHomeProfileRouter);
 
 app.listen(port, () => {
   console.log(`open http://localhost:${port}`);

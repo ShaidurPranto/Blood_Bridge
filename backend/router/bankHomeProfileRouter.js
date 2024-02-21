@@ -1,13 +1,20 @@
 const express = require('express');
-const bankHomeController = require('../controller/bankHomeController');
+const bankHomeProfileController = require('../controller/bankHomeProfileController');
 const upload = require('../multer/multer');
 
-const bankHomeRouter = express.Router();
+const bankHomeProfileRouter = express.Router();
 
-bankHomeRouter.route('/isDefaultPhoto').get(bankHomeController.isDefaultPhoto);
-bankHomeRouter.route('/getPhoto').get(bankHomeController.getProfilePhoto);
-bankHomeRouter.route('/getDefaultPhoto').get(bankHomeController.getDefualtPhoto);
-bankHomeRouter.route('/updatePhoto').post(upload.photoUpload.single('file'), bankHomeController.updateProfilePhoto);
-bankHomeRouter.route('/removePhoto').delete(bankHomeController.removeAvatarPhoto);
+bankHomeProfileRouter.route('/isDefaultPhoto').get(bankHomeProfileController.isDefaultPhoto);
+bankHomeProfileRouter.route('/getPhoto').get(bankHomeProfileController.getProfilePhoto);
+bankHomeProfileRouter.route('/getDefaultPhoto').get(bankHomeProfileController.getDefualtPhoto);
+bankHomeProfileRouter.route('/updatePhoto').post(upload.photoUpload.single('file'), bankHomeProfileController.updateProfilePhoto);
+bankHomeProfileRouter.route('/removePhoto').delete(bankHomeProfileController.removeAvatarPhoto);
+bankHomeProfileRouter.route('/getDescription').get(bankHomeProfileController.getDescription);
+bankHomeProfileRouter.route('/updateDescription').post(bankHomeProfileController.updateDescription);
+bankHomeProfileRouter.route('/getTermsAndCondition').get(bankHomeProfileController.getTermsAndConditions);
+bankHomeProfileRouter.route('/updateTermsAndCondition').post(bankHomeProfileController.updateTermsAndCondition);
+bankHomeProfileRouter.route('/getInfo').get(bankHomeProfileController.getBankInfo);
+bankHomeProfileRouter.route('/updateInfo').post(bankHomeProfileController.updateProfileInfo);
+bankHomeProfileRouter.route('/updatePassword').post(bankHomeProfileController.updatePassword);
 
-module.exports = bankHomeRouter;
+module.exports = bankHomeProfileRouter;

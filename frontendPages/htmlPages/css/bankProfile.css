@@ -1,43 +1,92 @@
-body{
-    background-color: beige;
-}
-.icon{
-    width: 50px;
-    height: 50px;
-
-}
-.header{
-
+body {
+    background-color: #f5f5f5; 
+    font-family: "Times New Roman", Times, serif; 
+    color: #333333; 
 }
 
-.body{
-
+.header {
+    width: 100%;
+    background-color: #341212;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    height: 40px;
 }
 
-.container{
+.header2{
+    position: relative;
+    width: 100%;
+    height: 40px;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
     justify-content: space-between;
 }
 
-.item{
-    flex: 0 0 calc(33.33% - 20px); /* Adjust as needed for margins and padding */
-    margin: 10px;
-    background-color: #f0f0f0;
+.rating-icon{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+    transition: transform 0.2s ease; 
+
+    align-self: flex-end;
+    margin-right: 55px;
 }
 
+.rating-text{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 8px;
+    transition: transform 0.2s ease; 
+
+    align-self: flex-end;
+    margin-right: 30px;
+}
+
+.header button{
+    background-color: #f4f1f1;
+    color: #0b0909;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+}
+
+
+.body{
+    padding-top: 10px;
+    border: 1px solid #451515;
+}
+
+/*////////////////////////////////////////////// Container 1 (Profile Info, Password, Profile Picture) styling */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 50px auto;
+    max-width: 1200px;
+}
 /*///////////////////////////////////////////////////// profile picture div */
 .profile-picture {
     position: relative;
-    width: 500px;
+    width: 450px;
     height: 500px;
+    margin-left: 100px;
 }
 
 .picture{
-    width: 100%; /* Occupy the entire width of the container */
-    height: 100%; /* Occupy the entire height of the container *//* Set the background image */
-    background-size: cover; /* Cover the entire div with the background image */
+    width: 100%; 
+    height: 100%; 
+    background-size: cover; 
     background-position: center;
+    border: 1px solid black;
+    border-radius: 10px;
 }
 
 .more-options-div{
@@ -65,7 +114,7 @@ body{
 
 .icon:hover {
     cursor: pointer;
-    transform: scale(1.1); /* Scale up the icon slightly on hover */
+    transform: scale(1.1); 
 }
 
 .options-container {
@@ -100,7 +149,6 @@ input[type="file"] {
     cursor: pointer;    
 }
 
-/* Update and cancel options */
 .update-cancel-div {
     position: absolute;
     bottom: 10px;
@@ -137,4 +185,216 @@ input[type="file"] {
 
 .cancel-div {
     color: #f44336;
+}
+
+/*///////////////////////////////////////////////////////////////////////side div */
+
+.side-div {
+    margin-left: 50px;
+    width: 400px;
+    background-color: #a4b6cf;
+    border-radius: 10px;
+    padding: 20px;
+    transition: filter 0.3s ease;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.profile-info-item {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+}
+
+.profile-info label {
+    font-size: 18px;
+    margin-right: 10px; /* Add margin between label and span */
+    white-space: nowrap; /* Prevent labels from wrapping */
+}
+
+.profile-info span {
+    position: absolute;
+    left:100px;
+    font-size: 16px;
+    color: #333333;
+    align-self: center;
+}
+
+.profile-info-edit-button{
+    background-color: #4caf50;
+    color: #ffffff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    align-self: flex-start; 
+}
+
+.pprofile-info-edit-button:hover {
+    background-color: #45a049;
+}
+
+.profile-info-item input {
+    position: absolute;
+    left:100px;
+    font-size: 16px;
+    color: #333333;
+    align-self: center;
+
+    width: 300px;
+}
+
+.profile-info-save-button{
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.profile-info-save-button:hover {
+    background-color: #0056b3;
+}
+
+.password{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;  
+}
+
+.password > label , .password > input {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.password-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.submit-button,
+.cancel-button {
+    color: #ffffff; /* Text color */
+    padding: 6px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+    height: 30px;
+}
+
+.submit-button {
+    background-color: #4caf50;
+}
+.cancel-button {
+    background-color: #f44336;
+}
+.submit-button:hover{
+    background-color: #431818;
+}
+.submit-button:hover {
+    background-color: #40803f; 
+}
+
+
+
+
+
+.container2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 50px auto;
+    max-width: 1200px;
+}
+
+.description,
+.terms-condition {
+    flex: 1;
+    padding: 20px;
+    margin: 0 20px 20px 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.description h2,
+.terms-condition h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.description p,
+.terms-condition p {
+    font-size: 16px;
+}
+
+.description textarea,
+.terms-condition textarea {
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    resize: vertical;
+    height: 300px;
+}
+
+.edit-terms-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.description button,
+.terms-condition button {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.description button:hover,
+.terms-condition button:hover {
+    background-color: #555555;
+}
+
+.terms-condition button {
+    margin-left: auto;
+    display: block;
+} 
+
+.description-suggestion{
+    display: flex;
+    flex-direction: row;
+    padding-top: 20px;
+    margin-bottom: 70px;
+    width: 100%;
+    height: 100px;
+}
+
+.exclamation-icon{
+    width: 20px;
+    height: 20px;
+    transition: transform 0.2s ease; 
+}
+
+.suggestion-text{
+    margin-left: 10px;
 }
