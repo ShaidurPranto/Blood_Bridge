@@ -1,5 +1,6 @@
 const { autoCommit } = require('oracledb');
 const databaseConnection = require('../database/databaseConnection');
+const oracledb = require('oracledb');
 
 
 
@@ -842,4 +843,124 @@ async function getAppointmentData(req, res) {
     }
 }
 
-module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID, getUserData, getBloodBank, donorProfileUpdate, getAppointmentData };
+
+
+async function getBloodBankOnRequest(req, res) {
+    
+    const Division = req.params.Division;
+    const Area = req.params.Area;
+    const BloodGroup=req.params.BloodGroup;
+    const Rh = req.params.Rh;
+    const Quantity = req.params.Quantity;
+    
+    console.log(Division);
+    console.log(Area);
+
+    const query1 = `
+    SELECT REQUESTID, NAME, DISTRICT, AREA, DESCRIPTION
+FROM BANK_SIGNUP_REQEUSTS
+WHERE UPPER(DISTRICT) = UPPER(:Division) AND UPPER(AREA) = UPPER(:Area) AND EXISTS (
+    SELECT *
+    FROM BLOOD_BANK_INFO
+    WHERE BLOOD_GROUP = :BloodGroup
+    AND RH = :Rh
+    AND QUANTITY > :Quantity
+)
+
+    
+`;
+
+    const binds1 = {
+       Division: Division,
+       Area: Area,
+       BloodGroup: BloodGroup,
+       Rh: Rh,
+       Quantity: Quantity
+       
+    };
+
+    try {
+        const result = (await databaseConnection.execute(query1, binds1)).rows;
+
+        if (result && result.length > 0) {
+            const bloodBanks = result.map(({REQUESTID,NAME,DISTRICT,AREA,DESCRIPTION }) => ({requestid: REQUESTID,name :NAME, district: DISTRICT, area: AREA, description:DESCRIPTION }));
+            console.log("Details of the user's blood banks are: ", bloodBanks);
+
+            res.send({
+                bloodBanks: bloodBanks
+            });
+        } else {
+            console.log("Cannot retrieve blood bank details");
+            res.status(404).send({
+                error: "Blood bank details not found",
+            });
+        }
+    } catch (error) {
+        console.error("Error fetching blood bank details:", error.message);
+        res.status(500).send({
+            error: "Internal Server Error",
+        });
+    }
+}
+
+async function bloodBankInfos(req, res) {
+    const requestid = req.params.requestId; // Declare and initialize userid here
+    console.log(requestid);
+    const query2 = `
+        DECLARE
+            v_total NUMBER;
+            v_rating NUMBER;
+            v_bank_name VARCHAR2(100);
+            v_area VARCHAR2(100);
+            v_district VARCHAR2(100);
+            v_description VARCHAR2(200);
+        BEGIN
+            GET_BLOOD_BANK_INFO(
+                :requestid,
+                v_total,
+                v_rating,
+                v_bank_name,
+                v_area,
+                v_district,
+                v_description
+            );
+        
+            :bankName := v_bank_Name;
+            :area := v_area;
+            :district := v_district;
+            :description := v_description;
+            :total := v_total;
+            :rating :=v_rating;
+        END;
+    `;
+
+             
+    const binds2 = {
+        requestid: requestid,
+        bankName: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+        area: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+        district: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+        description: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+        total: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+        rating: {type: oracledb.STRING, dir: oracledb.BIND_OUT}
+    };
+
+    const result2 = await databaseConnection.execute(query2, binds2);
+
+    const Infos = [{
+        bankName: result2.outBinds.bankName,
+        area: result2.outBinds.area,
+        district: result2.outBinds.district,
+        description: result2.outBinds.description,
+        total: result2.outBinds.total,
+        rating: result2.outBinds.rating,
+    }];
+
+    console.log(Infos);
+    res.send(Infos);
+}
+
+
+
+
+module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID, getUserData, getBloodBank, donorProfileUpdate, getAppointmentData,getBloodBankOnRequest, bloodBankInfos };

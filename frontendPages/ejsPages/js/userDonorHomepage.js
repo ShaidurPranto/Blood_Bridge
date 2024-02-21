@@ -14,7 +14,19 @@ async function toggleNotifications() {
     // Toggle the visibility state
     isVisible = !isVisible;
 }
-
+function toggleBloodRequest() {
+    var bloodBankLists = document.getElementById('bloodBankLists');
+    var donorLists = document.getElementById('donorLists');
+    
+    // Toggle the display style of the bottom two lists
+    if (bloodBankLists.style.display === 'none' && donorLists.style.display === 'none') {
+        bloodBankLists.style.display = 'block';
+        donorLists.style.display = 'block';
+    } else {
+        bloodBankLists.style.display = 'none';
+        donorLists.style.display = 'none';
+    }
+}
 
 
 

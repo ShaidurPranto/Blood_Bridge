@@ -179,8 +179,8 @@ main {
     padding: 2 rem 1.5 rem;
     background: #f1f5f9;
     min-height: calc(100vh - 90px) ;
+    
 }
-
 
 /* Dropdown Button */
 .dropbtn {

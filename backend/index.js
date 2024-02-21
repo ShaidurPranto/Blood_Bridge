@@ -62,6 +62,12 @@ app.get('/', (req, res) => {
     res.render('bloodRequest',{userid: userid });
   });
 
+  app.get('/getBlood',(req,res)=>
+  {
+    const userid=req.query.userid;
+    res.render('getBlood',{userid: userid });
+  });
+
   app.get('/donationForm',(req,res)=>
 {
   const userid=req.query.userid;

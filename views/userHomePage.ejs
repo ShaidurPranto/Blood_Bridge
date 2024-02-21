@@ -38,15 +38,42 @@
             </span></a></li> 
            </ul>
            <ul>
-            <li><a href="/bloodRequest?userid=<%= encodeURIComponent(userid) %>"><span class="las la-tint">
-             <span>Donate Blood</span>
-            </span></a></li> 
-           </ul>
-           <ul>
-            <li><a href=""><span class="las la-handshake">
+            <ul>
+                <li><a href="/bloodRequest?userid=<%= encodeURIComponent(userid) %>"><span class="las la-tint">
+                 <span>Donate Blood</span>
+                </span></a></li> 
+               </ul>
+          
+            <!-- <li><a href=""><span class="las la-hand-point-down">
              <span>Request Blood</span>
             </span></a></li> 
-           </ul>
+           </ul> -->
+    
+        
+         <!-- <ul>
+            <li style="margin-left: 55px;"><a href="/getblood?userid=<%= encodeURIComponent(userid) %>"><span class="las la-handshake">
+                <span style="font-size: 20px;">From Blood Banks</span>
+               </span></a></li> 
+        </ul> 
+        <ul>
+            <li style="margin-left: 55px;"><a href="/getblood?userid=<%= encodeURIComponent(userid) %>"><span class="las la-handshake">
+                <span style="font-size: 20px;">From Donors</span>
+               </span></a></li> 
+        </ul>  -->
+        <ul>
+            <li><a href="#" onclick="toggleBloodRequest()"><span class="las la-hand-point-down"><span>Request Blood</span></span></a></li>
+        </ul>
+    
+        <ul id="bloodBankLists" style="display: none;">
+            <li style="margin-left: 55px;"><a href="/getblood?userid=<%= encodeURIComponent(userid) %>"><span class="las la-handshake">
+                <span style="font-size: 20px;">From Blood Banks</span>
+               </span></a></li> 
+        </ul> 
+        <ul id="donorLists" style="display: none;">
+            <li style="margin-left: 55px;"><a href="/getblood?userid=<%= encodeURIComponent(userid) %>"><span class="las la-handshake">
+                <span style="font-size: 20px;">From Donors</span>
+               </span></a></li> 
+        </ul> 
         </div>
      
        </div>
