@@ -21,9 +21,24 @@ document.addEventListener('DOMContentLoaded',()=>{
     refreshContent();
 });
 
-
-
 ///////////////////////////////////////////////home page
+let BankName = '';
+async function getName(){
+    console.log('Getting name...');
+    try {
+        const response = await fetch('/bankHome/name');
+        if(response.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
+        const data = await response.text();
+        console.log('Name:', data);
+        BankName = data;
+    } catch (error) {
+        console.error('Error getting name:', error);
+    }
+}
+getName();
+
 //caller
 function initialState() {
     currentPage = HOME_PAGE;
@@ -32,8 +47,8 @@ function initialState() {
     header.innerHTML = '';
         const headerTitle = document.createElement('div');
         headerTitle.classList.add('header-title');
-            const h2 = document.createElement('h2');
-            h2.textContent = 'Blood Bank';
+            const h2 = document.createElement('h3');
+            h2.textContent = BankName;
         headerTitle.appendChild(h2);
         // Create header menu
         const headerMenu = document.createElement('div');
@@ -41,16 +56,22 @@ function initialState() {
             // Create notification div
             const notificationDiv = document.createElement('div');
             notificationDiv.classList.add('notification-div');
-                const bellIcon = document.createElement('i');
-                bellIcon.classList.add('fa-solid', 'fa-bell');
+                const bellIcon = document.createElement('img');
+                bellIcon.classList.add('bell-icon');
+                bellIcon.src = 'icons/bell2.png';
             notificationDiv.appendChild(bellIcon);
+
+            const notificationNumber = document.createElement('div');
+            notificationNumber.classList.add('notification-number');
+            notificationNumber.textContent = '3';
+            notificationDiv.appendChild(notificationNumber);
+
             // Create log out link
             const logOutLink = document.createElement('div');
-            logOutLink.classList.add('header-menu-item');
-                const logOutAnchor = document.createElement('a');
-                logOutAnchor.href = 'bankLogin.html';
+            logOutLink.classList.add('header-menu-item','log-out-button');
+                const logOutAnchor = document.createElement('button');
                 logOutAnchor.textContent = 'Log Out';
-                logOutAnchor.onclick = logOut; // Assuming logOut is defined elsewhere
+                logOutAnchor.onclick = logOut;
             logOutLink.appendChild(logOutAnchor);
         // Append elements to header menu
         headerMenu.appendChild(notificationDiv);
@@ -64,10 +85,11 @@ function initialState() {
     mainBody.innerHTML = '';
         const sidebar = document.createElement('div');
         sidebar.classList.add('sidebar');
+
             const listGroup = document.createElement('div');
             listGroup.classList.add('list-group');
-                const sidebarItems = ['Profle','Home','Blood Stock','Pending Donation Appointments', 'Pending Collection Appointments', 'Scheduled Donation Appointments','Scheduled Collection Appointments'];
-                const sidebarFunctions = [showProfile,refreshContent,showBloodStock,showDonorRequests,showPendingUserRequests,scheduledDonorAppointmentsPage,scheduledUserAppointmentsPage];
+                const sidebarItems = ['Profile','Home','Blood Stock', 'Pending Collection Appointments','Scheduled Collection Appointments'];
+                const sidebarFunctions = [profilePage,homePage,BloodStockPage,pendingCollectionAppointmentsPage,scheduledCollectionAppointmentsPage];
                 sidebarItems.forEach((item, index) => {
                     const listItem = document.createElement('div');
                     listItem.classList.add('list-group-item');
@@ -78,6 +100,21 @@ function initialState() {
                     listGroup.appendChild(listItem);
                 });
         sidebar.appendChild(listGroup);
+
+            const listGroup2 = document.createElement('div');
+            listGroup2.classList.add('list-group2');
+                const sidebarItems2 = ['Pending Donation Appointments', 'Scheduled Donation Appointments'];
+                const sidebarFunctions2 = [showDonorRequests,scheduledDonorAppointmentsPage];
+                sidebarItems2.forEach((item, index) => {
+                    const listItem = document.createElement('div');
+                    listItem.classList.add('list-group-item2');
+                    listItem.textContent = item;
+                    if (sidebarFunctions2[index]) {
+                        listItem.onclick = sidebarFunctions2[index];
+                    }
+                    listGroup2.appendChild(listItem);
+                });
+        sidebar.appendChild(listGroup2);
 
         const mainContentDiv = document.createElement('div');
         mainContentDiv.id = 'mainContent';
@@ -96,24 +133,40 @@ function initialState() {
     // mainBody.appendChild(rightSidebar);
 };
 
+function profilePage() {
+    window.location.href = 'bankProfile.html';
+};
+function homePage(){
+    window.location.href = 'bankHome.html';
+};
+function BloodStockPage(){
+    window.location.href = 'bankBloodStock.html';
+};
+function pendingCollectionAppointmentsPage(){
+    window.location.href = 'bankUPA.html';
+};
+function scheduledCollectionAppointmentsPage(){
+    window.location.href = 'bankUSA.html';
+};
+
+
 //logout
 async function logOut(){
     console.log('Logging out...');
     try {
         const response = await fetch('/bankHome/logout');
+
+        if(response.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
         const data = await response.json();
         console.log('Logged out:', data);
+
     } catch (error) {
         console.error('Error logging out:', error);
     }
 }
 //////////////////////////////  Blood Bank Part  //////////////////////////////
-function showProfile() {
-};
-
-function showBloodStock() {
-};
-
 const bloodInfo = [
     {bloodGroup: 'O' ,rh: '+',quantity:13, capacity:50},
     {bloodGroup: 'O' ,rh: '-',quantity:3, capacity:50},
@@ -152,8 +205,6 @@ function getBloodInfoTable() {
 
     return table;
 }
-
-
 
 //////////////////////////////  Donor Part  //////////////////////////////
 
@@ -764,7 +815,7 @@ function showDonorRequestDetail(appointmentID) {
     detailsDiv.innerHTML = `
     <h2>Donor Appointment</h2>
     <p><strong>Blood Type:</strong> ${request["bloodGroup"]+" "+request["rh"]}</p>
-    <p><strong>Donor Name:</strong> <a href="#" onclick="showDonorDetails(${request["donorid"]})">${request["name"]}</a></p>
+    <p><strong>Donor Name:</strong> <a href="bankVisitingDonor.html?donorid=${request["donorid"]}">${request["name"]}</a></p>
     <p><strong>Donor Address:</strong> ${request["address"]}</p>
     <p><strong>Donor Mobile Number:</strong> ${request["mobileNumber1"]} ,  ${request["mobileNumber2"]}</p>
     <p><strong>Appointment Date:</strong> ${request["date"]}</p>
@@ -778,9 +829,11 @@ function showDonorRequestDetail(appointmentID) {
 }
 
 //incase bank wants to see the details of the donor like review , previous appointments etc
-function showDonorDetails(donorId) {
-    console.log("Showing details about donor ID: ", donorId);
-}
+// function showDonorDetails(donorId) {
+//     console.log("going to donor visiting page");
+//     console.log("Showing details about donor ID: ", donorId);
+//     window.location.href = `bankVisitingDonor.html?donorid=${donorId}`;
+// }
 
 //after approving donor request
 async function approveDonorRequest(requestId) {
@@ -1096,8 +1149,8 @@ async function refreshDataFromServer(){
     await loadScheduledDonorAppointments();
     //await loadPendingUserAppointments();
     //await loadScheduledUserAppointments();
-    pendingUserAppointments = pendingDonorAppointments;
-    scheduledUserAppointments = scheduledDonorAppointments; //change this later
+    //pendingUserAppointments = pendingDonorAppointments;
+    //scheduledUserAppointments = scheduledDonorAppointments; //change this later
 }
 
 async function updatePages(){
