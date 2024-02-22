@@ -144,4 +144,4 @@ function submitReview() {
     
 }
 
-setInterval(checkDonationStatusAndNotify, 1000);
+setInterval(checkDonationStatusAndNotify, 1000*60*10); //10 minutes

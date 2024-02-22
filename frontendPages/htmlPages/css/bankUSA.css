@@ -1,0 +1,163 @@
+/*whole body*/
+body {
+    background-color: #ffffff;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+.wholeBody {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    user-select: none;
+}
+
+/*//////////////////////////////////////////////////////////header//////////////////////////////////////////////////////*/
+
+.header {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    padding-right: 20px;
+    color: rgb(255, 255, 255);
+    height: 40px;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.971);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.header-title {
+    font-size: 24px; 
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: not-allowed;
+    transition: color 0.3s;
+    user-select: none;
+    margin-left: 5px;
+}
+
+.header-menu {
+    display: flex;
+    align-items: center; 
+    width: auto;
+    padding-right: 5px;
+}
+.notification-div {
+    margin-right: 20px;
+    position: relative; /* Make the parent container relative */
+}
+
+.bell-icon {
+    width: 25px;
+    height: 25px;
+}
+
+.notification-number {
+    position: absolute;
+    top: -5px; /* Adjust this value to position the number vertically */
+    right: -5px; /* Adjust this value to position the number horizontally */
+    background-color: rgb(172, 20, 20);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.log-out-button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/*//////////////////////////////////////////////////////main body//////////////////////////////////////////////////////*/
+
+.main-body {
+    display: flex;
+    position: relative;
+    height: 100%;
+    flex-direction: row;
+}
+
+/*/////////////////////////////////////////sidebar///////////////////////////////////////////*/
+.sidebar {
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    user-select: none;
+    position: fixed;
+    overflow-y: auto;
+    background-color: rgb(106, 23, 23);
+}
+
+.list-group{
+    margin-top: 40px;
+    background-color: rgb(230, 236, 230);
+}
+.list-group-item {
+    color: rgb(255, 251, 251);
+    /* transition: background-color 0.3s, color 0.3s; */
+    font: 1em sans-serif;
+    font-size: small;
+    cursor: pointer;
+    border-bottom: 1px solid rgb(210, 199, 199); 
+    border-top:1px solid rgb(210, 199, 199);
+    height: 35px;
+    background-color: rgb(106, 23, 23);
+}
+.list-group-item:hover{
+    background-color: rgb(185, 79, 79);
+    color: rgb(255, 255, 255);
+
+}
+
+.list-group2 {
+    margin-top: 50px;
+    background-color: #b0aeae;
+    align-items: center;
+}
+
+.list-group-item2 {
+    padding: 5px 10px; /* Add padding to space out text */
+    color: rgb(255, 251, 251);
+    font: 1em sans-serif;
+    font-size: small;
+    cursor: pointer;
+    border: 1px solid rgb(210, 199, 199);
+    height: 35px;
+    background-color: rgb(106, 23, 23);
+    align-items: center;
+}
+
+.list-group-item2:hover {
+    background-color: rgb(185, 79, 79);
+    color: rgb(255, 255, 255);
+}
+
+/*/////////////////////////////////////////main content div///////////////////////////////////////////*/
+.mainContent {
+    flex : 3;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-right: 20px;
+    padding: 05px;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    height: 100%;
+    margin-top: 50px;
+    margin-left:260px;
+}

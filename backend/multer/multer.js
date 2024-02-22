@@ -10,13 +10,33 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = function (req, file, cb) {
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'application/pdf') {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
     cb(null, true); 
+  } else if (file.mimetype === 'application/pdf') {
+    cb(null, true);
   } else {
-    cb(new Error('Only JPEG and PNG files are allowed'));
+    cb(new Error('Only JPEG, PNG, and PDF files are allowed'));
   }
 };
 
-const upload = multer({ storage: storage, fileFilter: fileFilter });
+const photoLimits = {
+  fileSize: 5 * 1024 * 1024, // 5MB for photos
+};
 
-module.exports = upload;
+const pdfLimits = {
+  fileSize: 10 * 1024 * 1024, // 10MB for PDF files
+};
+
+const photoUpload = multer({ 
+  storage: storage, 
+  fileFilter: fileFilter,
+  limits: photoLimits,
+});
+
+const pdfUpload = multer({ 
+  storage: storage, 
+  fileFilter: fileFilter,
+  limits: pdfLimits,
+});
+
+module.exports = { photoUpload, pdfUpload };

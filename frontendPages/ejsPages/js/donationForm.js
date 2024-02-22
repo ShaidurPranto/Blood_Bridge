@@ -209,4 +209,3 @@ function getMonthDifference(date1, date2) {
         return totalMonthsDifference;
     }
 }
-
