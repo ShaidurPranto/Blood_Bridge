@@ -35,12 +35,6 @@ app.get('/admin', (req, res) => {
   res.sendFile('htmlPages/adminHome.html', { root: '../frontendPages' });
 });
 
-
-app.get('/DonorProfile', (req, res) => {
-  const userid = req.query.userid;
-  res.render('profile', { userid: userid });
-});
-
 //requests for rendering ejs pages
 app.get('/', (req, res) => {
   res.render('index', { message: 'Hello, World!' });
@@ -76,13 +70,28 @@ app.get('/donationForm', (req, res) => {
   const userid = req.query.userid;
   const bloodBankName = req.query.bloodBankName;
   const requestid = req.query.requestid;
+  const currentDate = new Date().toISOString().split('T')[0];
   console.log(userid);
   console.log(bloodBankName);
-  res.render('donationForm', { userid: userid, bankName: bloodBankName, requestid: requestid });
+  res.render('donationForm', { userid: userid, bankName: bloodBankName, requestid: requestid, currentDate: currentDate });
 
 });
 
-app.get('/getBlood',(req,res)=> { const userid=req.query.userid; res.render('getBlood',{userid: userid }); });
+app.get('/myAppointments', (req, res) => {
+  const userid = req.query.userid;
+  res.render('myAppointments', { userid: userid });
+
+});
+
+app.get('/DonorProfile', (req, res) => {
+  const userid = req.query.userid;
+  res.render('profile', { userid: userid });
+
+});
+
+app.get('/getBlood', (req, res) => { 
+  const userid = req.query.userid; res.render('getBlood', { userid: userid });
+});
 
 
 const renderRouter = require('./renderRouter/renderRouter');
@@ -91,7 +100,7 @@ const userSignupRouter = require('./router/userSignupRouter');
 const userHomePageRouter = require('./router/userHomepageRouter');
 const bankLoginRouter = require('./router/bankLoginRouter');
 const bankHomeRouter = require('./router/bankHomeRouter');
-//const bankHomeProfileRouter = require('./router/bankHomeProfileRouter');
+const bankHomeProfileRouter = require('./router/bankHomeProfileRouter');
 
 app.use('/render', renderRouter);
 app.use('/userLogin', userLoginRouter);
@@ -99,7 +108,7 @@ app.use('/userSignup', userSignupRouter);
 app.use('/userHomePage', userHomePageRouter);
 app.use('/bankLogin', bankLoginRouter);
 app.use('/bankHome', bankHomeRouter);
-//app.use('/bankHome/profile', bankHomeProfileRouter);
+app.use('/bankHome/profile', bankHomeProfileRouter);
 
 app.listen(port, () => {
   console.log(`open http://localhost:${port}`);
