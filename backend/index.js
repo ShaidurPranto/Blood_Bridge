@@ -70,9 +70,22 @@ app.get('/donationForm', (req, res) => {
   const userid = req.query.userid;
   const bloodBankName = req.query.bloodBankName;
   const requestid = req.query.requestid;
+  const currentDate = new Date().toISOString().split('T')[0];
   console.log(userid);
   console.log(bloodBankName);
-  res.render('donationForm', { userid: userid, bankName: bloodBankName, requestid: requestid });
+  res.render('donationForm', { userid: userid, bankName: bloodBankName, requestid: requestid, currentDate: currentDate });
+
+});
+
+app.get('/myAppointments', (req, res) => {
+  const userid = req.query.userid;
+  res.render('myAppointments', { userid: userid });
+
+});
+
+app.get('/DonorProfile', (req, res) => {
+  const userid = req.query.userid;
+  res.render('profile', { userid: userid });
 
 });
 
