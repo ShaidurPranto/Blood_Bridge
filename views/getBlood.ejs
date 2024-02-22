@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Search</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="ejsPages/css/getBlood.css">
+    <script type="text/javascript" src="/ejsPages/js/getBlood.js" defer></script>
+</head>
+<body>
+<div class="container">
+    <div class="left-section">
+        <!-- Left section content here -->
+        <header>
+            <h3><i class="las la-star"></i>URGENT BLOOD REQUEST</h3>
+            <p id="urgent">~Connecting Lives, Creating Bridge</p>
+        </header>
+
+        <p><h3 id="whyy"><i class="las la-hand-point-down"></i>Emergency Blood needed?</h3></p>
+        <div class="search-section">
+            <!-- Search bar -->
+            <div class="search-bar">
+                <select id="divisionDropdown">
+                    <option value="none">Select Division</option>
+                    <option value="dhaka">Dhaka</option>
+                    <option value="rajshahi">Rajshahi</option>
+                    <option value="chittagong">Chittagong</option>
+                    <option value="khulna">Khulna</option>
+                    <option value="barishal">Barishal</option>
+                    <option value="mymensingh">Mymensingh</option>
+                    <option value="sylhet">Sylhet</option>
+                    <option value="rangpur">Rangpur</option>
+                </select>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" id="areaInput" placeholder="Enter Area">
+            </div>
+
+            <div class="search-bar">
+                <select id="bloodGroup">
+                    <option value="none">Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <!-- Similarly for other divisions -->
+                </select>
+            </div>
+
+            <div class="search-bar">
+                <input type="number" id="quantityInput" placeholder="Enter Quantity" min="1" max="10">
+            </div>
+
+            <button id="but" onclick="searchBloodBanks()"><i class="las la-search"></i>Search Banks</button>
+        </div>
+
+        <p><h3 id="why"><i class="las la-heartbeat"></i>Why receiving blood from Blood Bridge is beneficial?:</h3></p>
+
+        <ul id="yes">
+            <h3 id="a"><i class="las la-arrow-right"></i> Emergency blood supply</h3>
+            <h3 id="b"><i class="las la-arrow-right"></i> Convenient location</h3>
+            <h3 id="c"><i class="las la-arrow-right"></i> Quick response time</h3>
+            <h3 id="d"><i class="las la-arrow-right"></i> Professional staff</h3>
+            <h3 id="e"><i class="las la-arrow-right"></i> Friendly environment</h3>
+        </ul>
+    </div>
+    <div class="middle-section">
+     
+            <!-- Your content here --><div>
+                <h2>Available Blood Banks for you!</h2>
+                <p id="urgent">~The banks are trusted and authorized by us for your services!</p>
+            </div>
+            
+            <div id="bloodBankResults">
+               
+            </div>
+            <!-- Your content here -->
+       
+    </div>
+    <div class="right-section">
+        <div id="infos">
+               
+        </div>
+    </div>
+</div>
+<div class="overlay"></div> <!-- Overlay div for background blur -->
+      
+<div class="userDetail card"  style="display: none;" >
+   
+    <div class="updateProfileForm" style="display: none; align-items: center; justify-content: center;">
+        <h1 class="heading" style="color: #550011;">Request Blood!</h1>
+        <form id="profileForm">
+            <label for="bankName" style="color: #550011;">Bank Name:</label><br>
+            <input type="text" id="bankName" name="bankName" required><br>
+                 
+            
+            <label for="area" style="color: #550011;">Area:</label><br>
+            <input type="text" id="area" name="area" required><br>
+
+            <label for="district" style="color: #550011;">Address:</label><br>
+            <input type="text" id="district" name="district" required><br>
+
+    
+            <label for="quantity" style="color: #550011;">Quantity:</label><br>
+            <input type="number" id="quantity" name="quantity" required><br>
+    
+            <label for="date" style="color: #550011;">Date:</label><br>
+            <input type="date" id="date" name="date" required><br>
+    
+            <label for="description" style="color: #550011;">Description:</label><br>
+            <textarea id="description" name="description" rows="4" style="width: 100%; font-size: 12px;" required></textarea><br>
+            
+            <label for="document" style="color: #550011;">Upload Document:</label><br>
+            <input type="file" id="document" name="document"><br>
+    
+            <button id="submit" style="background-color: #550011; color: white;">Submit</button>
+            <button id="cancelUpdate" style="background-color: #550011; color: white;">Cancel</button>
+        </form>
+    </div>
+    
+</div>
+</body>
+</html>

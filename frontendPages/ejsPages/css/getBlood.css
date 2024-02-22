@@ -1,0 +1,342 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1;
+    color: #550011; /* Text color */
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.left-section {
+    width: 20%;
+    background-color: #550011; /* Ash color */
+    color: #f1f1f1;
+    padding: 20px;
+    backdrop-filter: blur(100px); /* Apply a blur effect */
+}
+
+.right-section{
+    width: 23%;
+    /* Middle section styles */
+    background-color:#e6e3e3; /* White color */
+}
+
+.middle-section {
+    width: 57%; /* Adjust the width of the middle section */
+    background-color: #fff; /* White color */
+    padding: 20px;
+    overflow-y: auto; /* Enable scrolling if content exceeds viewport height */
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Distribute cards evenly */
+}
+
+.search-bar {
+    margin-bottom: 15px; /* Add gap between search bars */
+    display: flex;
+}
+
+.search-bar select {
+    width: 100%; /* Adjust the width of the select element */
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    background-color: #f1f1f1; /* Background color for select field */
+    color: #550011; /* Text color for select field */
+}
+
+.search-bar input {
+    flex: 1; /* Take up remaining space */
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    background-color: #f1f1f1; /* Background color for input fields */
+    color: #550011; /* Text color for input fields */
+}
+
+#why {
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 50px;
+}
+
+#whyy {
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 40px;
+}
+
+#list {
+    background-color: #a6d2df;
+    color: white;
+    font-style: initial;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 17px;
+}
+
+.container .work_skills {
+    padding: var(--p-1-5);
+}
+
+.work_skills .work .heading,
+.work_skills .skills .heading {
+    position: relative;
+    font-size: var(--xs-fs);
+    color: rgba(0, 0, 0, 0.6);
+    text-transform: uppercase;
+    margin-bottom: var(--m-1-5);
+}
+
+.work_skills .work .heading::before,
+.work_skills .skills .heading::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 0.1rem;
+    width: 88%;
+    background: var(--bg6-color);
+}
+
+#a, #b, #c, #d, #e {
+    margin-top: 10px;
+    color: #333;
+    animation: highlight 3s infinite alternate;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+@keyframes highlight {
+    0% {
+        background-color: #f8cbe7;
+    }
+    100% {
+        background-color: #c3d6eb;
+    }
+}
+
+#urgent {
+    margin-left: 10px;
+    color: #bababa;
+}
+
+/* CSS for the button */
+#but {
+    background-color: #f1f1ff; /* Background color */
+    color: #550011; /* Text color */
+    padding: 10px 10px; /* Padding */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Cursor style */
+    margin-left: 155px;
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+/* CSS for button hover effect */
+#but:hover {
+    background-color: #c3d6eb; /* Darker background color on hover */
+}
+.scrollable-content {
+    height: calc(100vh - 40px); /* Adjust height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px; /* Add padding to content */
+}
+
+#bloodBankResults {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adds space between the cards */
+}
+.middle-section {
+    width: 50%; /* Adjust the width of the middle section */
+    background-color: #fff; /* White color */
+    padding: 20px;
+    overflow-y: auto; /* Enable scrolling if content exceeds viewport height */
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Distribute cards evenly */
+}
+.middle-section {
+    width: 57%;
+    background-color: #fff;
+    padding: 20px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    display: block;
+    flex-wrap: wrap;
+    justify-content: center; /* Center cards horizontally */
+}
+#bloodBankResults {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adds space between the cards */
+}
+.blood-bank-card {
+    background: #c3d6eb;
+    color: #333;
+    border-radius: 3px;
+    box-shadow: 3px 2px 10px rgba(159, 85, 85, 0.3);
+    padding: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 0 0 calc(30% - 10px); /* Three cards per row */
+    margin-bottom: 20px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .blood-bank-card {
+        flex: 0 0 calc(50% - 20px); /* Two cards per row on medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .blood-bank-card {
+        flex: 0 0 100%; /* One card per row on small screens */
+    }
+}
+
+   .bankInfos
+   {
+   
+    margin-top: 50px;
+   }
+   #bbbb {
+    font-size: 23px;
+    font-weight: bold; /* Make the text bold */
+    text-shadow: 2px 2px 4px rgba(77, 72, 72, 0.9); /* Add text shadow for effect */
+    padding: 10px;
+    margin-top: 50px;
+}
+
+
+#address
+{
+    margin-top:-20 px;
+   color:rgb(134, 127, 127);
+
+
+}
+#description
+{
+ 
+    color: white; /* Adjust text color as needed */
+    font-size: 20px; /* Adjust font size as needed */
+    background-color: #550011;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+  
+
+       
+    .details-container {
+        display: flex; /* Use flexbox */
+        justify-content: space-between; /* Align items with space between them */
+        align-items: baseline; /* Align items at their baselines */
+        font-size: medium;
+        margin-bottom: 30px;
+    }
+    
+    #address {
+        margin: 0; /* Remove any default margin */
+       
+    }
+    
+    #ratings {
+        margin: 0; /* Remove any default margin */
+        margin-right: 5px;
+       
+    }
+    #donation
+    {
+        margin-top: 30px;
+        color: #333;
+        font-size: 20px;
+        animation: highlight 3s infinite alternate;
+        margin-bottom: 10px;
+        border-radius: 8px;
+    }
+
+    .userDetail {
+        display: none;
+        position: absolute;
+        top: 50%; /* Center vertically */
+        left: 50%; /* Center horizontally */
+        transform: translate(-50%, -50%); /* Center the card */
+        background-color: white; /* Background color */
+        border: 1px solid #550011; /* Border color */
+        padding: 20px; /* Padding */
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        width: 20%; /* Box shadow for shaded effect */
+        z-index: 999; /* Ensure it's above other elements */
+        display: none; /* Initially hidden */
+        
+    }
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+        backdrop-filter: blur(5px); /* Apply blur effect to the background */
+        z-index: 998; /* Ensure it's below userDetail */
+        display: none; /* Initially hidden */
+    }
+    .updateProfileForm {
+        display: flex; /* Use flexbox for layout */
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center-align items horizontally */
+        text-align: center; /* Center-align text */
+        max-width: 500px; /* Maximum width of the form */
+        margin: 0 auto; /* Center the form in the parent */
+        padding: 20px; /* Add some padding around the form */
+    
+    }
+    .updateProfileForm label {
+        
+        width: 100%; /* Ensure labels take up full width */
+        text-align: left; /* Align label text to the left */
+        color: #550011; /* Label text color */
+        margin-bottom: 10px; /* Add spacing between labels */
+    }
+    .updateProfileForm input,
+    .updateProfileForm select,
+    .updateProfileForm button {
+        width: 100%; /* Ensure inputs take up full width */
+        margin-bottom: 5px; /* Add spacing between form elements */
+        padding: 2px; /* Add some padding inside the inputs */
+    }
+
+    
+    .buttwo {
+        background-color: #f1f1ff; /* Background color */
+        color: #550011; /* Text color */
+        padding: 10px 10px; /* Padding */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Rounded corners */
+        font-size: 10px; /* Font size */
+        cursor: pointer; /* Cursor style */
+        margin-left: 155px;
+        transition: background-color 0.3s; /* Smooth transition for background color */
+    }
+    
+    /* CSS for button hover effect */
+    .buttwo:hover {
+        background-color: #a9a9a9; /* Darker background color on hover */
+    }
+    

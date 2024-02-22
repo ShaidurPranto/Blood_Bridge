@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
     const appointmentData = await response.json();
     const donationDate1 = new Date(appointmentData.donationDate);
+    const statuss=appointmentData.Status;
         
         const donationDate = document.getElementById('donationDate').value;
         console.log(donationDate);
@@ -119,7 +120,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const Status = "PENDING";
 
 
-      if(appointmentData.Status==="no"){
+      if(appointmentData.Status==="no"||statuss==="REJECTED"){
         try {
             const responseDonor = await fetch(`/userHomePage/getDonorID/${userid}`);
             const donorData = await responseDonor.json();
@@ -169,11 +170,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
             alert("There was an error with your appointment. Please try again.");
         }
     }
-    else if(differenceInMonths<3)
+    else if(differenceInMonths<3&&statuss!=="REJECTED")
     {
-        alert("You have already an appointment pending on "+donationDate1+" You can always Donate in 3 months!");
+        alert("You have an pending appointment or you donated in recent times. You can always Donate in 3 months!");
     }
-    else if(differenceInMonths>3)
+    else if(differenceInMonths>3&&statuss!=="REJECTED")
     {
         alert("You can have maximum 1 appointment in present")
     }

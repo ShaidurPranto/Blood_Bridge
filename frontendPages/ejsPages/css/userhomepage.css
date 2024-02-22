@@ -75,9 +75,6 @@
     padding-right: 1 rem;
 }
 
-.sidebar .sidebar-brand h2 span:last-child {
-    display: inline-block;
-}
 
 header h2{
     color: #222;
@@ -96,6 +93,13 @@ header label span
     
 }
 
+#nav:checked
+{
+    width: 70px;
+    
+}
+
+
 #nav-toggle:checked+.sidebar .sidebar-brand
 #nav-toggle:checked+ .sidebar li a
 {
@@ -109,6 +113,7 @@ header label span
    padding-left: 0rem;
     
 }
+
 
 
 #nav-toggle:checked+ .sidebar .sidebar-brand h2 span:last-child,
@@ -174,8 +179,8 @@ main {
     padding: 2 rem 1.5 rem;
     background: #f1f5f9;
     min-height: calc(100vh - 90px) ;
+    
 }
-
 
 /* Dropdown Button */
 .dropbtn {
@@ -184,6 +189,7 @@ main {
     font-size: 17px;
     border: none;
     cursor: pointer;
+    margin-right: 10px; /* Add margin to create a gap */
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -224,6 +230,7 @@ main {
     font-size: 18px;
     text-decoration: none;
     display: inline-block;
+    
     position: relative; /* Add relative positioning */
     left: -10px; /* Move it 10 pixels to the left */
 }
@@ -244,6 +251,10 @@ main {
 }
 
 .card-wrapper {
+    display: flex;
+    justify-content: space-between; /* Space items evenly */
+    align-items: flex-start; /* Align items to the start of the cross axis */
+    flex-wrap: wrap; /* Allow flex items to wrap */
     padding-top: 0;
     margin-top: 0;
     position: relative; 
@@ -256,6 +267,19 @@ main {
     max-width: 600px; /* or whatever the width of your card is */
     margin: 0 auto; /* Center the wrapper in the available flex area */
     flex-direction: column; /* Stack children vertically */
+}
+
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1; /* Ensure the background image appears behind other content */
+    opacity: 0.5; /* Adjust opacity as needed */
 }
 
 .card-container {
@@ -359,4 +383,154 @@ main {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 40px; /* Spacing between the notification section and the card below */
+}
+.card-wrapper:nth-child(2) {
+    transition: right 0.5s; 
+    display: none;
+   
+    top: 0;
+  
+}
+
+.card-wrapper.show {
+   display: flex;
+   transition: right 0.5s; 
+}
+
+.icon-button {
+   
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    color: #333333;
+    background: #dddddd;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+  }
+  
+  .icon-button:hover {
+    cursor: pointer;
+  }
+  
+  .icon-button:active {
+    background: #cccccc;
+  }
+  
+  .icon-button__badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 25px;
+    height: 25px;
+    background: red;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+  #noAppointmentMessage {
+    background-color:   #f8a5b6;
+    color:white;
+    
+    /* background-color: yellow; */
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+#pendingMessage {
+    background-color:  #f8a5b6;
+    color:white;
+    
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 90px;
+}
+
+#acceptMessage {
+    background-color:  #f8a5b6;
+    color:white;
+    
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 90px;
+}
+
+
+#successMessage {
+    background-color:  #f8a5b6;
+        color:white;
+    
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 35px;
+    margin-bottom: 17px;
+}
+
+.donate-link {
+    
+    color:wheat;
+
+    text-decoration: underline; /* Add underline */
+}
+/* successful*/
+.bank-message {
+    margin-top: 10px;
+    color: #333; /* Adjust text color as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    animation: highlight 1.5s infinite alternate; /* Animation properties */
+    margin-bottom: 10px;
+   
+}
+
+@keyframes highlight {
+    0% { background-color: #e84062; } /* Initial background color */
+    100% { background-color: #f78548; } /* Highlighted background color */
+}
+.rating-review select,
+.rating-review textarea {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: rgb(199, 96, 96);
+    background-color: rgb(244, 225, 225);
+    transition: border-color 0.3s, background-color 0.3s;
+    margin-bottom: 2px;
+}
+
+.rating-review button {
+    background-color: #550011; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.rating-review button:hover {
+    background-color:  #f8a5b6;
+}
+
+#bs
+{
+    margin-top: 5px;
+}
+
+#bankname {
+    margin-top: 40px;
+   text-align: center;
+   color:#550011;
 }
