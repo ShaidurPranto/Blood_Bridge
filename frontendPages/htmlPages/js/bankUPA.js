@@ -112,4 +112,12 @@ document.addEventListener("DOMContentLoaded", initialState);
 
 async function initialState() {
     await makeHeaderAndSideDiv();
+
+    const mainContent = document.getElementById('main-content');
+    mainContent.innerHTML = '';
+
+    const h3 = document.createElement('h3');
+    h3.textContent = 'Pending Collection Appointments';
+    mainContent.appendChild(h3);
 }
+
