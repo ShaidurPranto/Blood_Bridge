@@ -105,6 +105,7 @@
     </script>
      <script type="text/javascript" src="/ejsPages/js/donationForm.js" defer></script>
 </head>
+
 <body>
     <div class="navbar">
         <h1><%= userid %></h1>
@@ -114,10 +115,14 @@
             <h2>Rules of Blood Donation</h2>
             <p>Include your rules here...</p>
         </div>
+        <%
+    // Define currentDate here
+    const currentDate = new Date().toISOString().split('T')[0];
+%>
         <div class="form-section">
             <h2>Donation Form</h2>
             <form action="">
-                <!-- <form id="yourFormId"> -->
+              
                 <label for="donationDate">Donation Date:</label>
                 <input type="date" id="donationDate" name="donationDate" min="<%= currentDate %>" required>
 

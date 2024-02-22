@@ -555,8 +555,10 @@ async function donationDonorAppointment(req, res) {
             STATUS: STATUS
         };
 
-        await connection.execute(insertAppointmentQuery, insertAppointmentBinds);
 
+        await connection.execute(insertAppointmentQuery, insertAppointmentBinds);
+        
+       
         // Commit the transaction
         await connection.commit();
 
@@ -962,5 +964,131 @@ async function bloodBankInfos(req, res) {
 
 
 
+async function userBankAppointment(req, res) {
+    const {userid,id,area,district,bloodGroup,rh,quantity,date,time,description,document} = req.body;
+    let connection;
+    STATUS='PENDING';
+    console.log(area);
+    console.log(district);
+    console.log(bloodGroup);
+    console.log(rh);
+    console.log(quantity);
+    console.log(date);
+    console.log(time);
+    console.log(description);
 
-module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID, getUserData, getBloodBank, donorProfileUpdate, getAppointmentData,getBloodBankOnRequest, bloodBankInfos };
+    try {
+        // Get a database connection
+        connection = await databaseConnection.getConnection();
+        if (!connection) {
+            console.log("Could not get connection");
+            return res.status(500).send({
+                status: "unsuccessful",
+                message: "Database connection failed"
+            });
+        }
+        
+        // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
+        // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
+        let query2 = 'SELECT MAX(REQUESTID) AS MAXID FROM USER_REQUEST';
+        const result = await connection.execute(query2);
+
+        let nextID;
+        if (result.rows.length > 0 && result.rows[0]['MAXID'] != null) {
+            nextID = result.rows[0]['MAXID'] + 1;
+        } else {
+            nextID = 1; // Starting ID if table is empty
+        }
+        console.log("The next requestID will be", nextID);
+        
+        const insertUserRequestQuery1 = `
+        INSERT INTO USER_REQUEST (USERID, REQUESTID) 
+        VALUES (:userid, :REQUESTID)
+    `;
+
+    const insertUserRequestBinds1 = {
+       REQUESTID: nextID,
+       userid: userid
+    };
+
+    await connection.execute(insertUserRequestQuery1, insertUserRequestBinds1);
+
+
+
+
+
+        // Insert into DONOR_DONATES
+        const insertUserRequestQuery = `
+            INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP,RH,QUANTITY,DISTRICT,AREA,REQUEST_DATE,DESCRIPTION) 
+            VALUES (:REQUESTID, :userid, :bloodGroup, :rh, :quantity, :district, :area, SYSDATE, :description)
+        `;
+
+        const insertUserRequestBinds = {
+           REQUESTID: nextID,
+           userid: userid,
+           bloodGroup: bloodGroup,
+           rh: rh,
+           quantity: quantity,
+           district: district,
+           area: area,
+           description:description,
+        };
+
+        await connection.execute(insertUserRequestQuery, insertUserRequestBinds);
+
+        console.log("doneeeeeeeeeeeeeeeeeeeeeeee");
+        // Insert into user_DONOR_APPOINTMENTS
+        const insertAppointmentQuery = `
+            INSERT INTO BANK_USER_APPOINTMENTS (REQUESTID,BANKID,APPOINTMENT_DATE, TIME, STATUS,BLOOD_GROUP,RH) 
+            VALUES (:REQUESTID, :BANKID, TO_DATE(:APPOINTMENTDATE,'YYYY-MM-DD'), :TIME, :STATUS, :BLOODGROUP, :RH)
+        `;
+
+        const insertAppointmentBinds = {
+            REQUESTID: nextID,
+            BANKID: id,
+            APPOINTMENTDATE: date,
+            TIME: time,
+            STATUS: STATUS,
+            BLOODGROUP: bloodGroup,
+            RH: rh,
+        };
+
+        await connection.execute(insertAppointmentQuery, insertAppointmentBinds);
+
+        // Commit the transaction
+        await connection.commit();
+
+        res.send({
+            status: "successful",
+            message: "Appointment created successfully",
+            DONATIONID: nextID
+        });
+    } catch (error) {
+        console.error("Error in creating appointment:", error);
+        // Rollback in case of error
+        if (connection) {
+            try {
+                await connection.rollback();
+            } catch (rollbackError) {
+                console.error("Rollback error:", rollbackError);
+            }
+        }
+        return res.status(500).send({
+            status: "unsuccessful",
+            message: "Error creating appointment"
+        });
+    } finally {
+        if (connection) {
+            try {
+                // Always close connections
+                await connection.close();
+            } catch (closeError) {
+                console.error("Error closing connection:", closeError);
+            }
+        }
+    }
+}
+
+
+
+module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID, getUserData, getBloodBank, donorProfileUpdate, getAppointmentData,getBloodBankOnRequest, bloodBankInfos,userBankAppointment};
