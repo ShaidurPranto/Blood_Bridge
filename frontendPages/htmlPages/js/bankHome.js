@@ -933,6 +933,36 @@ async function declineDonorRequest(requestId) {
 
 //////////////////////////////  User Part  //////////////////////////////
 
+async function loadPendingUserAppointments() {
+    console.log('Loading pending user appointments...');
+    try {
+        const response = await fetch('/bankHome/pendingUserAppointments');
+        //if server responses Unauthorized(status 401) , then redirect to login page
+        if(response.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
+        pendingDonorAppointments = await response.json();
+        console.log('from server , pending user appointments are:', pendingDonorAppointments);
+    } catch (error) {
+        console.error('Error loading pending user appointments:', error);
+    }
+};
+
+async function loadScheduledUserAppointments(){
+    console.log('Loading scheduled user appointments...');
+    try {
+        const response = await fetch('/bankHome/scheduledUserAppointmentsOfToday');
+        //if server responses Unauthorized(status 401) , then redirect to login page
+        if(response.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
+        scheduledDonorAppointments = await response.json();
+        console.log('from server , scheduled user appointments are:', scheduledDonorAppointments);
+    } catch (error) {
+        console.error('Error loading scheduled user appointments:', error);
+    }
+}
+
 function showScheduledUserAppointmentsCard(container){
     console.log('Showing scheduled user appointments...');
     
@@ -960,7 +990,7 @@ function showScheduledUserAppointmentsCard(container){
     cardInfo.appendChild(cardBody);
 
     scheduledUserAppointmentsCard.addEventListener('click', () => {
-        //showDonorRequests();
+        scheduledCollectionAppointmentsPage();
     });
 
     const highlightDiv = document.createElement('div');
@@ -1036,7 +1066,7 @@ function showPendingUserAppointmentsCard(container){
     cardInfo.appendChild(cardBody);
 
     pendingUserAppointmentsCard.addEventListener('click', () => {
-        //showPendingUserAppointments();
+        pendingCollectionAppointmentsPage();
     });
 
     const highlightDiv = document.createElement('div');
@@ -1083,56 +1113,6 @@ function getHighlightPendingUserAppointmentsTable() {
 
     return userRequestTable;
 }
-
-
-////////////////////////////////page for showing scheduled user appointments
-
-function scheduledUserAppointmentsPage() {
-
-};
-
-
-
-/////////////////////////////////////////showing user requests(pending appointments) page
-//show user requests table
-function getPendingUserAppointmentsTable() {
-    const userRequestTable = document.createElement('table');
-    const headerRow = userRequestTable.insertRow();
-    ['AppointmentID', 'Blood Group', 'Rh', 'Quantity'].forEach(value => {
-        const th = document.createElement('th');
-        th.textContent = value;
-        headerRow.appendChild(th);
-    });
-
-    // Check if pendingUserAppointments is defined and not empty
-    if (Array.isArray(pendingUserAppointments) && pendingUserAppointments.length > 0) {
-        // Populate the table with pending user appointments data
-        pendingUserAppointments.forEach(request => {
-            const row = userRequestTable.insertRow();
-            row.dataset.appointmentid = request.appointmentid;
-            ['appointmentid', 'bloodGroup', 'rh', 'name'].forEach(key => {
-                const cell = row.insertCell();
-                cell.textContent = request[key];
-            });
-        });
-    } else {
-        // If pendingUserAppointments is empty or not defined, add a message to indicate no appointments
-        const noAppointmentsMessage = document.createElement('p');
-        noAppointmentsMessage.textContent = 'No pending user appointments found.';
-        const row = userRequestTable.insertRow();
-        const cell = row.insertCell();
-        cell.appendChild(noAppointmentsMessage);
-    }
-
-    return userRequestTable;
-}
-
-function showPendingUserRequests() {
-    console.log('Showing user requests...');
-    //navigate to bankUPA.html page
-    window.location.href = "bankUPA.html";
-};
-
 
 
 ////////////////////////////////////////////////////////////////////////end/////////////////////////////////////////
