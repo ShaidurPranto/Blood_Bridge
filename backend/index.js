@@ -89,6 +89,10 @@ app.get('/DonorProfile', (req, res) => {
 
 });
 
+app.get('/getBlood', (req, res) => { 
+  const userid = req.query.userid; res.render('getBlood', { userid: userid });
+});
+
 
 const renderRouter = require('./renderRouter/renderRouter');
 const userLoginRouter = require('./router/userLoginRouter');
