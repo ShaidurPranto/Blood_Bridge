@@ -400,30 +400,40 @@ function getHighlightDonorRequestsTable() {
 ////////////////////////////////page for showing scheduled donor appointments
 //caller
 function scheduledDonorAppointmentsPage() {
-    currentPage = SCHEDULED_DONOR_APPOINTMENTS_PAGE;
+    // currentPage = SCHEDULED_DONOR_APPOINTMENTS_PAGE;
 
-    const header = document.getElementById('header');
-    header.innerHTML = '';
+    // const header = document.getElementById('header');
+    // header.innerHTML = '';
 
-    const headerDivBackButton = document.createElement('div');
-    const backButton = document.createElement('button');
-    backButton.textContent = 'Back';
-    backButton.classList.add('backButton');
-    backButton.onclick = function() {
-        refreshContent();
-    }
+    // const headerDivBackButton = document.createElement('div');
+    // const backButton = document.createElement('button');
+    // backButton.textContent = 'Back';
+    // backButton.classList.add('backButton');
+    // backButton.onclick = function() {
+    //     refreshContent();
+    // }
+
+    // const headerDivText = document.createElement('div');
+    // const headerTitle = document.createElement('h2');
+    // headerTitle.textContent = 'Scheduled Donor Appointments';
+    // headerDivText.appendChild(headerTitle);
+    // header.appendChild(headerDivText);
+
+    // headerDivBackButton.appendChild(backButton);
+    // header.appendChild(headerDivBackButton);
+
+    // const mainBody = document.getElementById('mainBody');
+    // mainBody.innerHTML = '';
+
+    const mainBody = document.getElementById('mainContent');
+    mainBody.innerHTML = '';
 
     const headerDivText = document.createElement('div');
+    headerDivText.classList.add('SDA-header');
     const headerTitle = document.createElement('h2');
     headerTitle.textContent = 'Scheduled Donor Appointments';
     headerDivText.appendChild(headerTitle);
-    header.appendChild(headerDivText);
-
-    headerDivBackButton.appendChild(backButton);
-    header.appendChild(headerDivBackButton);
-
-    const mainBody = document.getElementById('mainBody');
-    mainBody.innerHTML = '';
+    mainBody.appendChild(headerDivText);
 
     const scheduledDonorAppointmentsDiv = document.createElement('div');
     scheduledDonorAppointmentsDiv.classList.add('scheduledDonorAppointmentsDiv');
