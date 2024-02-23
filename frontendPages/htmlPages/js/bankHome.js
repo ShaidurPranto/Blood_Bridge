@@ -89,8 +89,8 @@ function initialState() {
 
             const listGroup = document.createElement('div');
             listGroup.classList.add('list-group');
-                const sidebarItems = ['Profile','Home','Blood Stock', 'Pending Collection Appointments','Scheduled Collection Appointments'];
-                const sidebarFunctions = [profilePage,homePage,BloodStockPage,pendingCollectionAppointmentsPage,scheduledCollectionAppointmentsPage];
+                const sidebarItems = ['Profile','Home','Blood Stock', 'Pending Collection Appointments','Scheduled Collection Appointments','Appointments History'];
+                const sidebarFunctions = [profilePage,homePage,BloodStockPage,pendingCollectionAppointmentsPage,scheduledCollectionAppointmentsPage,appointmentsHistoryPage];
                 sidebarItems.forEach((item, index) => {
                     const listItem = document.createElement('div');
                     listItem.classList.add('list-group-item');
@@ -141,13 +141,16 @@ function homePage(){
     window.location.href = 'bankHome.html';
 };
 function BloodStockPage(){
-    window.location.href = 'bankBloodStock.html';
+    window.location.href = 'bankBS.html';
 };
 function pendingCollectionAppointmentsPage(){
     window.location.href = 'bankUPA.html';
 };
 function scheduledCollectionAppointmentsPage(){
     window.location.href = 'bankUSA.html';
+};
+function appointmentsHistoryPage(){
+    window.location.href = 'bankHistory.html';
 };
 
 
