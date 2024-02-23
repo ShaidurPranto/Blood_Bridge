@@ -2,6 +2,48 @@ const databaseConnection = require('../database/databaseConnection');
 const oracledb = require('oracledb');
 const fs = require('fs');
 const path = require('path');
+const multer = require('../multer/multer')
+
+
+async function scheduledUserAppointmentsOfToday(req, res) {
+    if(req.session.bank === undefined){
+        res.status(401).send("Unauthorized");
+        return;
+    }
+    const bankID = req.session.bank.BANKID;
+    const query = `SELECT BUA.REQUESTID , BUA.APPOINTMENT_DATE , BUA.TIME , BUA.QUANTITY , BR.BLOOD_GROUP , BR.RH , BR.DISTRICT , BR.AREA , BR.REQUEST_DATE , BR.DESCRIPTION , BR.HEALTH_CARE_CENTER , UR.USERID , U.NAME 
+    FROM BANK_USER_APPOINTMENTS BUA JOIN BLOOD_REQUEST BR ON BUA.REQUESTID = BR.REQUESTID JOIN USER_REQUEST UR ON UR.REQUESTID = BR.REQUESTID JOIN USERS U ON U.USERID = UR.USERID
+    WHERE BUA.BANKID = :bankID AND BUA.STATUS = 'ACCEPTED' AND TRUNC(BUA.APPOINTMENT_DATE) = TRUNC(SYSDATE)`;
+    const binds = {bankID: bankID};
+    const result = await databaseConnection.execute(query, binds);
+    if(result){
+        console.log('Scheduled User Appointments of today: ', result.rows);
+        res.status(200).json(result.rows);
+    }
+    else{
+        res.status(500).send('Error fetching scheduled user appointments of today from database , need to update the query of scheduled user appointments of today');
+    }
+}
+
+async function pendingUserAppointments(req,res){
+    if(req.session.bank === undefined){
+        res.status(401).send("Unauthorized");
+        return;
+    }
+    const bankID = req.session.bank.BANKID;
+    const query = `SELECT BUA.REQUESTID , BUA.APPOINTMENT_DATE , BUA.TIME , BUA.QUANTITY , BR.BLOOD_GROUP , BR.RH , BR.DISTRICT , BR.AREA , BR.REQUEST_DATE , BR.DESCRIPTION , BR.HEALTH_CARE_CENTER , UR.USERID , U.NAME 
+    FROM BANK_USER_APPOINTMENTS BUA JOIN BLOOD_REQUEST BR ON BUA.REQUESTID = BR.REQUESTID JOIN USER_REQUEST UR ON UR.REQUESTID = BR.REQUESTID JOIN USERS U ON U.USERID = UR.USERID
+    WHERE BUA.BANKID = :bankID AND BUA.STATUS = 'PENDING' `;
+    const binds = {bankID: bankID};
+    const result = await databaseConnection.execute(query, binds);
+    if(result){
+        console.log('Pending User Appointments: ', result.rows);
+        res.status(200).json(result.rows);
+    }
+    else{
+        res.status(500).send('Error fetching pending user appointments from database , need to update the query of pending user appointments');
+    }
+}
 
 
 async function logout(req, res) {
@@ -314,5 +356,7 @@ module.exports = {
     scheduledDonorAppointmentsOfToday,
     successfulBloodDonation,
     bankReportsIssueOfDonor,
-    getName
+    getName,
+    pendingUserAppointments,
+    scheduledUserAppointmentsOfToday
 };

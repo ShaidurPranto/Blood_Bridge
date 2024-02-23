@@ -69,9 +69,10 @@ function initialState() {
             // Create log out link
             const logOutLink = document.createElement('div');
             logOutLink.classList.add('header-menu-item','log-out-button');
-                const logOutAnchor = document.createElement('button');
+                const logOutAnchor = document.createElement('a');
                 logOutAnchor.textContent = 'Log Out';
                 logOutAnchor.onclick = logOut;
+                logOutAnchor.href = 'bankLogin.html';
             logOutLink.appendChild(logOutAnchor);
         // Append elements to header menu
         headerMenu.appendChild(notificationDiv);
@@ -161,6 +162,7 @@ async function logOut(){
         }
         const data = await response.json();
         console.log('Logged out:', data);
+        window.location.href = 'bankLogin.html';
 
     } catch (error) {
         console.error('Error logging out:', error);
@@ -936,13 +938,12 @@ async function declineDonorRequest(requestId) {
 async function loadPendingUserAppointments() {
     console.log('Loading pending user appointments...');
     try {
-        const response = await fetch('/bankHome/pendingUserAppointments');
-        //if server responses Unauthorized(status 401) , then redirect to login page
+        const response = await fetch('/bankHome/pendingUserAppointments',{method: 'GET'});
         if(response.status === 401){
             window.location.href = 'bankLogin.html';
         }
-        pendingDonorAppointments = await response.json();
-        console.log('from server , pending user appointments are:', pendingDonorAppointments);
+        pendingUserAppointments = await response.json();
+        console.log('from server , pending user appointments are:', pendingUserAppointments);
     } catch (error) {
         console.error('Error loading pending user appointments:', error);
     }
@@ -952,12 +953,11 @@ async function loadScheduledUserAppointments(){
     console.log('Loading scheduled user appointments...');
     try {
         const response = await fetch('/bankHome/scheduledUserAppointmentsOfToday');
-        //if server responses Unauthorized(status 401) , then redirect to login page
         if(response.status === 401){
             window.location.href = 'bankLogin.html';
         }
-        scheduledDonorAppointments = await response.json();
-        console.log('from server , scheduled user appointments are:', scheduledDonorAppointments);
+        scheduledUserAppointments = await response.json();
+        console.log('from server , scheduled user appointments are:', scheduledUserAppointments);
     } catch (error) {
         console.error('Error loading scheduled user appointments:', error);
     }
@@ -1013,31 +1013,34 @@ function getHighlightUserSchdeuledTable() {
         return noAppointmentsMessage;
     }
 
-    console.log('Scheduled user appointments while creating table:', scheduledUserAppointments);
-
+    console.log('scheduled user appointments while creating table:', scheduledUserAppointments);
+    
     // Create the table
     const userRequestTable = document.createElement('table');
     const headerRow = userRequestTable.insertRow();
-    ['AppointmentID', 'Blood Group', 'Rh', 'Quantity'].forEach(value => {
+    ['Blood Group', 'Quantity', 'Time','Collector Name'].forEach(value => {
         const th = document.createElement('th');
         th.textContent = value;
         headerRow.appendChild(th);
     });
-
     // Populate the table with scheduled user appointments data
     for (let i = 0; i < Math.min(3, scheduledUserAppointments.length); i++) {
         const request = scheduledUserAppointments[i];
         const row = userRequestTable.insertRow();
-        row.dataset.appointmentid = request.appointmentid;
-        ['appointmentid', 'bloodGroup', 'rh', 'name'].forEach(key => {
+        row.dataset.appointmentid = request.REQUESTID;
+        ['BLOOD_GROUP','QUANTITY','APPOINTMENT_TIME','NAME'].forEach(key => {
             const cell = row.insertCell();
-            cell.textContent = request[key];
+            if(key == 'BLOOD_GROUP'){
+                cell.textContent = request[key] + " " + request['RH'];
+            }
+            else{
+                cell.textContent = request[key];
+            }
         });
     }
 
     return userRequestTable;
 }
-
 
 function showPendingUserAppointmentsCard(container){
     console.log('Showing pending user appointments...');
@@ -1094,7 +1097,7 @@ function getHighlightPendingUserAppointmentsTable() {
     // Create the table
     const userRequestTable = document.createElement('table');
     const headerRow = userRequestTable.insertRow();
-    ['AppointmentID', 'Blood Group', 'Rh', 'Quantity'].forEach(value => {
+    ['Blood Group', 'Quantity','Date','Collector Name'].forEach(value => {
         const th = document.createElement('th');
         th.textContent = value;
         headerRow.appendChild(th);
@@ -1104,10 +1107,20 @@ function getHighlightPendingUserAppointmentsTable() {
     for (let i = 0; i < Math.min(3, pendingUserAppointments.length); i++) {
         const request = pendingUserAppointments[i];
         const row = userRequestTable.insertRow();
-        row.dataset.appointmentid = request.appointmentid;
-        ['appointmentid', 'bloodGroup', 'rh', 'name'].forEach(key => {
-            const cell = row.insertCell();
-            cell.textContent = request[key];
+        row.dataset.appointmentid = request.REQUESTID;
+        ['BLOOD_GROUP','QUANTITY','APPOINTMENT_DATE','NAME'].forEach(key => {
+            if(key == 'BLOOD_GROUP'){
+                const cell = row.insertCell();
+                cell.textContent = request[key] + " " + request['RH'];
+            }
+            else if(key == 'APPOINTMENT_DATE'){
+                const cell = row.insertCell();
+                cell.textContent = request[key].split('T')[0];
+            }
+            else{
+                const cell = row.insertCell();
+                cell.textContent = request[key];
+            }
         });
     }
 
@@ -1127,9 +1140,8 @@ function callAsyncFunctionPeriodically(asyncFunction, intervalInMilliseconds) {
 async function refreshDataFromServer(){
     await loadPendingDonorAppointments();
     await loadScheduledDonorAppointments();
-    //await loadPendingUserAppointments();
-    //await loadScheduledUserAppointments();
-    //pendingUserAppointments = pendingDonorAppointments;
+    await loadPendingUserAppointments();
+    await loadScheduledUserAppointments();
     //scheduledUserAppointments = scheduledDonorAppointments; //change this later
 }
 
