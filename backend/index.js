@@ -31,8 +31,8 @@ const port = 3000;
 
 //request to navigate to admin page
 app.get('/admin', (req, res) => {
-  console.log("Navigating user to the admin page");
-  res.sendFile('htmlPages/adminHome.html', { root: '../frontendPages' });
+  console.log("Navigating to the admin page");
+  res.redirect('/htmlPages/adminLogin.html');
 });
 
 //requests for rendering ejs pages
@@ -102,6 +102,9 @@ const bankLoginRouter = require('./router/bankLoginRouter');
 const bankHomeRouter = require('./router/bankHomeRouter');
 const bankHomeProfileRouter = require('./router/bankHomeProfileRouter');
 const bankUPArouter = require('./router/bankUPArouter');
+const bankBSrouter = require('./router/bankBSrouter');
+const adminRouter = require('./router/adminRouter');
+const bankUSArouter = require('./router/bankUSArouter');
 
 app.use('/render', renderRouter);
 app.use('/userLogin', userLoginRouter);
@@ -111,6 +114,9 @@ app.use('/bankLogin', bankLoginRouter);
 app.use('/bankHome', bankHomeRouter);
 app.use('/bankHome/profile', bankHomeProfileRouter);
 app.use('/bankUPA', bankUPArouter);
+app.use('/bankBS', bankBSrouter);
+app.use('/admin', adminRouter);
+app.use('/bankUSA', bankUSArouter);
 
 app.listen(port, () => {
   console.log(`open http://localhost:${port}`);

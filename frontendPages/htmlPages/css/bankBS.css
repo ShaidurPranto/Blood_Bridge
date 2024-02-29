@@ -1,0 +1,383 @@
+body {
+    background-color: #ffffff;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+.wholeBody {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    user-select: none;
+}
+
+.header {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    padding-right: 20px;
+    color: rgb(255, 255, 255);
+    height: 40px;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.971);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.header-title {
+    font-size: 24px; 
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: not-allowed;
+    transition: color 0.3s;
+    user-select: none;
+    margin-left: 5px;
+}
+
+.header-menu {
+    display: flex;
+    align-items: center; 
+    width: auto;
+    padding-right: 5px;
+}
+.notification-div {
+    margin-right: 20px;
+    position: relative; 
+}
+
+.bell-icon {
+    width: 25px;
+    height: 25px;
+}
+
+.notification-number {
+    position: absolute;
+    top: -5px; 
+    right: -5px; 
+    background-color: rgb(172, 20, 20);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.log-out-button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+}
+.main-body {
+    display: flex;
+    position: relative;
+    height: 100%;
+    flex-direction: row;
+}
+
+.sidebar {
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    user-select: none;
+    position: fixed;
+    overflow-y: auto;
+    background-color: rgb(106, 23, 23);
+}
+
+.list-group{
+    margin-top: 40px;
+    background-color: rgb(230, 236, 230);
+}
+.list-group-item {
+    color: rgb(255, 251, 251);
+    font: 1em sans-serif;
+    font-size: small;
+    cursor: pointer;
+    border-bottom: 1px solid rgb(210, 199, 199); 
+    border-top:1px solid rgb(210, 199, 199);
+    height: 35px;
+    background-color: rgb(106, 23, 23);
+}
+.list-group-item:hover{
+    background-color: rgb(185, 79, 79);
+    color: rgb(255, 255, 255);
+
+}
+.main-content {
+    margin-top: 50px;
+    margin-left: 250px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+/*//////////////////////////////////////////////////////////start//////////////////////////////////////////////////////*/
+
+.alert-div{
+    margin-top: 50px;
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    margin-bottom: 15px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px; 
+    text-align: center;
+    margin-right: 50px;
+    margin-left: 30px;
+}
+
+
+
+/* Stock Div */
+.stock-div {
+    border: 2px solid #B30000; /* Darker red border */
+    background-color: #F2F2F2; /* Light gray background */
+    color: #333333; /* Dark gray text color */
+    padding: 40px; /* Increased padding */
+    margin: 0 auto; /* Center alignment */
+    text-align: center; /* Center align text */
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    margin-left: 70px;
+    margin-top: 50px;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.stock-div:hover {
+    transform: scale(1.02); /* Scale up on hover */
+}
+
+/* Show Div */
+.show-div {
+}
+
+/* Blood Div */
+.blood-div {
+    border: 1px solid #E6E6E6; /* Light gray border */
+    background-color: #FFFFFF; /* White background */
+    padding: 20px;
+    margin-bottom: 30px; /* Increased margin bottom */
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    position: relative;
+
+    width: 500px;
+    width: auto;
+}
+
+.blood-div .capacity{
+    margin-right: 100px;
+}
+
+.blood-div:hover {
+    transform: translateY(-5px); /* Move up on hover */
+}
+
+/* Item */
+.item {
+    display: flex;
+    flex-direction: row;
+    margin-right: 20px;
+}
+
+.item label{
+    margin-right: 10px;
+}
+
+/* Update Button */
+.update-button-div button {
+    background-color: #4C0000; /* Darker red */
+    color: #FFFFFF; /* White text color */
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.update-button-div button:hover {
+    background-color: #660000; /* Darker red on hover */
+}
+
+/* New Button Div */
+.new-button-div {
+    display: flex;
+    flex-direction: row;
+}
+
+.new-button-div .save-button {
+    background-color: #006600; /* Dark green */
+    color: #FFFFFF; /* White text color */
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.new-button-div .cancel-button {
+    background-color: #660000; /* Darker red */
+    color: #FFFFFF; /* White text color */
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.new-button-div button:hover {
+    filter: brightness(1.2); /* Increase brightness on hover */
+}
+
+/* Button Div */
+.button-div {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Center align buttons */
+}
+
+.button-div .add-button,
+.button-div .delete-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.button-div .add-button {
+    margin-right: 20px; /* Reduce margin between buttons */
+    background-color: #4CAF50; /* Green */
+    color: #fff; /* White text color */
+}
+
+.button-div .delete-button {
+    background-color: #f44336; /* Red */
+    color: #fff; /* White text color */
+}
+
+.button-div .add-button:hover,
+.button-div .delete-button:hover {
+    filter: brightness(1.1); /* Slightly increase brightness on hover */
+}
+
+
+/* Add Div */
+
+.add-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align items horizontally */
+}
+
+.add-div .item {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Center align items vertically */
+}
+
+.add-div input,
+.add-div select {
+    flex: 1; /* Expand input fields to fill available space */
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #CCCCCC; /* Light gray border */
+    background-color: #FFFFFF; /* White background */
+    color: #333333; /* Dark gray text color */
+}
+
+.add-div label {
+    margin-right: 10px; /* Add some space between labels and inputs */
+}
+
+
+.add-div .add-button,
+.add-div .cancel-button {
+    margin-top: 20px;
+    background-color: #660000; /* Darker red */
+    color: #FFFFFF; /* White text color */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.add-div button:hover {
+    filter: brightness(1.2); /* Increase brightness on hover */
+}
+
+
+
+
+/* Delete Div */
+.delete-div {
+    border: 2px solid #660000; /* Darker red border */
+    background-color: #FFFFFF; /* White background */
+    color: #333333; /* Dark gray text color */
+    padding: 40px;
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+    width: auto;
+    background-color: #660000;
+}
+
+.delete-div .blood-div {
+    width: 500px;
+    position: relative;
+    border-radius: 10px;
+    border: 2px solid rgb(16, 15, 15); 
+}
+
+.delete-div .blood-div .delete-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #990000; /* Darker red */
+    color: #FFFFFF; /* White text color */
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.delete-div .blood-div .delete-button:hover {
+    filter: brightness(1.2); /* Increase brightness on hover */
+}
+
+/* Delete Div */
+.delete-div .cancel-button {
+
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Center align buttons */
+
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+
+    margin-right: 20px; /* Reduce margin between buttons */
+    background-color: #4CAF50; /* Green */
+    color: #fff; /* White text color */
+}
+
+.delete-div .cancel-button:hover {
+    background-color: #555; /* Darker gray background color on hover */
+}

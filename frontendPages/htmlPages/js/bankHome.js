@@ -171,6 +171,10 @@ async function logOut(){
         console.error('Error logging out:', error);
     }
 }
+
+//unified pages are
+//1. home page
+//2. bankUPA page
 //////////////////////////////  Blood Bank Part  //////////////////////////////
 const bloodInfo = [
     {bloodGroup: 'O' ,rh: '+',quantity:13, capacity:50},

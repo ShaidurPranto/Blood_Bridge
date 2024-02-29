@@ -80,7 +80,7 @@ function homePage() {
     window.location.href = 'bankHome.html';
 };
 function BloodStockPage() {
-    window.location.href = 'bankBloodStock.html';
+    window.location.href = 'bankBS.html';
 };
 function pendingCollectionAppointmentsPage() {
     window.location.href = 'bankUPA.html';

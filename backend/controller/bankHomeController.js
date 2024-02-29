@@ -89,10 +89,18 @@ async function successfulBloodDonation(req, res) {
         bankID: bankID,
         appointmentID: appointmentID
     };
+    const query2 = `UPDATE DONOR
+    SET LAST_DONATION_DATE = SYSDATE 
+    WHERE DONORID = (SELECT DONORID FROM BANK_DONOR_APPOINTMENTS WHERE DONATIONID = :appointmentID)
+    `
+    const binds2 = {
+        appointmentID: appointmentID
+    }
 
     try {
         await databaseConnection.execute(query, binds);
-        res.status(200).send(`Marked successful appointment with id: ${appointmentID}`);
+        await databaseConnection.execute(query2, binds2);
+        res.status(200).send(`Marked successful appointment , and updated last donation date , with donation_id: ${appointmentID}`);
     } catch (error) {
         res.status(500).json(error);
     }

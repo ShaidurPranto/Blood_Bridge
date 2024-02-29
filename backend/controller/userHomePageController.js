@@ -618,7 +618,7 @@ WHERE E.DONORID = (
         userid: userid
     };
     const result = (await databaseConnection.execute(query1, binds1)).rows;
-    if (result) {
+    if (result[0]) {
         Name = result[0]["NAME"];
         Email=result[0]["EMAIL"];
         Address=result[0]["AREA"]+","+result[0]["DISTRICT"];
