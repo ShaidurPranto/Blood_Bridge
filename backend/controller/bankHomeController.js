@@ -128,7 +128,7 @@ async function bankReportsIssueOfDonor(req, res) {
     if(req.file){
         filename = req.file.filename;
         console.log("filename is ",filename);
-        query = `INSERT INTO BANK_REPORTS_DONOR VALUES(:appointmentID,:disease,:filename)`;
+        query = `INSERT INTO BANK_REPORTS_DONOR(DONATIONID,ISSUE,DOCUMENT,STATUS) VALUES(:appointmentID,:disease,:filename,'NOT_MANAGED')`;
         binds = {
             appointmentID: appointmentID,
             disease: disease,
@@ -136,7 +136,7 @@ async function bankReportsIssueOfDonor(req, res) {
         };
     }
     else{
-        query = `INSERT INTO BANK_REPORTS_DONOR VALUES(:appointmentID,:issue)`;
+        query = `INSERT INTO BANK_REPORTS_DONOR(DONATIONID,ISSUE,STATUS) VALUES(:appointmentID,:issue,'NOT_MANAGED')`;
         binds = {
             appointmentID: appointmentID,
             issue: issue
