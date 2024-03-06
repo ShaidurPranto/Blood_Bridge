@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const Status = "PENDING";
 
 
-      if(appointmentData.Status==="no"||statuss==="REJECTED"){
+      if(appointmentData.Status==="no"||statuss==="REJECTED"||statuss==="CANCELED"){
         try {
             const responseDonor = await fetch(`/userHomePage/getDonorID/${userid}`);
             const donorData = await responseDonor.json();
@@ -169,6 +169,59 @@ document.addEventListener('DOMContentLoaded', (event) => {
             console.error('Error:', error);
             alert("There was an error with your appointment. Please try again.");
         }
+    }
+    else if(statuss==="ENDED"&&differenceInMonths>3)
+    {
+        try {
+            const responseDonor = await fetch(`/userHomePage/getDonorID/${userid}`);
+            const donorData = await responseDonor.json();
+            const donorid = donorData["donorid"];
+            console.log(donorid);
+
+            const responseBank = await fetch(`/userHomePage/getBankID/${requestid}`);
+            const bankData = await responseBank.json();
+            const bankid = bankData["bankid"]; // Assuming this is the correct path to the bank ID
+            console.log(bankid);
+            console.log(userid);
+
+            const formData = {
+                DONORID: donorid,
+                BANKID: bankid, // Corrected to use the bank ID value from the fetched data
+                DONATION_DATE: donationDate,
+                TIME: donationTime,
+                STATUS: Status,
+                USERID: userid
+            };
+
+            const responseAppointment = await fetch('/userHomePage/donationDonorAppointment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const responses = await fetch(`/userHomePage/getName/${userid}`);
+            const responses_data = await responses.json();
+           
+            const name=responses_data["name"];
+
+            if (!responseAppointment.ok) {
+                throw new Error(`HTTP error! status: ${responseAppointment.status}`);
+            }
+
+            const responseJson = await responseAppointment.json();
+            console.log(responseJson);
+            alert("Appointment successfully created.");
+            // Additional logic for success handling here
+            window.location.href = `/UserHomePageForDonor?name=${encodeURIComponent(name)}&userid=${encodeURIComponent(userid)}`;
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert("There was an error with your appointment. Please try again.");
+        }
+        
+
     }
     else if(differenceInMonths<3&&statuss!=="REJECTED")
     {

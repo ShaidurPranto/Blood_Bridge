@@ -193,9 +193,11 @@ rightSection.appendChild(bloodBankDiv);
                         document.getElementById('area').value =userData[0].area;
                         document.getElementById('district').value =userData[0].district;
                         // Assuming Quantity is available from somewhere
+                        document.getElementById('bloodGroup').value =BloodGroup+','+Rh;
                         document.getElementById('quantity').value = Quantity;
+
                         // Toggle visibility of userDetail and overlay divs
-                        toggleProfileForm();
+                        toggleProfileForm(requestId);
                     } 
                  catch (error) {
                     console.error('Error fetching data:', error);
@@ -204,12 +206,14 @@ rightSection.appendChild(bloodBankDiv);
         });
     }
     
+    let id;
 
-function toggleProfileForm() {
+function toggleProfileForm(requestID) {
     const form = document.querySelector('.updateProfileForm');
     document.querySelector('.userDetail').style.display = 'block';
     document.querySelector('.overlay').style.display = 'block';
     form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    id=requestID;
 }
 
 document.getElementById('cancelUpdate').addEventListener('click', function(event) {
@@ -220,3 +224,63 @@ document.getElementById('cancelUpdate').addEventListener('click', function(event
     document.querySelector('.overlay').style.display = 'none';
     document.querySelector('.updateProfileForm').style.display = 'none';
 });
+
+
+
+document.getElementById('submit').addEventListener('click', async function(event) {
+    event.preventDefault();
+
+     
+        id=id;
+        let area=Area;
+        district=Division;
+        let bloodgroup=BloodGroup;
+        let rh=Rh;
+        let quantity=Quantity;
+        date=document.getElementById('date').value;
+        time=document.getElementById('time').value;
+        description=document.getElementById('description').value;
+        document=document.getElementById('document').value;
+       
+        var data = {
+            userid: userid,
+            id: id,
+            area: area,
+            district: district,
+            bloodGroup: bloodgroup,
+            rh: rh,
+            quantity: quantity,
+            date: date,
+            time: time,
+            description: description,
+            document: document,
+
+        };
+
+        const response = await fetch('/userHomePage/userBankAppoinment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.status===200) {
+            // Handle a successful response
+            const responseData = await response.json();
+            alert('Successfully created your appoinment');
+            // Redirect or perform other actions as needed
+
+           
+        } else {
+            // Handle an error response
+            alert('Error creating! Please try again');
+        }
+    
+
+    // Hide userDetail and overlay divs when cancel button is clicked
+    document.querySelector('.userDetail').style.display = 'none';
+    document.querySelector('.overlay').style.display = 'none';
+    document.querySelector('.updateProfileForm').style.display = 'none';
+});
+

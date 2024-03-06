@@ -32,6 +32,7 @@ async function signUpUser(req,res)
             email: email,
             pass: pass
         }
+        
         await databaseConnection.execute(sql3,binds3);
         console.log("insertion successful");
         res.send({

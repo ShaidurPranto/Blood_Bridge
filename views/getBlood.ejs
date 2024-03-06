@@ -7,6 +7,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
     <link rel="stylesheet" href="ejsPages/css/getBlood.css">
+    <script>
+        const userid = '<%= userid %>';
+    </script>
     <script type="text/javascript" src="/ejsPages/js/getBlood.js" defer></script>
 </head>
 <body>
@@ -106,13 +109,19 @@
 
             <label for="district" style="color: #550011;">Address:</label><br>
             <input type="text" id="district" name="district" required><br>
+            
+            <label for="bloodGroup" style="color: #550011;">Blood Group:</label><br>
+           <input type="text" id="bloodGroup" name="bloodGroup" required><br>
 
     
             <label for="quantity" style="color: #550011;">Quantity:</label><br>
             <input type="number" id="quantity" name="quantity" required><br>
-    
+            
             <label for="date" style="color: #550011;">Date:</label><br>
             <input type="date" id="date" name="date" required><br>
+
+            <label for="Time" style="color: #550011;">Appointment Time:</label><br>
+            <input type="time" id="time" name="donationTime" required><br>
     
             <label for="description" style="color: #550011;">Description:</label><br>
             <textarea id="description" name="description" rows="4" style="width: 100%; font-size: 12px;" required></textarea><br>
