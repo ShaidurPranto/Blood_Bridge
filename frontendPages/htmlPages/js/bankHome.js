@@ -38,6 +38,9 @@ async function getName(){
     }
 }
 getName();
+getBloodInfo();
+getLastWeekDistributions();
+getLastWeekCollections();
 
 //caller
 function initialState() {
@@ -75,7 +78,7 @@ function initialState() {
                 logOutAnchor.href = 'bankLogin.html';
             logOutLink.appendChild(logOutAnchor);
         // Append elements to header menu
-        headerMenu.appendChild(notificationDiv);
+        //headerMenu.appendChild(notificationDiv);
         headerMenu.appendChild(logOutLink);
     // Append elements to header
     header.appendChild(headerTitle);
@@ -89,8 +92,8 @@ function initialState() {
 
             const listGroup = document.createElement('div');
             listGroup.classList.add('list-group');
-                const sidebarItems = ['Profile','Home','Blood Stock', 'Pending Collection Appointments','Scheduled Collection Appointments'];
-                const sidebarFunctions = [profilePage,homePage,BloodStockPage,pendingCollectionAppointmentsPage,scheduledCollectionAppointmentsPage];
+                const sidebarItems = ['Profile','Home','Blood Stock', 'Pending Collection Appointments','Scheduled Collection Appointments','Appointments History'];
+                const sidebarFunctions = [profilePage,homePage,BloodStockPage,pendingCollectionAppointmentsPage,scheduledCollectionAppointmentsPage,appointmentsHistoryPage];
                 sidebarItems.forEach((item, index) => {
                     const listItem = document.createElement('div');
                     listItem.classList.add('list-group-item');
@@ -100,21 +103,22 @@ function initialState() {
                     }
                     listGroup.appendChild(listItem);
                 });
-        sidebar.appendChild(listGroup);
 
-            const listGroup2 = document.createElement('div');
-            listGroup2.classList.add('list-group2');
-                const sidebarItems2 = ['Pending Donation Appointments', 'Scheduled Donation Appointments'];
-                const sidebarFunctions2 = [showDonorRequests,scheduledDonorAppointmentsPage];
-                sidebarItems2.forEach((item, index) => {
-                    const listItem = document.createElement('div');
-                    listItem.classList.add('list-group-item2');
-                    listItem.textContent = item;
-                    if (sidebarFunctions2[index]) {
-                        listItem.onclick = sidebarFunctions2[index];
-                    }
-                    listGroup2.appendChild(listItem);
-                });
+                const listGroup2 = document.createElement('div');
+                listGroup2.classList.add('list-group2');
+                    const sidebarItems2 = ['Pending Donation Appointments', 'Scheduled Donation Appointments'];
+                    const sidebarFunctions2 = [showDonorRequests,scheduledDonorAppointmentsPage];
+                    sidebarItems2.forEach((item, index) => {
+                        const listItem = document.createElement('div');
+                        listItem.classList.add('list-group-item2');
+                        listItem.textContent = item;
+                        if (sidebarFunctions2[index]) {
+                            listItem.onclick = sidebarFunctions2[index];
+                        }
+                        listGroup2.appendChild(listItem);
+                    });
+
+        sidebar.appendChild(listGroup);
         sidebar.appendChild(listGroup2);
 
         const mainContentDiv = document.createElement('div');
@@ -127,7 +131,20 @@ function initialState() {
             showScheduledUserAppointmentsCard(cardsDiv);
             showPendingDonorAppointmentsCard(cardsDiv);
             showPendingUserAppointmentsCard(cardsDiv);
-        mainContentDiv.appendChild(cardsDiv);   
+
+
+            const widgetDiv = document.createElement('div');
+            widgetDiv.classList.add('widgetDiv');
+            const bloodWidgetDiv = document.createElement('div');
+            createBloodWidgetDiv(bloodWidgetDiv);
+            widgetDiv.appendChild(bloodWidgetDiv);
+
+            const historyWidgetDiv = document.createElement('div');
+            createHistoryWidgetDiv(historyWidgetDiv);
+            widgetDiv.appendChild(historyWidgetDiv);
+
+        mainContentDiv.appendChild(cardsDiv);
+        mainContentDiv.appendChild(widgetDiv);   
     // Append sidebar to main body
     mainBody.appendChild(sidebar);
     mainBody.appendChild(mainContentDiv);
@@ -141,7 +158,7 @@ function homePage(){
     window.location.href = 'bankHome.html';
 };
 function BloodStockPage(){
-    window.location.href = 'bankBloodStock.html';
+    window.location.href = 'bankBS.html';
 };
 function pendingCollectionAppointmentsPage(){
     window.location.href = 'bankUPA.html';
@@ -149,7 +166,10 @@ function pendingCollectionAppointmentsPage(){
 function scheduledCollectionAppointmentsPage(){
     window.location.href = 'bankUSA.html';
 };
-
+function appointmentsHistoryPage(){
+    window.location.href = 'bankHistory.html';
+};
+//notifiaction
 
 //logout
 async function logOut(){
@@ -168,14 +188,221 @@ async function logOut(){
         console.error('Error logging out:', error);
     }
 }
+
+//unified pages are
+//1. home page
+//2. bankUPA page
+////////////////////////////history part//////////////////////////////
+let lastWeekCollections = [];
+let lastWeekDistributions = [];
+
+function createHistoryWidgetDiv(container){
+    console.log('Creating history widget div...');
+    const historyWidgetDiv = document.createElement('div');
+    historyWidgetDiv.classList.add('historyWidgetDiv');
+
+    createCollectionWidgetDiv(historyWidgetDiv);
+    createDistributionWidgetDiv(historyWidgetDiv);
+
+    historyWidgetDiv.addEventListener('click',()=> {
+        window.location.href = 'bankHistory.html';
+    });
+
+    container.appendChild(historyWidgetDiv);
+}
+
+function createDistributionWidgetDiv(container){
+    console.log('Creating distribution widget div...');
+    const distributionWidgetDiv = document.createElement('div');
+    distributionWidgetDiv.classList.add('distributionWidgetDiv');
+
+    //make header
+    const header = document.createElement('h3');
+    header.textContent = 'Recent Distributions';
+    distributionWidgetDiv.appendChild(header);
+
+    lastWeekDistributions.forEach(distribution => {
+        createOneDistributionWidget(distributionWidgetDiv, distribution.BLOOD_GROUP, distribution.RH, distribution.NAME , distribution.QUANTITY);
+    });
+
+    if(lastWeekDistributions.length === 0){
+        const messageRow = document.createElement('p');
+        messageRow.textContent = 'No distributions in last 7 days.';
+        distributionWidgetDiv.appendChild(messageRow);
+        messageRow.style.color = 'rgb(252, 98, 3)';
+    }
+
+    container.appendChild(distributionWidgetDiv);
+}
+
+function createOneDistributionWidget(container, bloodGroup, rh, name , quantity){
+    console.log('Creating one distribution widget...');
+    const distributionWidget = document.createElement('div');
+    distributionWidget.classList.add('distributionWidget');
+
+    const bloodGroupDiv = document.createElement('div');
+    bloodGroupDiv.classList.add('bloodGroupDiv');
+    bloodGroupDiv.textContent = bloodGroup + rh;
+
+    const nameDiv = document.createElement('div');
+    nameDiv.classList.add('nameDiv');
+    nameDiv.textContent = name;
+
+    const quantityDiv = document.createElement('div');
+    quantityDiv.classList.add('quantityDiv');
+    quantityDiv.textContent = "Qty. "+quantity;
+
+    distributionWidget.appendChild(bloodGroupDiv);
+    distributionWidget.appendChild(nameDiv);
+    distributionWidget.appendChild(quantityDiv);
+
+    container.appendChild(distributionWidget);
+}
+
+function createCollectionWidgetDiv(container){
+    console.log('Creating collection widget div...');
+    const collectionWidgetDiv = document.createElement('div');
+    collectionWidgetDiv.classList.add('collectionWidgetDiv');
+
+    //make header
+    const header = document.createElement('h3');
+    header.textContent = 'Recent Collections';
+    collectionWidgetDiv.appendChild(header);
+
+    lastWeekCollections.forEach(collection => {
+        createOneCollectionWidget(collectionWidgetDiv, collection.BLOOD_GROUP, collection.RH, collection.NAME);
+    });
+
+    if(lastWeekCollections.length === 0){
+        const messageRow = document.createElement('p');
+        messageRow.textContent = 'No collections in last 7 days.';
+        collectionWidgetDiv.appendChild(messageRow);
+        //color the message row to redish
+        messageRow.style.color = 'rgb(252, 98, 3)';
+    }
+
+    container.appendChild(collectionWidgetDiv);
+}
+
+function createOneCollectionWidget(container, bloodGroup, rh, name){
+    console.log('Creating one collection widget...');
+    const collectionWidget = document.createElement('div');
+    collectionWidget.classList.add('collectionWidget');
+
+    const bloodGroupDiv = document.createElement('div');
+    bloodGroupDiv.classList.add('bloodGroupDiv');
+    bloodGroupDiv.textContent = bloodGroup + rh;
+
+    const nameDiv = document.createElement('div');
+    nameDiv.classList.add('nameDiv');
+    nameDiv.textContent = name;
+
+    collectionWidget.appendChild(bloodGroupDiv);
+    collectionWidget.appendChild(nameDiv);
+
+    container.appendChild(collectionWidget);
+}
+
+async function getLastWeekDistributions() {
+    console.log('Getting last week distributions...');
+    try {
+        const response = await fetch('/bankHistory/getLastWeekDistributions');
+        if(response.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
+        const data = await response.json();
+        lastWeekDistributions = data;
+        console.log('Last week distributions:', data);
+        return data;
+    } catch (error) {
+        console.error('Error getting last week distributions:', error);
+    }
+}
+
+async function getLastWeekCollections() {
+    console.log('Getting last week collections...');
+    try {
+        const response = await fetch('/bankHistory/getLastWeekCollections');
+        if(response.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
+        const data = await response.json();
+        lastWeekCollections = data;
+        console.log('Last week collections:', data);
+        return data;
+    } catch (error) {
+        console.error('Error getting last week collections:', error);
+    }
+}
 //////////////////////////////  Blood Bank Part  //////////////////////////////
-const bloodInfo = [
-    {bloodGroup: 'O' ,rh: '+',quantity:13, capacity:50},
-    {bloodGroup: 'O' ,rh: '-',quantity:3, capacity:50},
-    {bloodGroup: 'A' ,rh: '+',quantity:4, capacity:50},
-    {bloodGroup: 'AB' ,rh: '+',quantity:0, capacity:30},
-    {bloodGroup: 'B' ,rh: '+',quantity:2, capacity:50},
-]
+let bloodInfo = [];
+
+async function getBloodInfo(){
+    console.log('Getting blood info...');
+    try {
+        const response = await fetch('/bankBS/getBloodInfo');
+        //if server responses Unauthorized(status 401) , then redirect to login page
+        if(response.status === 401){
+            window.location.href = 'bankLogin.html';
+        }
+        bloodInfo = await response.json();
+        console.log('Blood info:', bloodInfo);
+    } catch (error) {
+        console.error('Error getting blood info:', error);
+    }
+}
+
+function createBloodWidgetDiv(container){
+    console.log('Creating blood widget div...');
+    const bloodWidgetDiv = document.createElement('div');
+    bloodWidgetDiv.classList.add('bloodWidgetDiv');
+
+    //make header
+    const header = document.createElement('h3');
+    header.textContent = 'Blood Stock';
+    bloodWidgetDiv.appendChild(header);
+
+
+    bloodInfo.forEach(blood => {
+        createOneBloodWidget(bloodWidgetDiv, blood.BLOOD_GROUP, blood.RH, blood.QUANTITY, blood.CAPACITY);
+    });
+
+    bloodWidgetDiv.addEventListener('click',()=>{
+        window.location.href = 'bankBS.html';
+    });
+
+    container.appendChild(bloodWidgetDiv);
+}
+
+function createOneBloodWidget(container, bloodGroup, rh, quantity, capacity){
+    console.log('Creating one blood widget...');
+    const bloodWidget = document.createElement('div');
+    bloodWidget.classList.add('bloodWidget');
+
+    const bloodGroupDiv = document.createElement('div');
+    bloodGroupDiv.classList.add('bloodGroupDiv');
+    bloodGroupDiv.textContent = bloodGroup + rh;
+
+    const bloodQuantityDiv = document.createElement('div');
+    bloodQuantityDiv.classList.add('bloodQuantityDiv');
+    bloodQuantityDiv.textContent = quantity + ' / ' + capacity;
+
+    if(quantity < 10){
+        bloodQuantityDiv.style.color = 'red';
+    }
+    else if(quantity < 20){
+        bloodQuantityDiv.style.color = 'orange';
+    }
+    else{
+        bloodQuantityDiv.style.color = 'green';
+    }
+
+    bloodWidget.appendChild(bloodGroupDiv);
+    bloodWidget.appendChild(bloodQuantityDiv);
+
+    container.appendChild(bloodWidget);
+}
+
 
 function getBloodInfoTable() {
     // Check if bloodInfo is defined and not empty
@@ -397,40 +624,27 @@ function getHighlightDonorRequestsTable() {
 ////////////////////////////////page for showing scheduled donor appointments
 //caller
 function scheduledDonorAppointmentsPage() {
-    currentPage = SCHEDULED_DONOR_APPOINTMENTS_PAGE;
-
-    const header = document.getElementById('header');
-    header.innerHTML = '';
-
-    const headerDivBackButton = document.createElement('div');
-    const backButton = document.createElement('button');
-    backButton.textContent = 'Back';
-    backButton.classList.add('backButton');
-    backButton.onclick = function() {
-        refreshContent();
-    }
-
-    const headerDivText = document.createElement('div');
-    const headerTitle = document.createElement('h2');
-    headerTitle.textContent = 'Scheduled Donor Appointments';
-    headerDivText.appendChild(headerTitle);
-    header.appendChild(headerDivText);
-
-    headerDivBackButton.appendChild(backButton);
-    header.appendChild(headerDivBackButton);
-
-    const mainBody = document.getElementById('mainBody');
+    const mainBody = document.getElementById('mainContent');
     mainBody.innerHTML = '';
 
     const scheduledDonorAppointmentsDiv = document.createElement('div');
     scheduledDonorAppointmentsDiv.classList.add('scheduledDonorAppointmentsDiv');
 
+    const headerDivText = document.createElement('div');
+    headerDivText.classList.add('SDA-header');
+    const headerTitle = document.createElement('h2');
+    // headerTitle.textContent = 'Scheduled Donor Appointments';
+    headerDivText.appendChild(headerTitle);
+    scheduledDonorAppointmentsDiv.appendChild(headerDivText);
+
     if(!scheduledDonorAppointments || scheduledDonorAppointments.length === 0){
-        const noAppointmentsMessage = document.createElement('p');
-        noAppointmentsMessage.textContent = 'No scheduled donor appointments found.';
-        scheduledDonorAppointmentsDiv.appendChild(noAppointmentsMessage);
-        mainBody.appendChild(scheduledDonorAppointmentsDiv);
-        return;
+        // const noAppointmentsMessage = document.createElement('p');
+        // noAppointmentsMessage.textContent = 'No scheduled donor appointments found.';
+        // scheduledDonorAppointmentsDiv.appendChild(noAppointmentsMessage);
+        // mainBody.appendChild(scheduledDonorAppointmentsDiv);
+        headerTitle.textContent = 'No scheduled donor appointments found.';
+    }else{
+        headerTitle.textContent = 'Scheduled Donor Appointments';
     }
 
     scheduledDonorAppointments.forEach(appointment => {
@@ -870,9 +1084,10 @@ async function approveDonorRequest(requestId) {
 
     //remove the div after 7 seconds
     setTimeout(function() {
-        refreshContent();
-        mainContent.removeChild(appointmentSummaryDiv);
-    }, 7000); //7000 miliseconds 
+        // refreshContent();
+        // mainContent.removeChild(appointmentSummaryDiv);
+        showDonorRequests();
+    }, 2000); //7000 miliseconds 
 }
 
 //after declining donor request
@@ -917,9 +1132,10 @@ async function declineDonorRequest(requestId) {
         //remove the appointment from the pendingDonorAppointments
         pendingDonorAppointments = pendingDonorAppointments.filter(appointment => appointment.appointmentid != requestId);
         setTimeout(function() {
-            refreshContent();
+            //refreshContent();
             declineReasonDiv.innerHTML = '';
-        }, 7000); //7 seconds
+            showDonorRequests();
+        }, 2000); //7 seconds
     }
 
     // Append input fields and button to declineReasonDiv
@@ -1028,7 +1244,7 @@ function getHighlightUserSchdeuledTable() {
         const request = scheduledUserAppointments[i];
         const row = userRequestTable.insertRow();
         row.dataset.appointmentid = request.REQUESTID;
-        ['BLOOD_GROUP','QUANTITY','APPOINTMENT_TIME','NAME'].forEach(key => {
+        ['BLOOD_GROUP','QUANTITY','TIME','NAME'].forEach(key => {
             const cell = row.insertCell();
             if(key == 'BLOOD_GROUP'){
                 cell.textContent = request[key] + " " + request['RH'];

@@ -48,7 +48,7 @@ async function makeHeaderAndSideDiv() {
     logOutAnchor.href = 'bankLogin.html';
     logOutLink.appendChild(logOutAnchor);
     // Append elements to header menu
-    headerMenu.appendChild(notificationDiv);
+    //headerMenu.appendChild(notificationDiv);
     headerMenu.appendChild(logOutLink);
     // Append elements to header
     header.appendChild(headerTitle);
@@ -59,8 +59,8 @@ async function makeHeaderAndSideDiv() {
     sidebar.classList.add('sidebar');
     const listGroup = document.createElement('div');
     listGroup.classList.add('list-group');
-    const sidebarItems = ['Profile', 'Home', 'Blood Stock', 'Pending Collection Appointments', 'Scheduled Collection Appointments'];
-    const sidebarFunctions = [profilePage, homePage, BloodStockPage, pendingCollectionAppointmentsPage, scheduledCollectionAppointmentsPage];
+    const sidebarItems = ['Profile', 'Home', 'Blood Stock', 'Pending Collection Appointments', 'Scheduled Collection Appointments','Appointments History'];
+    const sidebarFunctions = [profilePage, homePage, BloodStockPage, pendingCollectionAppointmentsPage, scheduledCollectionAppointmentsPage,appointmentsHistoryPage];
     sidebarItems.forEach((item, index) => {
         const listItem = document.createElement('div');
         listItem.classList.add('list-group-item');
@@ -80,13 +80,16 @@ function homePage() {
     window.location.href = 'bankHome.html';
 };
 function BloodStockPage() {
-    window.location.href = 'bankBloodStock.html';
+    window.location.href = 'bankBS.html';
 };
 function pendingCollectionAppointmentsPage() {
     window.location.href = 'bankUPA.html';
 };
 function scheduledCollectionAppointmentsPage() {
     window.location.href = 'bankUSA.html';
+};
+function appointmentsHistoryPage() {
+    window.location.href = 'bankHistory.html';
 };
 
 async function logOut() {
@@ -126,7 +129,7 @@ async function initialState() {
 async function makeLeftDiv() {
     const container = document.createElement('div');
 
-    const header = makeHeader();
+    const header = await makeHeader();
     header.classList.add('left-div-header');
 
     const appointmentsDiv = await makeAppointmentsDiv();
@@ -138,10 +141,19 @@ async function makeLeftDiv() {
     return container;
 }
 
-function makeHeader() {
+async function makeHeader() {
     const header = document.createElement('div');
     const h2 = document.createElement('h2');
-    h2.textContent = 'Pending Collection Appointments';
+    
+    //if there are any appointments , show the header , else say no appointments
+    const appointments = await loadPendingUserAppointments();
+    if(appointments.length > 0){
+        h2.textContent = 'Pending Collection Appointments';
+    }
+    else{
+        h2.textContent = '! No pending collection appointments';
+    }
+
     header.appendChild(h2);
     return header;
 }
@@ -260,6 +272,91 @@ async function makeRightDiv(appointment) {
     options.classList.add('lower-div');
     container.appendChild(options);
 
+    const bloodStock = await displayBloodStock(appointment);
+    bloodStock.classList.add('lower-div');
+    container.appendChild(bloodStock);
+
+    return container;
+}
+
+async function displayBloodStock(appointment){
+    const container = document.createElement('div');
+    container.classList.add('blood-stock-div');
+    let bloodStock;
+    try{
+        const response = await fetch('/bankBS/getBloodInfo');
+        if(response.status === 200){
+            bloodStock = await response.json();
+        }
+    }
+    catch(error){
+        console.log('Error getting blood stock:', error);
+    }
+    //show only the blood stock of the same blood group and rh
+    const bloodGroup = appointment.BLOOD_GROUP;
+    const rh = appointment.RH;
+    const bloodTypeStock = bloodStock.find(blood => blood.BLOOD_GROUP === bloodGroup && blood.RH === rh);
+    if(bloodTypeStock){
+
+        //create header
+        const header = document.createElement('h4');
+        header.textContent = 'Blood Stock Info';
+        //add bootstrap class to this header
+        header.classList.add('h4');
+        container.appendChild(header);
+
+        const bloodTypeDiv = document.createElement('div');
+        bloodTypeDiv.classList.add('blood-type-div');
+        const bloodTypeLabel = document.createElement('label');
+        bloodTypeLabel.textContent = 'Blood Type: ';
+        const bloodType = document.createElement('span');
+        bloodType.textContent = `${bloodGroup} ${rh}`;
+        bloodTypeDiv.appendChild(bloodTypeLabel);
+        bloodTypeDiv.appendChild(bloodType);
+        container.appendChild(bloodTypeDiv);
+
+        const quantityDiv = document.createElement('div');
+        quantityDiv.classList.add('quantity-div');
+        const quantityLabel = document.createElement('label');
+        quantityLabel.textContent = 'Quantity: ';
+        const quantity = document.createElement('span');
+        quantity.textContent = bloodTypeStock.QUANTITY;
+        quantityDiv.appendChild(quantityLabel);
+        quantityDiv.appendChild(quantity);
+        container.appendChild(quantityDiv);
+
+        //show quantity in promise
+        let quantityInPromise;
+        try{
+            const response = await fetch('/bankBS/bloodGroupAndRhInPromise',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({bloodGroup: bloodGroup, rh: rh})
+            });
+            if(response.status === 200){
+                const result = await response.json();
+                quantityInPromise = result[0].QUANTITY;
+                if(quantityInPromise !== null && quantityInPromise !== undefined){
+                    const quantityInPromiseDiv = document.createElement('div');
+                    quantityInPromiseDiv.classList.add('quantity-in-promise-div');
+                    const quantityInPromiseLabel = document.createElement('label');
+                    quantityInPromiseLabel.textContent = 'Scheduled Distribution amount: ';
+                    const quantityInPromiseSpan = document.createElement('span');
+                    quantityInPromiseSpan.textContent = quantityInPromise;
+                    quantityInPromiseDiv.appendChild(quantityInPromiseLabel);
+                    quantityInPromiseDiv.appendChild(quantityInPromiseSpan);
+                    container.appendChild(quantityInPromiseDiv);
+                }
+            }
+        }
+        catch(error){
+            console.log('Error getting quantity in promise:', error);
+        }
+
+    }
+
     return container;
 }
 
@@ -290,7 +387,11 @@ async function displayCollectorInfo(appointment) {
     detailsDiv.classList.add('details-div');
     const nameLabel = document.createElement('label');
     nameLabel.textContent = 'Name: ';
+    //add bootstrap class to this label
+    nameLabel.classList.add('badge','bg-primary');
     const name = document.createElement('span');
+    //add bootstrap class to this span
+    name.classList.add('badge','bg-primary');
     name.textContent = appointment.NAME;
     detailsDiv.appendChild(nameLabel);
     detailsDiv.appendChild(name);
@@ -307,12 +408,12 @@ async function displayOptions(appointment) {
     AcceptRejectDiv.classList.add('accept-reject-div');
 
     const acceptButton = document.createElement('button');
-    acceptButton.classList.add('accept-button');
+    acceptButton.classList.add('accept-button',"btn","btn-success");
     acceptButton.textContent = 'Accept';
     acceptButton.onclick = async () => acceptAppointment(appointment, container);//////////experminet with it later
 
     const rejectButton = document.createElement('button');
-    rejectButton.classList.add('reject-button');
+    rejectButton.classList.add('reject-button',"btn","btn-danger");
     rejectButton.textContent = 'Reject';
     rejectButton.onclick = async () => rejectAppointment(appointment,container);//////////experminet with it later
 

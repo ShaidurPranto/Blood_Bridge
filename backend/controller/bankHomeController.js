@@ -11,7 +11,7 @@ async function scheduledUserAppointmentsOfToday(req, res) {
         return;
     }
     const bankID = req.session.bank.BANKID;
-    const query = `SELECT BUA.REQUESTID , BUA.APPOINTMENT_DATE , BUA.TIME , BUA.QUANTITY , BR.BLOOD_GROUP , BR.RH , BR.DISTRICT , BR.AREA , BR.REQUEST_DATE , BR.DESCRIPTION , BR.HEALTH_CARE_CENTER , UR.USERID , U.NAME 
+    const query = `SELECT BUA.REQUESTID , BUA.APPOINTMENT_DATE , BUA.TIME , BUA.QUANTITY , BR.BLOOD_GROUP , BR.RH , BR.DISTRICT , BR.AREA , BR.REQUEST_DATE , BR.DESCRIPTION , BR.HEALTH_CARE_CENTER , UR.USERID , U.NAME , BR.PHONE_NUMBER
     FROM BANK_USER_APPOINTMENTS BUA JOIN BLOOD_REQUEST BR ON BUA.REQUESTID = BR.REQUESTID JOIN USER_REQUEST UR ON UR.REQUESTID = BR.REQUESTID JOIN USERS U ON U.USERID = UR.USERID
     WHERE BUA.BANKID = :bankID AND BUA.STATUS = 'ACCEPTED' AND TRUNC(BUA.APPOINTMENT_DATE) = TRUNC(SYSDATE)`;
     const binds = {bankID: bankID};
@@ -89,10 +89,18 @@ async function successfulBloodDonation(req, res) {
         bankID: bankID,
         appointmentID: appointmentID
     };
+    const query2 = `UPDATE DONOR
+    SET LAST_DONATION_DATE = SYSDATE 
+    WHERE DONORID = (SELECT DONORID FROM BANK_DONOR_APPOINTMENTS WHERE DONATIONID = :appointmentID)
+    `
+    const binds2 = {
+        appointmentID: appointmentID
+    }
 
     try {
         await databaseConnection.execute(query, binds);
-        res.status(200).send(`Marked successful appointment with id: ${appointmentID}`);
+        await databaseConnection.execute(query2, binds2);
+        res.status(200).send(`Marked successful appointment , and updated last donation date , with donation_id: ${appointmentID}`);
     } catch (error) {
         res.status(500).json(error);
     }
@@ -120,7 +128,7 @@ async function bankReportsIssueOfDonor(req, res) {
     if(req.file){
         filename = req.file.filename;
         console.log("filename is ",filename);
-        query = `INSERT INTO BANK_REPORTS_DONOR VALUES(:appointmentID,:disease,:filename)`;
+        query = `INSERT INTO BANK_REPORTS_DONOR(DONATIONID,ISSUE,DOCUMENT,STATUS) VALUES(:appointmentID,:disease,:filename,'NOT_MANAGED')`;
         binds = {
             appointmentID: appointmentID,
             disease: disease,
@@ -128,7 +136,7 @@ async function bankReportsIssueOfDonor(req, res) {
         };
     }
     else{
-        query = `INSERT INTO BANK_REPORTS_DONOR VALUES(:appointmentID,:issue)`;
+        query = `INSERT INTO BANK_REPORTS_DONOR(DONATIONID,ISSUE,STATUS) VALUES(:appointmentID,:issue,'NOT_MANAGED')`;
         binds = {
             appointmentID: appointmentID,
             issue: issue

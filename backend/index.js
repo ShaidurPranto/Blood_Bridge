@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
+const scheduledTasks = require('./scheduledTasks/scheduledTasks');
 
 const app = express();
 
@@ -31,8 +32,8 @@ const port = 3000;
 
 //request to navigate to admin page
 app.get('/admin', (req, res) => {
-  console.log("Navigating user to the admin page");
-  res.sendFile('htmlPages/adminHome.html', { root: '../frontendPages' });
+  console.log("Navigating to the admin page");
+  res.redirect('/htmlPages/adminLogin.html');
 });
 
 //requests for rendering ejs pages
@@ -121,6 +122,10 @@ const bankLoginRouter = require('./router/bankLoginRouter');
 const bankHomeRouter = require('./router/bankHomeRouter');
 const bankHomeProfileRouter = require('./router/bankHomeProfileRouter');
 const bankUPArouter = require('./router/bankUPArouter');
+const bankBSrouter = require('./router/bankBSrouter');
+const adminRouter = require('./router/adminRouter');
+const bankUSArouter = require('./router/bankUSArouter');
+const bankHistoryRouter = require('./router/bankHistoryRouter');
 
 app.use('/render', renderRouter);
 app.use('/userLogin', userLoginRouter);
@@ -130,7 +135,12 @@ app.use('/bankLogin', bankLoginRouter);
 app.use('/bankHome', bankHomeRouter);
 app.use('/bankHome/profile', bankHomeProfileRouter);
 app.use('/bankUPA', bankUPArouter);
+app.use('/bankBS', bankBSrouter);
+app.use('/admin', adminRouter);
+app.use('/bankUSA', bankUSArouter);
+app.use('/bankHistory', bankHistoryRouter);
 
-app.listen(port, () => {
+app.listen(port, async () => {
+  await scheduledTasks.cancelUnfinishedAppointments();
   console.log(`open http://localhost:${port}`);
 });
