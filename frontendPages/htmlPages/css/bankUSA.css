@@ -3,6 +3,12 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     overflow-x: hidden;
+    user-select: none;
+    background-image: url('../image/bankHome4.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 .wholeBody {
@@ -20,7 +26,7 @@ body {
     color: rgb(255, 255, 255);
     height: 40px;
     user-select: none;
-    background-color: rgba(0, 0, 0, 0.971);
+    background-color: rgb(106, 23, 23);
     position: fixed;
     top: 0;
     left: 0;
@@ -95,6 +101,7 @@ body {
     position: fixed;
     overflow-y: auto;
     background-color: rgb(106, 23, 23);
+    border-right: 1px solid rgb(255, 255, 255);
 }
 
 .list-group{
@@ -123,3 +130,66 @@ body {
     flex-direction: row;
 }
 /*//////////////////////////////////////////////////////////start//////////////////////////////////////////////////////*/
+
+.appointments-div{
+    display: flex;
+    flex-direction: column;
+    margin-left: 90px;
+}
+.header-div{
+    align-self: center;
+    margin-bottom: 07px;
+    align-self: center;
+}
+.header-div h2{
+    color: rgb(230, 236, 230);
+}
+
+.header-div-2 {
+    color: rgb(230, 236, 230);
+    margin-bottom: 20px;
+    align-items: center; /* Align items along the cross axis */
+    /* background-color: rgb(172, 20, 20); */
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center items horizontally */
+}
+
+.header-div-2 p {
+    color: rgb(174, 44, 24);
+}
+
+
+.appointment{
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(123, 167, 174);
+    width: max-content;
+    margin-bottom: 25px;
+    width: 1000px;
+    justify-content: space-evenly;
+}
+
+.appointment .item{
+    display: flex;
+    flex-direction: row;
+}
+
+.details-div{
+    display: flex;
+    flex-direction: column;
+    color: rgb(230, 236, 230);
+}
+
+.div1,.div2,.div4{
+    border-bottom: 1px solid rgb(10, 9, 9);
+    margin-bottom: 5px;
+}
+.div3{
+    border-bottom: 1px solid rgb(10, 9, 9);
+}
+.div1 div label , .div2 div label , .div3 div label , .div4 div label{ 
+    margin-right: 5px;
+}
+.div1 div , .div2 div , .div3 div , .div4 div{
+    margin-right: 15px;
+}

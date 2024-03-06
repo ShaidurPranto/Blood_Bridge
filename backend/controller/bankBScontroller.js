@@ -1,6 +1,31 @@
 const databaseConnection = require('../database/databaseConnection');
 
 
+async function bloodGroupAndRhInPromise(req,res){
+    console.log("/n/nrequest received to get blood group and rh in promise/n");
+    if(req.session.bank === undefined){
+        res.status(401).send("Unauthorized");
+        return;
+    }
+    const bankId = req.session.bank.BANKID;
+    const {bloodGroup, rh} = req.body;
+    const query = `SELECT SUM(BUA.QUANTITY) AS QUANTITY
+    FROM BANK_USER_APPOINTMENTS BUA JOIN BLOOD_REQUEST BR ON BR.REQUESTID = BUA.REQUESTID
+    WHERE BANKID = :bankid AND BUA.STATUS IN ('ACCEPTED') AND BR.BLOOD_GROUP = :bloodGroup AND BR.RH = :rh`;
+    const binds = { bankid: bankId, bloodGroup: bloodGroup, rh: rh };
+    try {
+        const result = await databaseConnection.execute(query, binds);
+        if(result){
+            res.status(200).send(result.rows);
+        }
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
+
 async function getBloodInfo(req, res) {
     if(req.session.bank === undefined){
         res.status(401).send("Unauthorized");
@@ -193,5 +218,6 @@ module.exports = {
     getBloodInfo,
     updateBloodInfo,
     addBloodInfo,
-    deleteBloodInfo
+    deleteBloodInfo,
+    bloodGroupAndRhInPromise
 }

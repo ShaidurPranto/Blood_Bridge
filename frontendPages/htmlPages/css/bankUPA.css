@@ -20,7 +20,7 @@ body {
     color: rgb(255, 255, 255);
     height: 40px;
     user-select: none;
-    background-color: rgba(0, 0, 0, 0.971);
+    background-color: rgb(106, 23, 23);
     position: fixed;
     top: 0;
     left: 0;
@@ -169,6 +169,11 @@ body {
     padding: 10px;
     margin-bottom: 30px;
     border-bottom: 1px solid #f44336;
+}
+/* on clicking an appointment the appointment should be looking like that appointment is selected */
+.appointment:hover{
+    cursor: pointer;
+    border: 1px solid #1d1a1a;
 }
 
 .appointment-item{

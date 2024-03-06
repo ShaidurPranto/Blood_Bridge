@@ -8,7 +8,7 @@ async function userReceivedBlood(req,res){
     const bankID = req.session.bank.BANKID;
     const requestID = req.body.requestid;
     const query = `UPDATE BANK_USER_APPOINTMENTS SET STATUS = 'SUCCESSFUL' WHERE BANKID = :bankID AND REQUESTID = :requestID`;
-    const binds = { bankID: bankID, requestID: requestID, quantity: quantity };
+    const binds = { bankID: bankID, requestID: requestID};
     const result = await databaseConnection.execute(query, binds);
     if (result) {
         res.status(200).send(`marked user appointment as successful with request id: ${requestID}`);

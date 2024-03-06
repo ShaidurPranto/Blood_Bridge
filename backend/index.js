@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
+const scheduledTasks = require('./scheduledTasks/scheduledTasks');
 
 const app = express();
 
@@ -105,6 +106,7 @@ const bankUPArouter = require('./router/bankUPArouter');
 const bankBSrouter = require('./router/bankBSrouter');
 const adminRouter = require('./router/adminRouter');
 const bankUSArouter = require('./router/bankUSArouter');
+const bankHistoryRouter = require('./router/bankHistoryRouter');
 
 app.use('/render', renderRouter);
 app.use('/userLogin', userLoginRouter);
@@ -117,7 +119,9 @@ app.use('/bankUPA', bankUPArouter);
 app.use('/bankBS', bankBSrouter);
 app.use('/admin', adminRouter);
 app.use('/bankUSA', bankUSArouter);
+app.use('/bankHistory', bankHistoryRouter);
 
-app.listen(port, () => {
+app.listen(port, async () => {
+  await scheduledTasks.cancelUnfinishedAppointments();
   console.log(`open http://localhost:${port}`);
 });

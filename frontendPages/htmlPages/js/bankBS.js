@@ -48,7 +48,7 @@ async function makeHeaderAndSideDiv() {
     logOutAnchor.href = 'bankLogin.html';
     logOutLink.appendChild(logOutAnchor);
     // Append elements to header menu
-    headerMenu.appendChild(notificationDiv);
+    //headerMenu.appendChild(notificationDiv);
     headerMenu.appendChild(logOutLink);
     // Append elements to header
     header.appendChild(headerTitle);

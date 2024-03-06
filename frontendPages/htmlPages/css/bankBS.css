@@ -20,7 +20,7 @@ body {
     color: rgb(255, 255, 255);
     height: 40px;
     user-select: none;
-    background-color: rgba(0, 0, 0, 0.971);
+    background-color: rgb(106, 23, 23);
     position: fixed;
     top: 0;
     left: 0;
