@@ -93,6 +93,25 @@ app.get('/getBlood', (req, res) => {
   const userid = req.query.userid; res.render('getBlood', { userid: userid });
 });
 
+app.get('/getbloodFromDonor', (req, res) => { 
+  const userid = req.query.userid; res.render('getBloodFromDonorToDonor', { userid: userid });
+});
+
+
+app.get('/yourRequest', (req, res) => {
+  const userid = req.query.userid;
+  res.render('yourRequest', { userid: userid });
+
+});
+
+
+app.get('/userViewDonorProfile', (req, res) => { 
+  const userid = req.query.userid;
+  const requestid = req.query.requestid;
+  res.render('userViewDonorProfile',{userid: userid, requestid: requestid});
+});
+
+
 
 const renderRouter = require('./renderRouter/renderRouter');
 const userLoginRouter = require('./router/userLoginRouter');

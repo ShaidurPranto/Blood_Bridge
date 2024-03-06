@@ -40,7 +40,7 @@
            <ul>
             <ul>
                 <li><a href="/bloodRequest?userid=<%= encodeURIComponent(userid) %>"><span class="las la-tint">
-                 <span>Donate Blood abc</span>
+                 <span>Donate Blood</span>
                 </span></a></li> 
                </ul>
           
@@ -61,7 +61,7 @@
                </span></a></li> 
         </ul>  -->
         <ul>
-            <li><a href="#" onclick="toggleBloodRequest()"><span class="las la-hand-point-down"><span>Request Blood</span></span></a></li>
+            <li><a href="#" onclick="toggleBloodRequest()"><span class="las la-hand-point-down"><span> Request Blood</span></span></a></li>
         </ul>
     
         <ul id="bloodBankLists" style="display: none;">
@@ -70,10 +70,17 @@
                </span></a></li> 
         </ul> 
         <ul id="donorLists" style="display: none;">
-            <li style="margin-left: 55px;"><a href="/getblood?userid=<%= encodeURIComponent(userid) %>"><span class="las la-handshake">
+            <li style="margin-left: 55px;"><a href="/getbloodFromDonor?userid=<%= encodeURIComponent(userid) %>"><span class="las la-handshake">
                 <span style="font-size: 20px;">From Donors</span>
                </span></a></li> 
         </ul> 
+        <ul>
+            <li><a href="/yourRequest?userid=<%= encodeURIComponent(userid) %>"><span class="las la-file-medical-alt">
+             <span>Your Requests</span>
+            </span></a></li> 
+           </ul>
+
+         
         </div>
      
        </div>
@@ -201,6 +208,9 @@
                             <h2 id="bname" class="las la-hand-holding-heart" style="display: none;">here</h2>
                             
                         </p>
+
+                      
+                    
                         <div id="successMessage" style="display: none;">
                             <i class="las la-heart"></i> <strong>Your donation with us was successful!</strong>
                             <br>
@@ -234,10 +244,40 @@
                             <p><strong>Donation Time:</strong> <span id="appointmentTime">10:00 AM</span></p>
                         </div>
                     </div>
+                    <button id="cancelAppointmentButton" onclick="showConfirmation()">Cancel My Appointment</button>
+                    <button id="cancelAppointmentButton2" onclick="showConfirmation2()">Cancel My Appointment</button>
+
+                    <!-- Confirmation box -->
+                    <div id="confirmationBox" class="confirmation-box">
+                        <p>Are you sure you want to cancel your appointment?</p>
+                        <button onclick="cancelAppointment()">Yes</button>
+                        <button onclick="hideConfirmation()">No</button>
+                    </div>
+                   
+
+                  
+                    <div id="confirmationBox2" class="confirmation-box2" style="display: none;">
+                        <p class="confirmation-message">Why do you want to cancel the appointment?</p>
+                        <div class="select-container">
+                            <select id="cancelReason" class="cancel-reason">
+                                <option value="scheduleConflict">Schedule Conflict</option>
+                                <option value="notFeelingWell">Not Feeling Well</option>
+                                <option value="emergency">Emergency</option>
+                                <option value="notinarearn">Not in this area right now</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="button-container">
+                            <button onclick="cancelAppointment2()" class="confirm-button">Confirm Cancellation</button>
+                            <button onclick="hideConfirmation2()" class="cancel-button">No, Keep Appointment</button>
+                        </div>
+                    </div>
+                    
+                   
                     
                 </div>
            
-               
+                      
                 
                
             </div>

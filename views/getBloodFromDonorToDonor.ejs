@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Search</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="ejsPages/css/getBlood.css">
+    <script>
+        const userid = '<%= userid %>';
+    </script>
+    <script type="text/javascript" src="/ejsPages/js/getBloodFromDonortoDonor.js" defer></script>
+</head>
+<body>
+<div class="container">
+    <div class="left-section">
+        <!-- Left section content here -->
+        <header>
+            <h3><i class="las la-star"></i>URGENT BLOOD REQUEST</h3>
+            <p id="urgent">~Connecting Lives, Creating Bridge</p>
+        </header>
+
+       
+
+           
+
+         
+
+        <p><h3 id="why"><i class="las la-heartbeat"></i>Why receiving blood from Donors is beneficial?:</h3></p>
+
+        <ul id="yes">
+            <h3 id="a"><i class="las la-arrow-right"></i> Life-saving Treatment</h3>
+            <h3 id="b"><i class="las la-arrow-right"></i> Emergency Situations</h3>
+            <h3 id="c"><i class="las la-arrow-right"></i> Blood Disorders and Diseases</h3>
+            <h3 id="d"><i class="las la-arrow-right"></i> Surgical Procedures</h3>
+            <h3 id="e"><i class="las la-arrow-right"></i> Blood Loss from Trauma</h3>
+            <h3 id="a"><i class="las la-arrow-right"></i> Improving Health Outcomes</h3>
+            <h3 id="b"><i class="las la-arrow-right"></i> Supporting Cancer Treatments</h3>
+            <h3 id="c"><i class="las la-arrow-right"></i> Community Support</h3>
+            <h3 id="d"><i class="las la-arrow-right"></i> Maintaining Adequate Blood Supply</h3>
+            <h3 id="e"><i class="las la-arrow-right"></i> Personal Health Benefits</h3>
+            
+        </ul>
+    </div>
+    <div class="middle-section">
+     
+        <h2>Kindly complete the following form to request blood from our generous donors</h2>
+                <p id="urgent">~Let the donors help you!</p>
+               
+        <form action="#">
+            <%
+            // Define currentDate here
+            const currentDate = new Date().toISOString().split('T')[0];
+        %>
+        
+            <div class="form-group">
+                <label for="blood-group">Blood Group</label>
+                <select id="blood-group" name="blood-group">
+                    <option value="A">A</option>
+                 
+                    <option value="B">B</option>
+                    
+                    <option value="O">O</option>
+                 
+                    <option value="AB">AB</option>
+                   
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="rh">RH Factor</label>
+                <select id="rh" name="rh">
+                    <option value="+">Positive (+)</option>
+                    <option value="-">Negative (-)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="district">District</label>
+                <select id="divisionDropdown">
+                    <option value="none">Select Division</option>
+                    <option value="dhaka">Dhaka</option>
+                    <option value="rajshahi">Rajshahi</option>
+                    <option value="chittagong">Chittagong</option>
+                    <option value="khulna">Khulna</option>
+                    <option value="barishal">Barishal</option>
+                    <option value="mymensingh">Mymensingh</option>
+                    <option value="sylhet">Sylhet</option>
+                    <option value="rangpur">Rangpur</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="area">Area</label>
+                <input type="text" id="area" name="area" placeholder="Enter your area" required>
+            </div>
+            <div class="form-group">
+                <label for="healthcare-center">Healthcare Centre</label>
+                <input type="text" id="healthcare-center" name="healthcare-center" placeholder="Enter healthcare center" required>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity (in units)</label>
+                <input type="number" id="quantity" name="quantity" min="1" max="5" required>
+            </div>
+           
+            <div class="form-group">
+                <label for="donationDate">PLease select your convenient day:</label>
+                <input type="date" id="donationDate" name="donationDate" min="<%= currentDate %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Enter why do you need blood and your requirements!" required></textarea>
+            </div>
+            <button type="button" class="btn" onclick="extractFormValues()">Submit</button>
+        </form>
+       
+    </div>
+    <div class="right-section">
+        
+    </div>
+    
+</div>
+</body>
+</html>

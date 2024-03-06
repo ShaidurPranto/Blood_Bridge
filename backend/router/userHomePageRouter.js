@@ -17,4 +17,14 @@ userHomePageRouter.route('/userBankAppoinment').post(userHomePageController.user
 userHomePageRouter.route('/donorProfileUpdate').post(userHomePageController.donorProfileUpdate);
 userHomePageRouter.route('/getAppointmentData/:userid').get(userHomePageController.getAppointmentData);
 userHomePageRouter.route('/getBloodBankInfos/:requestId').get(userHomePageController.bloodBankInfos);
+userHomePageRouter.route('/appoinmentEnded').post(userHomePageController.appoinmentEnded);
+userHomePageRouter.route('/appoinmentCancel').post(userHomePageController.appoinmentCancel);
+userHomePageRouter.route('/appoinmentCancelAccepted').post(userHomePageController.appoinmentCancelAccepted);
+userHomePageRouter.route('/appoinmentDonorUser').post(userHomePageController.donorUserAppointment);
+userHomePageRouter.route('/getRequestAppointmentData/:userid').get(userHomePageController.getDonorOnRequest);
+userHomePageRouter.route('/appoinmentCanceled').post(userHomePageController.appoinmentCanceled);
+userHomePageRouter.route('/appoinmentCancelFromUserAccepted').post(userHomePageController.appoinmentCancelFromUserAccepted);
+userHomePageRouter.route('/giveSuccessfulUpdate/:requestid/:donorid').get(userHomePageController.giveSuccessfulUpdate);
+userHomePageRouter.route('/appoinmentEndedByUser').post(userHomePageController.appoinmentEndedByUser);
+userHomePageRouter.route('/userReportDonor/:requestid/:donorid').get(userHomePageController.userReportDonor);
 module.exports = userHomePageRouter;

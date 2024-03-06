@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Search</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="ejsPages/css/yourRequest.css">
+    
+    <script>
+        const userid = '<%= userid %>';
+    </script>
+    <script type="text/javascript" src="/ejsPages/js/yourRequest.js" defer></script>
+</head>
+<body>
+<div class="container">
+    <div class="left-section">
+        <!-- Headline for Banks -->
+       
+        <div class="donor-headline">
+            <h2>Donor Appointment Updates</h2>
+
+        </div>
+        <p id="noAppointmentMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Currently you have no appointment!<br><a class="donate-link" href="/getbloodFromDonor?userid=<%= encodeURIComponent(userid) %>"> Book request now!</a>
+        </a></p>
+        <p id="pendingMessage" style="display: none;"><i class="las la-exclamation-circle"></i>Plase wait! Your appointment is currently pending!</p>
+       
+        <p id="acceptMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Appointment Confirmed!</b></p>
+        <p id="todayMessage" style="display: none;"><i class="las la-exclamation-circle"></i>Today is your <b>appointment day!</b></p>
+        <p id="bankname" style="display: none;">
+            <h2 id="bname" class="las la-hand-holding-heart" style="display: none;">here</h2>   
+        </p>
+        <button id="visit" style="display: none;">Visit Donor Profile</button>
+        <div id="successMessage" style="display: none;">
+        <i class="las la-heart"></i> <strong>A DONOR JUST SAVED YOUR LIFE!</strong>
+            <br>
+            ~We wish you good health and encourage you to continue being kind to people.<br><br>
+    
+            <div id="bankMessage" class="bank-message" style="background-color: white; padding: 10px; margin-top: 10px; border-radius: 5px;">THANKS FOR TRUSTING BLOOD BRIDGE</div>
+            <div class="rating-review" style="margin-top: 10px;">
+                <label for="rating"><h4 id="br"><i class="las la-heart"></i>Give the DONOR a rating:</h4></label>
+                <select name="rating" id="rating">
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Star</option>
+                </select>
+                <br>
+                <label for="review"><h4 id="br"><i class="las la-heart"></i>Give the DONOR a review:</h4></label>
+                <textarea id="review" rows="3" placeholder="Type your review here..."></textarea>
+                <button onclick="submitReview()">Submit Review</button>
+            </div>
+        </div>
+       
+            <button id="viewProfile" onclick="viewprofile()">View Donor Profile</button>
+        
+        <div class="card-wrapper">
+            <div class="card">
+                <div class="card-header">
+                    <h1 id="headd" class="center-text"><i class="las la-quote-left"></i>Appointment Details<i class="las la-quote-right"></i></h1>
+                    <h2><p><strong><i class="las la-calendar"></i>Appointment Date: </strong> <span id="ad"></span></p></h2>
+                    <h3 id="statuss"><p><strong><i class="las la-bullhorn"></i> Status: </strong> <span id="status"></span></p></h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Blood Group:</strong> <span id="bloodGroup">Group A</span></p>
+                    <p><strong>RH Factor:</strong> <span id="rhFactor">Positive</span></p>
+                    <p><strong>Quantity:</strong> <span id="quantity">5 units</span></p>
+                    <p><strong>Request Date:</strong> <span id="requestDate">January 1, 2024</span></p>
+                    <p><strong>District:</strong> <span id="district">District Name</span></p>
+                    <p><strong>Area:</strong> <span id="area">Area Name</span></p>
+                </div>
+            </div>
+        </div>
+        <button id="cancelAppointmentButton" onclick="showConfirmation()">Cancel My Appointment</button>
+                    <button id="cancelAppointmentButton2" onclick="showConfirmation2()">Cancel My Appointments</button>
+                    <button id="comeButton" onclick="ifCome()"><i class="las la-universal-access"></i>"Was the donation completed successfully?"</button>
+
+                    <!-- Confirmation box -->
+                    <div id="confirmationBox" class="confirmation-box">
+                        <p>Are you sure you want to cancel your appointment?</p>
+                        <button onclick="cancelAppointment()">Yes</button>
+                        <button onclick="hideConfirmation()">No</button>
+                    </div>
+
+                  
+                    <div id="confirmationBox2" class="confirmation-box2" style="display: none;">
+                        <p class="confirmation-message">Why do you want to cancel the appointment?</p>
+                        <div class="select-container">
+                            <select id="cancelReason" class="cancel-reason">
+                                <option value="scheduleConflict">Schedule Conflict</option>
+                                <option value="notFeelingWell">Not Feeling Well</option>
+                                <option value="emergency">Emergency</option>
+                                <option value="notinarearn">Not in this area right now</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="button-container">
+                            <button onclick="cancelAppointment2()" class="confirm-button">Confirm Cancellation</button>
+                            <button onclick="hideConfirmation2()" class="cancel-button">No, Keep Appointment</button>
+                        </div>
+                    </div>
+
+
+
+                    <div id="donationConfirmationBox" class="confirmation-box2" style="display: none;">
+                        
+                        <div class="button-container">
+                            <button onclick="confirmDonation()" class="yes">Yes, the donor helped us!</button>
+    <button onclick="denyDonation()" class="no">No, the donor didn't show up </button>
+    <button onclick="exit()" class="exit">Go back! </button>
+                        </div>
+                    </div>
+
+                    <div id="reportDonorBox" class="confirmation-box2" style="display: none;">
+                        <p id="doyou">Do you want to report the donor?</p>
+                        <div class="button-container">
+                            <button onclick="reportDonor()" class="yes">Yes! want to report the Donor</button>
+                            <button onclick="cancelReportDonor()" class="no">No! It is okay> I will manage</button>
+                        </div>
+                    </div>
+        
+   
+</div>
+
+<div class="right-section">
+        
+</div>
+
+</body>
+</html>

@@ -295,6 +295,7 @@ main {
     background-color: #fff;
     font-family: Arial, sans-serif;
     padding: 20px;
+    margin-top: 0;
     
 }
 
@@ -450,7 +451,7 @@ main {
     padding: 10px;
     border-radius: 5px;
     margin-top: 15px;
-    margin-bottom: 90px;
+    margin-bottom: 50px;
 }
 
 #acceptMessage {
@@ -459,8 +460,8 @@ main {
     
     padding: 10px;
     border-radius: 5px;
-    margin-top: 15px;
-    margin-bottom: 90px;
+    margin-top: 4px;
+    margin-bottom: 10px;
 }
 
 
@@ -520,6 +521,44 @@ main {
     border-radius: 5px;
 }
 
+#cancelAppointmentButton {
+    background-color: #550011;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px auto; /* Set left and right margins to auto */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block; /* Ensure the button takes up full width */
+    width: fit-content; /* Adjust width to fit its content */
+}
+#viewprofile
+{
+    background-color: #550011;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px auto; /* Set left and right margins to auto */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block; /* Ensure the button takes up full width */
+    width: fit-content; /* Adjust width to fit its content */
+
+
+}
+#cancelAppointmentButton2 {
+    background-color: #550011;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px auto; /* Set left and right margins to auto */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block; /* Ensure the button takes up full width */
+    width: fit-content; /* Adjust width to fit its content */
+}
+
+
 .rating-review button:hover {
     background-color:  #f8a5b6;
 }
@@ -533,4 +572,89 @@ main {
     margin-top: 40px;
    text-align: center;
    color:#550011;
+}
+.confirmation-box {
+    display: none;
+    position: fixed;
+    top: 43%;
+    font-size: large;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    left: 90%; /* Adjust left position */
+    transform: translate(-50%, -50%);
+    background-color:#3f5474; /* New background color */
+     color: #ccc;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 999; /* Ensure it's above other content */
+    height: 150px; /* Adjust width */
+    width: 300px;
+    text-align: center;
+}
+
+
+.confirmation-box button {
+    margin: 10px; /* Add some space around the buttons */
+    padding: 12px 24px; /* Increase padding for bigger buttons */
+    font-size: 16px; /* Increase font size */
+}
+
+
+
+.confirmation-box2 {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    max-width: 300px;
+    margin: 20px auto;
+}
+
+.confirmation-message {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.select-container {
+    margin-bottom: 15px;
+}
+
+.cancel-reason {
+   
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: rgb(199, 96, 96);
+    background-color: rgb(244, 225, 225);
+    transition: border-color 0.3s, background-color 0.3s;
+    margin-bottom: 2px;
+}
+
+.button-container {
+    text-align: center;
+}
+
+.confirm-button, .cancel-button {
+    padding: 10px 20px;
+    margin: 10px auto; /* Set left and right margins to auto */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block; /* Ensure the button takes up full width */
+    width: fit-content; /* Adjust width to fit its content */
+}
+
+.confirm-button {
+    background-color: #adfbaf;
+    color: rgb(109, 106, 106);
+}
+
+.cancel-button {
+    background-color: #feb4af;
+    color: rgb(109, 106, 106);
 }
