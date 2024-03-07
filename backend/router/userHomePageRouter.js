@@ -21,10 +21,14 @@ userHomePageRouter.route('/appoinmentEnded').post(userHomePageController.appoinm
 userHomePageRouter.route('/appoinmentCancel').post(userHomePageController.appoinmentCancel);
 userHomePageRouter.route('/appoinmentCancelAccepted').post(userHomePageController.appoinmentCancelAccepted);
 userHomePageRouter.route('/appoinmentDonorUser').post(userHomePageController.donorUserAppointment);
-userHomePageRouter.route('/getRequestAppointmentData/:userid').get(userHomePageController.getDonorOnRequest);
+userHomePageRouter.route('/getRequestAppointmentData/:requestid/:donorid').get(userHomePageController.getDonorOnRequest);
 userHomePageRouter.route('/appoinmentCanceled').post(userHomePageController.appoinmentCanceled);
 userHomePageRouter.route('/appoinmentCancelFromUserAccepted').post(userHomePageController.appoinmentCancelFromUserAccepted);
 userHomePageRouter.route('/giveSuccessfulUpdate/:requestid/:donorid').get(userHomePageController.giveSuccessfulUpdate);
 userHomePageRouter.route('/appoinmentEndedByUser').post(userHomePageController.appoinmentEndedByUser);
 userHomePageRouter.route('/userReportDonor/:requestid/:donorid').get(userHomePageController.userReportDonor);
+userHomePageRouter.route('/getDonorsIf/:userid').get(userHomePageController.getDonorsIf);
+userHomePageRouter.route('/getDonorsIfAccepted/:userid').get(userHomePageController.getDonorsIfAccepted);
+userHomePageRouter.route('/getQuanitiyCount/:firstRequestId').get(userHomePageController.getQuantity);
+userHomePageRouter.route('/getCurrentQuanitiyCount/:firstRequestId').get(userHomePageController.getQuantityCount);
 module.exports = userHomePageRouter;

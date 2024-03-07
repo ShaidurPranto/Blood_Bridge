@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="ejsPages/css/yourRequests.css">
+    
+    <script>
+        const userid = '<%= userid %>';
+    </script>
+    <script type="text/javascript" src="/ejsPages/js/yourRequests.js" defer></script>
+    
+</head>
+<body>
+    <div class="container">
+        <!-- First Div -->
+        <div class="first-div">
+            <!-- Content for the first div -->
+        </div>
+
+        <!-- Second Div -->
+        <div class="second-div">
+           
+            <h1 id="headers">Requests From Donors</h1>
+            <p id="urgent">~The donors are trusted and always there for your services!</p>
+            <h3 id="quantity"><i class="las la-bell"></i></h3>
+            <h2 id="dList" >Donor Lists for your request:</h2>
+            <!-- Content for the second div -->
+            <div id="bloodBankResults">
+               
+            </div>
+        </div>
+
+        <!-- Third Div -->
+        <div class="third-div">
+            <h2 id="headers">Requests From Blood Banks</h2>
+            <p id="urgent">~The bloodbanks are trusted and authozized by us for your services!</p>
+            <!-- Content for the third div -->
+        </div>
+    </div>
+</body>
+</html>

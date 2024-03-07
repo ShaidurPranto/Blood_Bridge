@@ -1449,25 +1449,24 @@ VALUES (:REQUESTID, :userid, :bloodGroup, :rhFactor, :quantity, UPPER(:district)
 
 async function getDonorOnRequest(req, res) {
     
-    const userid = req.params.userid;
+    let requestid = req.params.requestid;
+    let donorid=req.params.donorid;
+    console.log(requestid);
+    console.log(donorid);
     
 
 const query1 = `
 
-SELECT D.APPOINTMENT_DATE,D.DONORID,D.STATUS,D.REQUESTID,B.QUANTITY,B.BLOOD_GROUP,B.RH,B.REQUEST_DATE,B.DISTRICT,B.AREA
+SELECT B.REQUIRED_DATE,D.DONORID,D.STATUS,D.REQUESTID,B.QUANTITY,B.BLOOD_GROUP,B.RH,B.REQUEST_DATE,B.DISTRICT,B.AREA
 FROM DONOR_USER_APPOINTMENTS D JOIN BLOOD_REQUEST B ON B.REQUESTID=D.REQUESTID
-WHERE D.REQUESTID IN (
-    SELECT REQUESTID
-    FROM BLOOD_REQUEST 
-    WHERE USERID =: userid AND REQUEST_TO = 'DONOR'
-)
-AND TRUNC(D.APPOINTMENT_DATE) - TRUNC(SYSDATE) >= 0
-ORDER BY D.APPOINTMENT_DATE DESC 
-
+WHERE D.REQUESTID=:requestid AND D.DONORID=:donorid
+AND TRUNC(B.REQUIRED_DATE) - TRUNC(SYSDATE) >= 0
+ORDER BY b.REQUIRED_DATE DESC 
 `;
 
     const binds1 = {
-      userid: userid
+       requestid: requestid,
+       donorid: donorid
        
     };
 
@@ -1478,7 +1477,7 @@ if (result && result.length > 0) {
     donorid = result[0]["DONORID"];
     requestid = result[0]["REQUESTID"];
     Status = result[0]["STATUS"];
-    appointmentDate = result[0]["APPOINTMENT_DATE"];
+    appointmentDate = result[0]["REQUIRED_DATE"];
     quantity = result[0]["QUANTITY"];
     bloodGroup = result[0]["BLOOD_GROUP"];
     rh = result[0]["RH"];
@@ -1863,7 +1862,7 @@ async function userReportDonor(req, res) {
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
        
         connection.autoCommit = false;
-        const status='UNSUCCESS';
+        const status='REPORTED';
 
         console.log("hi");
 
@@ -1922,8 +1921,185 @@ async function userReportDonor(req, res) {
    
 }
 
+async function getDonorsIf(req, res) {
+    
+    const userid = req.params.userid;
+     let cc=0;
+    
+
+const query1 = `
+
+
+SELECT COUNT(*) AS COUNT
+FROM BLOOD_REQUEST B JOIN DONOR_USER_APPOINTMENTS D ON B.REQUESTID=D.REQUESTID
+WHERE B.USERID= :userid AND D.STATUS='CONFIRMED'
+GROUP BY B.USERID
+`;
+
+    const binds1 = {
+      userid: userid
+    };
+
+    try {
+        const result = (await databaseConnection.execute(query1, binds1)).rows;
+
+if (result && result.length > 0) {
+    count = result[0]["COUNT"];
+    console.log(count);
+
+    res.send({
+        count: count
+    });
+} else {
+        res.send({
+          count: cc
+        });
+        console.log("cannot retrieve the id");
+    }
+    } catch (error) {
+        console.error("Error fetching blood bank details:", error.message);
+        res.status(500).send({
+            error: "Internal Server Error",
+        });
+    }
+}
+
+
+async function getDonorsIfAccepted(req, res) {
+    
+    const userid = req.params.userid;
+    
+
+    const query1 = `
+    SELECT U.NAME, D.REQUESTID, D.DONORID, M.MOBILE_NUMBER
+    FROM USERS U 
+    JOIN USER_DONOR UD ON U.USERID = UD.USERID
+    JOIN DONOR_USER_APPOINTMENTS D ON UD.DONORID = D.DONORID
+    JOIN DONOR_MOBILE_NUMBER M ON M.DONORID = UD.DONORID
+    WHERE D.DONORID IN (
+        SELECT D.DONORID
+        FROM BLOOD_REQUEST B
+        JOIN DONOR_USER_APPOINTMENTS D ON B.REQUESTID = D.REQUESTID
+        WHERE B.USERID = :userid AND D.STATUS = 'CONFIRMED'
+    )
+    
+    
+`;
+
+    const binds1 = {
+        userid: userid
+     
+    };
+
+    try {
+        const result = (await databaseConnection.execute(query1, binds1)).rows;
+
+        if (result && result.length > 0) {
+            const donors = result.map(({REQUESTID,NAME,DONORID,MOBILE_NUMBER }) => ({requestid: REQUESTID,name :NAME,donorid: DONORID, phone:MOBILE_NUMBER}));
+            console.log("Details of the user's blood banks are: ", donors);
+
+            res.send({
+                donors:donors
+            });
+        } else {
+            console.log("Cannot retrieve DONOR details");
+            res.status(404).send({
+                error: "DONOR details not found",
+            });
+        }
+    } catch (error) {
+        console.error("Error fetching DONOR details:", error.message);
+        res.status(500).send({
+            error: "Internal Server Error",
+        });
+    }
+}
+
+
+async function getQuantity(req, res) {
+    
+    const requestid = req.params.firstRequestId;
+     let cc=0;
+    
+
+const query1 = `
+
+
+SELECT QUANTITY FROM BLOOD_REQUEST
+WHERE REQUESTID= :requestid
+`;
+
+    const binds1 = {
+     requestid:requestid
+    };
+
+    try {
+        const result = (await databaseConnection.execute(query1, binds1)).rows;
+
+if (result && result.length > 0) {
+    quantity = result[0]["QUANTITY"];
+    console.log(count);
+
+    res.send({
+        quantity:quantity
+    });
+} else {
+        res.send({
+          count: 0
+        });
+        console.log("cannot retrieve the id");
+    }
+    } catch (error) {
+        console.error("Error fetching blood bank details:", error.message);
+        res.status(500).send({
+            error: "Internal Server Error",
+        });
+    }
+}
+async function getQuantityCount(req, res) {
+    
+    const requestid = req.params.firstRequestId;
+     let cc=0;
+    
+
+const query1 = `
+
+
+SELECT COUNT(*) AS COUNT
+FROM DONOR_USER_APPOINTMENTS
+WHERE REQUESTID=:requestid AND STATUS<>'REPORTED'AND STATUS<>'CANCELED'
+`;
+
+    const binds1 = {
+     requestid:requestid
+    };
+
+    try {
+        const result = (await databaseConnection.execute(query1, binds1)).rows;
+
+if (result && result.length > 0) {
+    quantity = result[0]["COUNT"];
+    console.log(count);
+
+    res.send({
+        quantity:quantity
+    });
+} else {
+        res.send({
+          quantity: 0
+        });
+        console.log("cannot retrieve the id");
+    }
+    } catch (error) {
+        console.error("Error fetching blood bank details:", error.message);
+        res.status(500).send({
+            error: "Internal Server Error",
+        });
+    }
+}
 
 module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID, getUserData, getBloodBank, donorProfileUpdate, getAppointmentData,
     getBloodBankOnRequest, bloodBankInfos,userBankAppointment,
     appoinmentEnded,appoinmentCancel,appoinmentCancelAccepted,donorUserAppointment,getDonorOnRequest,appoinmentCanceled,
-    appoinmentCancelFromUserAccepted,giveSuccessfulUpdate,appoinmentEndedByUser,userReportDonor};
+    appoinmentCancelFromUserAccepted,giveSuccessfulUpdate,appoinmentEndedByUser,userReportDonor,getDonorsIf,getDonorsIfAccepted
+,getQuantity,getQuantityCount};

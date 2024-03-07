@@ -1,0 +1,125 @@
+
+#bloodBankResults {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adds space between the cards */
+}.blood-bank-card {
+    background: #555a5f;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 3px 2px 10px rgba(159, 85, 85, 0.3);
+    padding: 6px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%; /* Set the width to 100% */
+    height: 180px; /* Allow the height to adjust based on content */
+    max-width: 500px;
+    margin-left: 45px; /* Optionally, set a maximum width */
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.bloodBankCard.card-header
+{
+    margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+    .blood-bank-card {
+        flex: 0 0 calc(50% - 20px); /* Two cards per row on medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .blood-bank-card {
+        flex: 0 0 100%; /* One card per row on small screens */
+    }
+}
+.donor-name {
+    margin-bottom: 0px; /* Adjust the value as needed */
+}
+
+
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+}
+
+.first-div {
+    flex: 1;
+    width: 20%;
+    background-color: #550011;
+}
+
+.second-div {
+    flex: 2;
+    width: 40%;
+    background-color: #f1dce1;
+}
+
+.third-div {
+    flex: 2;
+    width: 40%;
+    background-color: #e7ebf0;
+}
+
+
+#urgent {
+    margin-left: 100px;
+    color: #786e6e;
+    margin-bottom: 50px;
+}
+
+#headers
+{
+    margin-left: 100px;
+    color: #393838;
+}
+
+#dList
+{
+    margin-left: 45px;
+    color: #393838;
+    margin-bottom: 30px;
+}
+ 
+.buttwo {
+    background-color: #f1f1ff; /* Background color */
+    color: #550011; /* Text color */
+    padding: 10px 10px; /* Padding */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 10px; /* Font size */
+    cursor: pointer; /* Cursor style */
+    margin-left: 155px;
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+/* CSS for button hover effect */
+.buttwo:hover {
+    background-color: #a9a9a9; /* Darker background color on hover */
+}
+
+
+#quantity {
+    background-color:  #f8a5b6;
+        color:white;
+    
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 35px;
+    margin-bottom: 17px;
+    margin-left: 5px;
+}
+.quantity {
+    color: rgb(146, 52, 52); /* Example color for quantity */
+}
+
+.count {
+    color: rgb(146, 52, 52); /* Example color for count */
+}

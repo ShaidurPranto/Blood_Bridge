@@ -100,8 +100,12 @@ app.get('/getbloodFromDonor', (req, res) => {
 
 
 app.get('/yourRequest', (req, res) => {
-  const userid = req.query.userid;
-  res.render('yourRequest', { userid: userid });
+  const userid = req.query.userId;
+  const requestid=req.query.requestId;
+  const donorid=req.query.donorId;
+  console.log("........................"+donorid);
+
+  res.render('yourRequest', { userid: userid, donorid: donorid, requestid: requestid });
 
 });
 
@@ -112,6 +116,11 @@ app.get('/userViewDonorProfile', (req, res) => {
   res.render('userViewDonorProfile',{userid: userid, requestid: requestid});
 });
 
+app.get('/yourRequests', (req, res) => {
+  const userid = req.query.userid;
+  res.render('yourRequests', { userid: userid });
+
+});
 
 
 const renderRouter = require('./renderRouter/renderRouter');

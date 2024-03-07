@@ -3,22 +3,23 @@ let isVisible = false;
 
 
 let donationid;
-let donorid;
-let requestid;
+
+window.onload = function() {
+    // Your code here
+   checkAndNotify();
+};
+
 
 async function checkAndNotify() {
-      console.log(userid);
-   const response = await fetch(`/userHomePage/getRequestAppointmentData/${userid}`);
+      console.log(requestid);
+      console.log(donorid);
+   const response = await fetch(`/userHomePage/getRequestAppointmentData/${requestid}/${donorid}`);
     const appointmentData = await response.json();
-  
-    donorid=appointmentData.donorid;
-    requestid=appointmentData.requestid;
-    
     // Store the current status
     let currentStatus = appointmentData.Status;
     console.log(currentStatus);
      
-    if(currentStatus==="no"||currentStatus==="ENDED"||currentStatus==="CANCELED")
+    if(currentStatus==="no")
     
     {    
 
@@ -48,55 +49,58 @@ async function checkAndNotify() {
         console.log(currentStatus);
     }
 
-
+   else if(currentStatus==="ENDEDBU"||currentStatus==="CANCELED"||currentStatus==="REPORTED")
+   {
+    window.location.href = `/yourRequests?userId=${encodeURIComponent(userid)}`;
+   }
     
    
-    else if(currentStatus==="PENDING") {
+//     else if(currentStatus==="PENDING") {
           
-        console.log("HIIIIIIIIIIIUUUU")
-         document.getElementById('acceptMessage').style.display = 'none';
-         document.getElementById('bname').style.display = 'none';
+//         console.log("HIIIIIIIIIIIUUUU")
+//          document.getElementById('acceptMessage').style.display = 'none';
+//          document.getElementById('bname').style.display = 'none';
          
-         document.getElementById('noAppointmentMessage').style.display = 'none';
-        document.getElementById('pendingMessage').style.display = 'block';
-        document.getElementById('cancelAppointmentButton2').style.display = 'none';
-    document.getElementById('viewProfile').style.display = 'none';
-    document.getElementById('comeButton').style.display = 'none';
-    document.getElementById('todayMessage').style.display = 'none';
+//          document.getElementById('noAppointmentMessage').style.display = 'none';
+//         document.getElementById('pendingMessage').style.display = 'block';
+//         document.getElementById('cancelAppointmentButton2').style.display = 'none';
+//     document.getElementById('viewProfile').style.display = 'none';
+//     document.getElementById('comeButton').style.display = 'none';
+//     document.getElementById('todayMessage').style.display = 'none';
 
        
-    // If the current status is different from the last status, update the card
-    if (currentStatus !== lastStatus) {
-        // Update the last status
+//     // If the current status is different from the last status, update the card
+//     if (currentStatus !== lastStatus) {
+//         // Update the last status
 
-        lastStatus = currentStatus;
-        const secondCardWrapper = document.querySelectorAll('.card-wrapper')[0]; // Select the second card wrapper
-//secondCardWrapper.style.display = 'flex'; // Hide the second card wrapper
-const appointmentDate = new Date(appointmentData.appointmentDate);
-const formattedDate = appointmentDate.toLocaleDateString('en-US', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-});
-        // Select the card wrapper element
-        document.getElementById('ad').textContent =formattedDate;
-        document.getElementById('status').textContent = currentStatus;
-        document.getElementById('bloodGroup').textContent = appointmentData.bloodGroup;
-        document.getElementById('rhFactor').textContent = appointmentData.rh;
-        document.getElementById('quantity').textContent = appointmentData.quantity;
-        document.getElementById('requestDate').textContent = appointmentData.requestDate;
-        document.getElementById('district').textContent = appointmentData.district;
-        document.getElementById('area').textContent = appointmentData.area;
+//         lastStatus = currentStatus;
+//         const secondCardWrapper = document.querySelectorAll('.card-wrapper')[0]; // Select the second card wrapper
+// //secondCardWrapper.style.display = 'flex'; // Hide the second card wrapper
+// const appointmentDate = new Date(appointmentData.appointmentDate);
+// const formattedDate = appointmentDate.toLocaleDateString('en-US', {
+//     day: 'numeric',
+//     month: 'long',
+//     year: 'numeric'
+// });
+//         // Select the card wrapper element
+//         document.getElementById('ad').textContent =formattedDate;
+//         document.getElementById('status').textContent = currentStatus;
+//         document.getElementById('bloodGroup').textContent = appointmentData.bloodGroup;
+//         document.getElementById('rhFactor').textContent = appointmentData.rh;
+//         document.getElementById('quantity').textContent = appointmentData.quantity;
+//         document.getElementById('requestDate').textContent = appointmentData.requestDate;
+//         document.getElementById('district').textContent = appointmentData.district;
+//         document.getElementById('area').textContent = appointmentData.area;
         
         
-        document.getElementById('cancelAppointmentButton').style.display = 'block';
+//         document.getElementById('cancelAppointmentButton').style.display = 'block';
 
       
-    }
+//     }
 
 
    
-}
+// }
 
 else if(currentStatus==="SUCCESSFUL") {
     document.getElementById('acceptMessage').style.display = 'none';
