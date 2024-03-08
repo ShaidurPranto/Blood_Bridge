@@ -150,6 +150,7 @@ const adminRouter = require('./router/adminRouter');
 const bankUSArouter = require('./router/bankUSArouter');
 const bankHistoryRouter = require('./router/bankHistoryRouter');
 const donorPRrouter = require('./router/donorPRrouter');
+const userQNArouter = require('./router/userQNArouter');
 
 app.use('/render', renderRouter);
 app.use('/userLogin', userLoginRouter);
@@ -164,6 +165,7 @@ app.use('/admin', adminRouter);
 app.use('/bankUSA', bankUSArouter);
 app.use('/bankHistory', bankHistoryRouter);
 app.use('/donorPR', donorPRrouter);
+app.use('/userQNA', userQNArouter);
 
 app.listen(port, async () => {
   await scheduledTasks.cancelUnfinishedAppointments();
