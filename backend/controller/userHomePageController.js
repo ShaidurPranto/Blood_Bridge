@@ -1,6 +1,8 @@
 const { autoCommit } = require('oracledb');
 const databaseConnection = require('../database/databaseConnection');
 const oracledb = require('oracledb');
+const fs = require('fs');
+const path = require('path');
 
 
 
@@ -970,7 +972,7 @@ async function bloodBankInfos(req, res) {
 
 
 async function userBankAppointment(req, res) {
-    const {userid,id,area,district,bloodGroup,rh,quantity,date,time,description,document} = req.body;
+    const {userid,id,area,district,bloodGroup,rh,quantity,date,time,healthcareCenter,description,mobile} = req.body;
     let connection;
     STATUS='PENDING';
     console.log(area);
@@ -980,6 +982,7 @@ async function userBankAppointment(req, res) {
     console.log(quantity);
     console.log(date);
     console.log(time);
+    console.log(healthcareCenter);
     console.log(description);
 
     try {
@@ -1017,35 +1020,68 @@ async function userBankAppointment(req, res) {
     };
 
     await connection.execute(insertUserRequestQuery1, insertUserRequestBinds1);
+    
 
-
-
-
-
-        // Insert into DONOR_DONATES
-        const insertUserRequestQuery = `
-            INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP,RH,QUANTITY,DISTRICT,AREA,REQUEST_DATE,DESCRIPTION) 
-            VALUES (:REQUESTID, :userid, :bloodGroup, :rh, :quantity, :district, :area, SYSDATE, :description)
-        `;
-
-        const insertUserRequestBinds = {
-           REQUESTID: nextID,
-           userid: userid,
-           bloodGroup: bloodGroup,
-           rh: rh,
-           quantity: quantity,
-           district: district,
-           area: area,
-           description:description,
+    let requestTo='BANK';
+    if(req.file){
+        let filename = req.file.filename;
+        console.log("filename is ",filename);
+        console.log(nextID);
+         const query = ` INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP, RH, QUANTITY, DISTRICT, HEALTH_CARE_CENTER, AREA, REQUEST_DATE, DESCRIPTION, REQUEST_TO,REQUIRED_DATE,REQUIRED_TIME,MOBILE_NUMBER,DOCUMENT) 
+        VALUES (:REQUESTID, :USERID, :BLOODGROUP, :RH, :QUANTITY, UPPER(:DISTRICT), UPPER(:HEALTHCARECENTER), UPPER(:AREA), SYSDATE, UPPER(:DESCRIPTION), UPPER(:REQUESTTO),TO_DATE(:APPOINTMENTDATE,'YYYY-MM-DD'),:time,:mobile,:filename)`;
+        const binds = {
+            REQUESTID: nextID,
+            USERID: userid,
+            BLOODGROUP: bloodGroup,
+            RH: rh,
+            QUANTITY: quantity,
+            DISTRICT: district,
+            HEALTHCARECENTER: healthcareCenter,
+            AREA: area,
+            DESCRIPTION: description,
+            REQUESTTO: requestTo,
+            APPOINTMENTDATE: date,
+            TIME: time,
+            MOBILE: mobile,
+            filename :filename
         };
 
+        await connection.execute(query, binds);
+
+    }
+
+  else{
+  console.log("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+        // Insert into DONOR_DONATES
+        const insertUserRequestQuery = `
+        INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP, RH, QUANTITY, DISTRICT, HEALTH_CARE_CENTER, AREA, REQUEST_DATE, DESCRIPTION, REQUEST_TO,REQUIRED_DATE,REQUIRED_TIME,MOBILE_NUMBER) 
+        VALUES (:REQUESTID, :USERID, :BLOODGROUP, :RH, :QUANTITY, UPPER(:DISTRICT), UPPER(:HEALTHCARECENTER), UPPER(:AREA), SYSDATE, UPPER(:DESCRIPTION), UPPER(:REQUESTTO),TO_DATE(:APPOINTMENTDATE,'YYYY-MM-DD'),:time,:mobile)
+    `;
+    
+    const insertUserRequestBinds = {
+       REQUESTID: nextID,
+       USERID: userid,
+       BLOODGROUP: bloodGroup,
+       RH: rh,
+       QUANTITY: quantity,
+       DISTRICT: district,
+       HEALTHCARECENTER: healthcareCenter,
+       AREA: area,
+       DESCRIPTION: description,
+       REQUESTTO: requestTo,
+       APPOINTMENTDATE: date,
+       TIME: time,
+       MOBILE: mobile
+    };
+    
         await connection.execute(insertUserRequestQuery, insertUserRequestBinds);
 
         console.log("doneeeeeeeeeeeeeeeeeeeeeeee");
+}
         // Insert into user_DONOR_APPOINTMENTS
         const insertAppointmentQuery = `
-            INSERT INTO BANK_USER_APPOINTMENTS (REQUESTID,BANKID,APPOINTMENT_DATE, TIME, STATUS,BLOOD_GROUP,RH) 
-            VALUES (:REQUESTID, :BANKID, TO_DATE(:APPOINTMENTDATE,'YYYY-MM-DD'), :TIME, :STATUS, :BLOODGROUP, :RH)
+            INSERT INTO BANK_USER_APPOINTMENTS (REQUESTID,BANKID,APPOINTMENT_DATE, TIME, STATUS) 
+            VALUES (:REQUESTID, :BANKID, TO_DATE(:APPOINTMENTDATE,'YYYY-MM-DD'), :TIME, :STATUS)
         `;
 
         const insertAppointmentBinds = {
@@ -1053,9 +1089,7 @@ async function userBankAppointment(req, res) {
             BANKID: id,
             APPOINTMENTDATE: date,
             TIME: time,
-            STATUS: STATUS,
-            BLOODGROUP: bloodGroup,
-            RH: rh,
+            STATUS: STATUS,   
         };
 
         await connection.execute(insertAppointmentQuery, insertAppointmentBinds);
@@ -1782,7 +1816,7 @@ async function appoinmentEndedByUser(req, res) {
         // Insert into BANK_DONOR_APPOINTMENTS
         const query = `     
  UPDATE DONOR_USER_APPOINTMENTS
- SET DONOR_RATING= :rating, DONOR_REVIEW = :review, STATUS= :status
+ SET USER_RATING= :rating, USER_REVIEW = :review, STATUS= :status
  WHERE REQUESTID=:requestid AND DONORID=:donorid
         `;
 
@@ -2038,7 +2072,7 @@ WHERE REQUESTID= :requestid
 
 if (result && result.length > 0) {
     quantity = result[0]["QUANTITY"];
-    console.log(count);
+
 
     res.send({
         quantity:quantity
@@ -2079,7 +2113,7 @@ WHERE REQUESTID=:requestid AND STATUS<>'REPORTED'AND STATUS<>'CANCELED'
 
 if (result && result.length > 0) {
     quantity = result[0]["COUNT"];
-    console.log(count);
+   
 
     res.send({
         quantity:quantity
@@ -2098,8 +2132,405 @@ if (result && result.length > 0) {
     }
 }
 
+
+async function getAppointmentBankData(req, res) {
+    const userid = req.params.userid; // Declare and initialize userid here
+    console.log("User id is ", userid);
+
+
+    
+    const query1 = `
+    SELECT BS.NAME,B.REQUESTID, BU.BANKID, B.BLOOD_GROUP, B.RH, B.QUANTITY, B.DISTRICT, B.AREA, B.REQUIRED_DATE, B.HEALTH_CARE_CENTER, BU.STATUS,B.DESCRIPTION,B.REQUEST_DATE
+    FROM BLOOD_REQUEST B 
+    JOIN BANK_USER_APPOINTMENTS BU ON B.REQUESTID = BU.REQUESTID
+    JOIN BLOOD_BANK BR ON BR.BANKID=BU.BANKID
+    JOIN BANK_SIGNUP_REQEUSTS BS ON BR.REQUESTID=BS.REQUESTID
+    WHERE B.USERID =:userid AND B.REQUEST_TO = 'BANK'
+    ORDER BY B.REQUIRED_DATE DESC
+    FETCH FIRST 1 ROW ONLY`; // Corrected query, removed extra closing parenthesis
+    const binds1 = {
+        userid: userid,
+    };
+    const result = (await databaseConnection.execute(query1, binds1)).rows;
+    if (result && result.length > 0) {
+        bankName=result[0]["NAME"];
+        requestId = result[0]["REQUESTID"];
+        bankId = result[0]["BANKID"];
+        bloodGroup = result[0]["BLOOD_GROUP"];
+        rh = result[0]["RH"];
+        quantity = result[0]["QUANTITY"];
+        district = result[0]["DISTRICT"];
+        area = result[0]["AREA"];
+        requiredDate = result[0]["REQUIRED_DATE"];
+        healthcareCenter = result[0]["HEALTH_CARE_CENTER"];
+        Status = result[0]["STATUS"];
+        description = result[0]["DESCRIPTION"]; // Added description
+        requestDate=result[0]["REQUEST_DATE"];
+        
+        res.send({
+            bankName:bankName,
+            requestid: requestId,
+            bankid: bankId,
+            bloodGroup: bloodGroup,
+            rh: rh,
+            quantity: quantity,
+            district: district,
+            area: area,
+            requiredDate: requiredDate,
+            healthcareCenter: healthcareCenter,
+            Status: Status,
+            description: description,
+            requestDate:requestDate // Added description
+        });
+    }
+     else {
+        res.send({
+           Status:"no",
+        });
+        console.log("cannot retrieve the id");
+    }
+}
+
+
+
+async function bankAppCancelByUser(req, res) {
+    const { userid,bankid,requestid,description } = req.body;
+    let connection;
+    console.log("hiii"+bankid);
+    console.log("kiii"+requestid);
+
+    try {
+        // Get a database connection
+        connection = await databaseConnection.getConnection();
+        if (!connection) {
+            console.log("Could not get connection");
+            return res.status(500).send({
+                status: "unsuccessful",
+                message: "Database connection failed"
+            });
+        }
+        
+        // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
+        // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
+       
+
+
+        // Insert into BANK_DONOR_APPOINTMENTS
+        const insertCancelQuery = `
+        INSERT INTO CANCELED_APPOINTMENTS (USERID,BANK_USER_REQUEST_BANKID,BANK_USER_REQUESTID,DESCRIPTION)
+        VALUES (:userid,:bankid,:requestid,:description)
+    `;
+    
+    const insertCancelBinds = {
+        userid: userid,
+        bankid: bankid,
+        requestid: requestid,
+        description: description
+    };
+    
+    await connection.execute(insertCancelQuery, insertCancelBinds);
+       
+        // Commit the transaction
+        await connection.commit();
+
+        res.send({
+            status: "successful",
+            message: "Cancelled successfully",
+           
+        });
+    } catch (error) {
+        console.error("Error in cancelling appointment:", error);
+        // Rollback in case of error
+        if (connection) {
+            try {
+                await connection.rollback();
+            } catch (rollbackError) {
+                console.error("Rollback error:", rollbackError);
+            }
+        }
+        return res.status(500).send({
+            status: "unsuccessful",
+            message: "Error cancellation"
+        });
+    } finally {
+        if (connection) {
+            try {
+                // Always close connections
+                await connection.close();
+            } catch (closeError) {
+                console.error("Error closing connection:", closeError);
+            }
+        }
+    }
+}
+
+
+
+async function getstillLeft(req, res) {
+    
+    const userid = req.params.userid;
+     let cc=0;
+    
+
+const query1 = `
+
+SELECT 
+    BR.REQUESTID,
+    BR.QUANTITY,
+    COUNT(DISTINCT DUA.DONORID) AS APPOINTMENTS_COUNT
+FROM 
+    BLOOD_REQUEST BR
+LEFT JOIN 
+    DONOR_USER_APPOINTMENTS DUA ON BR.REQUESTID = DUA.REQUESTID
+WHERE 
+    BR.USERID = :userid
+GROUP BY 
+    BR.USERID, BR.REQUESTID, BR.QUANTITY
+HAVING 
+    BR.QUANTITY != COUNT(DISTINCT DUA.DONORID)
+
+
+
+`;
+
+    const binds1 = {
+    userid: userid
+    };
+
+    try {
+        const result = (await databaseConnection.execute(query1, binds1)).rows;
+
+if (result && result.length > 0) {
+    ac= result[0]["APPOINTMENTS_COUNT"];
+    quantity=result[0]["QUANTITY"];
+    requestid=result[0]["REQUESTID"];
+    console.log(ac);
+    console.log(quantity);
+    console.log(requestid);
+
+    res.send({
+       ac: ac,
+       quantity: quantity,
+       requestid: requestid
+    });
+} else {
+        res.send({
+          quantity: 0
+        });
+        console.log("cannot retrieve the id");
+    }
+    } catch (error) {
+        console.error("Error fetching blood bank details:", error.message);
+        res.status(500).send({
+            error: "Internal Server Error",
+        });
+    }
+}
+
+
+async function getBankHistory(req, res) {
+    const userid = req.params.userid; // Declare and initialize userid here
+    console.log("User id is ", userid);
+     
+    const query = 'SELECT DONORID FROM USER_DONOR WHERE USERID=:userid';
+    const binds = {
+        userid: userid,
+    };
+    var donorid;
+    const results = (await databaseConnection.execute(query, binds)).rows;
+    if (results) {
+        donorid = results[0]["DONORID"];
+
+        console.log("DONORID is : ", donorid);
+    }
+    const query1 = `
+    SELECT BS.NAME, BD.DONATION_DATE, BD.TIME, BS.DISTRICT, BS.AREA,BD.BANK_RATING, BD.BANK_REVIEW, BD.DONOR_RATING, BD.DONOR_REVIEW
+    FROM BANK_DONOR_APPOINTMENTS BD 
+    JOIN BLOOD_BANK B ON BD.BANKID = B.BANKID
+    JOIN BANK_SIGNUP_REQEUSTS BS ON BS.REQUESTID = B.REQUESTID
+    WHERE BD.DONORID = :donorid AND (BD.STATUS = 'SUCCESSFUL' OR BD.STATUS = 'ENDED')`; 
+
+const binds1 = {
+    donorid: donorid
+};
+
+const result = (await databaseConnection.execute(query1, binds1)).rows;
+
+if (result && result.length > 0) {
+    const bloodBankDatas = result.map(row => {
+        return {
+            bloodBankName: row.NAME,
+            donationDate: row.DONATION_DATE,
+            time: row.TIME,
+            district: row.DISTRICT,
+            area: row.AREA,
+            bankRating: row.BANK_RATING,
+            bankReview: row.BANK_REVIEW,
+            donorRating: row.DONOR_RATING,
+            donorReview: row.DONOR_REVIEW
+        };
+    });
+
+    res.send(bloodBankDatas);
+} else {
+    // Handle case when no donation history found
+    res.send({ error: "No donation history found for the donor." });
+}
+
+}
+
+
+async function getUserHistory(req, res) {
+    const userid = req.params.userid; // Declare and initialize userid here
+    console.log("User id is ", userid);
+     
+    const query = 'SELECT DONORID FROM USER_DONOR WHERE USERID=:userid';
+    const binds = {
+        userid: userid,
+    };
+    var donorid;
+    const results = (await databaseConnection.execute(query, binds)).rows;
+    if (results) {
+        donorid = results[0]["DONORID"];
+
+        console.log("DONORID is : ", donorid);
+    }
+
+    const query1 = `
+    SELECT US.NAME, BR.REQUIRED_DATE, BR.REQUIRED_TIME, BR.DESCRIPTION, DU.USER_RATING, DU.USER_REVIEW, DU.DONOR_RATING, DU.DONOR_REVIEW, BR.MOBILE_NUMBER
+    FROM DONOR_USER_APPOINTMENTS DU
+    JOIN BLOOD_REQUEST BR ON DU.REQUESTID = BR.REQUESTID
+    JOIN USER_DONOR U ON U.USERID = BR.USERID
+    JOIN USERS US ON US.USERID = U.USERID
+    
+WHERE DU.DONORID=:donorid AND DU.STATUS='SUCCESSFUL' OR DU.STATUS='ENDEDBD' OR DU.STATUS='ENDEDBU'`;
+
+const binds1 = {
+    donorid:donorid,
+};
+
+const result = (await databaseConnection.execute(query1, binds1)).rows;
+
+if (result && result.length > 0) {
+    const userDonationDatas= result.map(row => {
+        return {
+            name: row.NAME,
+            requiredDate: row.REQUIRED_DATE,
+            requiredTime: row.REQUIRED_TIME,
+            description: row.DESCRIPTION,
+            userRating: row.USER_RATING,
+            userReview: row.USER_REVIEW,
+            donorRating: row.DONOR_RATING,
+            donorReview: row.DONOR_REVIEW,
+            mobileNumber: row.MOBILE_NUMBER
+        };
+    });
+
+    res.send(userDonationDatas);
+} else {
+    res.send({ status: "no data found" });
+    console.log("No data found");
+}
+
+}
+
+
+async function updateProfilePhoto(req, res) {
+    const {userid} = req.body;
+    const photo = req.file;
+    if (photo) {
+        const fileName = photo.filename;
+        console.log("file name is ", fileName);
+        const query = `UPDATE USERS SET PHOTO = :photo WHERE USERID= :userid`;
+        const binds = { photo: fileName, userid: userid};
+        try {
+            await databaseConnection.execute(query, binds);
+            res.status(200).send(`Changed profile photo`);
+        }
+        catch (error) {
+            res.status(500).json(error);
+        }
+    }
+};
+
+
+async function getProfilePhoto(req, res) {
+    console.log("recieved request for getting profile photo of donor");
+    
+    const userid=req.params.userid;
+    const query = `SELECT PHOTO FROM USERS WHERE USERID = :userid`;
+    const binds = { userid: userid};
+    try {
+        const result = await databaseConnection.execute(query, binds);
+        if (result && result.rows.length > 0) {
+            const photo = result.rows[0]["PHOTO"];
+           
+            if (photo === null) {
+                const photoPath = path.join(__dirname, `../../userFiles/userProfile.jpg`);
+                fs.readFile(photoPath, (err, data) => {
+                    if (err) {
+                        console.log("error reading photo", err);
+                        return;
+                    }
+                    console.log("sending default photo");
+                    res.send(data);
+                });
+            }
+            else {
+                const photoPath = path.join(__dirname, `../../userFiles/${photo}`);
+                console.log("hi");
+                fs.readFile(photoPath, (err, data) => {
+                    if (err) {
+                        console.log("error reading photo", err);
+                        return;
+                    }
+                    console.log("sending photo");
+                    res.send(data);
+                });
+            }
+        }
+        else {
+            //send default photo
+            const photoPath = path.join(__dirname, `../../userFiles/userProfile.jpg`);
+            fs.readFile(photoPath, (err, data) => {
+                if (err) {
+                    console.log("error reading photo", err);
+                    return;
+                }
+                console.log("sending default photo");
+                res.send(data);
+            });
+        }
+
+    } catch (error) {
+        console.log("got error sending nothing");
+        res.json(error);
+    }
+};
+ 
+
+async function ifAnyOngoingWithBank(req,res){
+    const userid = req.params.userid;
+    console.log("++++++++"+userid);
+    const query = `SELECT COUNT(*) AS NUM
+    FROM BANK_USER_APPOINTMENTS BU JOIN BLOOD_REQUEST BR ON BU.REQUESTID=BR.REQUESTID
+    WHERE BR.USERID=:userid AND BU.STATUS<> 'ENDED' AND BU.STATUS<>'SUCCESSFUL' AND BU.STATUS<>'CANCELED'`;
+    const binds = [userid];
+    const result = await databaseConnection.execute(query, binds);
+    const counts = result.rows[0].NUM;
+    console.log(counts);
+    if(counts > 0){
+        res.send('true'); //frontend has to extract this as a text
+    }
+    else{
+        res.send('false');
+    }
+}
+
+
 module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID, getUserData, getBloodBank, donorProfileUpdate, getAppointmentData,
     getBloodBankOnRequest, bloodBankInfos,userBankAppointment,
     appoinmentEnded,appoinmentCancel,appoinmentCancelAccepted,donorUserAppointment,getDonorOnRequest,appoinmentCanceled,
     appoinmentCancelFromUserAccepted,giveSuccessfulUpdate,appoinmentEndedByUser,userReportDonor,getDonorsIf,getDonorsIfAccepted
-,getQuantity,getQuantityCount};
+,getQuantity,getQuantityCount,getAppointmentBankData,bankAppCancelByUser,getstillLeft,getBankHistory,getUserHistory,updateProfilePhoto,getProfilePhoto
+,ifAnyOngoingWithBank};

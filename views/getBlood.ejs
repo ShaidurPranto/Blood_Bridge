@@ -100,6 +100,10 @@
     <div class="updateProfileForm" style="display: none; align-items: center; justify-content: center;">
         <h1 class="heading" style="color: #550011;">Request Blood!</h1>
         <form id="profileForm">
+            <%
+            // Define currentDate here
+            const currentDate = new Date().toISOString().split('T')[0];
+        %>
             <label for="bankName" style="color: #550011;">Bank Name:</label><br>
             <input type="text" id="bankName" name="bankName" required><br>
                  
@@ -111,29 +115,36 @@
             <input type="text" id="district" name="district" required><br>
             
             <label for="bloodGroup" style="color: #550011;">Blood Group:</label><br>
-           <input type="text" id="bloodGroup" name="bloodGroup" required><br>
+           <input type="text" id="bloodGrou" name="bloodGroup" required><br>
 
     
             <label for="quantity" style="color: #550011;">Quantity:</label><br>
             <input type="number" id="quantity" name="quantity" required><br>
             
-            <label for="date" style="color: #550011;">Date:</label><br>
-            <input type="date" id="date" name="date" required><br>
+            <label for="date" style="color: #550011;">Required Date:</label><br>
+            <input type="date" id="date" name="date"  min="<%= currentDate %>" required><br>
 
             <label for="Time" style="color: #550011;">Appointment Time:</label><br>
             <input type="time" id="time" name="donationTime" required><br>
+
+            <label for="healthcare-center" style="color: #550011;">Healthcare Center:</label><br>
+            <input type="text" id="healthcare" name="healthcare-center" required><br>
     
             <label for="description" style="color: #550011;">Description:</label><br>
             <textarea id="description" name="description" rows="4" style="width: 100%; font-size: 12px;" required></textarea><br>
             
             <label for="document" style="color: #550011;">Upload Document:</label><br>
             <input type="file" id="document" name="document"><br>
+
+            
+<label for="mobile" style="color: #550011;">Mobile Number:</label><br>
+<input type="tel" id="mobile" name="mobile" required><br>
     
             <button id="submit" style="background-color: #550011; color: white;">Submit</button>
             <button id="cancelUpdate" style="background-color: #550011; color: white;">Cancel</button>
         </form>
     </div>
-    
+   
 </div>
 </body>
 </html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate Blood</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="ejsPages/css/pendingR.css">
+    
+    <script>
+        const userid = '<%= userid %>';
+    </script>
+   <script type="text/javascript" src="/ejsPages/js/pendingR.js" defer></script>
+  
+</head>
+<body>
+
+<div class="navbar">
+  <h2>Donate Blood Immediately to Help</h2>
+</div>
+ 
+<div id="hii"></div>
+<div class="content">
+    
+  <div class="sidebar">
+    <!-- Sidebar content goes here -->
+  </div>
+  <div class="main-content">
+    <!-- Main content goes here -->
+    
+    <h2>Users in your Area!</h2>
+                <p id="urgent">~Help by donating blood!</p>
+                <button class="rounded-button" onclick="displayDonorsAsc()">VIEW OLD REQUESTS</button>
+                <button class="rounded-button1" onclick="displayDonorsDesc()">VIEW LATEST REQUESTS</button>
+                 
+                <div id="bloodBankResults">
+                   
+                </div>
+                
+               
+            </div>
+            <div class="other-content">
+                <h2>Users in your Division!</h2>
+                <p id="urgent">~You can always help Donors!</p>
+                <button class="rounded-button2" onclick="displayDonorsAsc1()">VIEW OLD REQUESTS</button>
+                <button class="rounded-button3" onclick="displayDonorsDesc1()">VIEW LATEST REQUESTS</button>
+                <!-- Other content goes here -->
+                <div id="bloodBankResults2">
+                           
+                </div>
+              </div>    
+            
+  </div>
+  
+
+
+</body>
+</html>

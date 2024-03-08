@@ -539,3 +539,77 @@ header {
     margin-bottom: 5px; /* Add spacing between form elements */
     padding: 2px; /* Add some padding inside the inputs */
 }
+/* Style for file input */
+#photoUploadInput {
+  display: none; /* Hide the default file input */
+}
+
+#uploadButton {
+  display: inline-block;
+  padding: 3px 5px; /* Decrease padding for smaller size */
+  background-color: #54585a;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px; /* Move the button to the left */
+  margin-top: 250px; /* Add margin-top to move the button downward */
+}
+
+#uploadButton:hover {
+  background-color: #45a049;
+}
+
+/* Style for figure */
+figure {
+  position: relative; /* Needed for positioning the buttons */
+}
+
+/* Style for figcaption */
+figcaption {
+  position: absolute;
+  bottom: 5px;
+  padding: 3px 5px; /* Decrease padding for smaller size */ /* Adjust the bottom value to move it downward */
+  left: 50%;
+  transform: translateX(-50%);
+  color: #888;
+  font-size: 7px;
+  cursor: pointer;
+  transition: color 0.3s;
+  z-index: 1; /* Ensure it's above the input */
+}
+
+figcaption:hover {
+  color: #555;
+}
+
+/* Style for file input label */
+.fileLabel {
+  display: inline-block;
+  padding: 3px 5px; /* Decrease padding for smaller size */
+  background-color: #54585a;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 50px; /* Move the label to the left */
+}
+
+.fileLabel:hover {
+  background-color: #2980b9;
+}
+
+
+/* Style for profile photo */
+.profile {
+  width: 250px;
+  height: 250px;
+  background-size: cover;
+  background-position: center;
+  position: relative; /* Set position to relative */
+  z-index: 1; /* Set a high z-index value */
+}
+
+/* Rest of your CSS styles... */

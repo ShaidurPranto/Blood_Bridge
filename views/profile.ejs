@@ -35,14 +35,34 @@
                 <span>Donor Profile</span>
             </div>
         </header>
+<!-- ===== ===== User Main-Profile ===== ===== -->
+<!-- <section class="userProfile card">
+    <div class="profile">
+        <form id="photoUploadForm" enctype="multipart/form-data">
+            <figure>
+                <img src="img.jpg" alt="profile" width="250px" height="250px">
+                <label for="photoUploadInput" id="photoUploadLabel" class="fileLabel">Choose File</label>
+                <input type="file" id="photoUploadInput" name="profilePhoto" accept=".jpg, .png" onchange="updateSelectedFileName()">
+                <button id="uploadButton" type="button" onclick="uploadPhoto()">Upload</button>
+            </figure>
+        </form>
+    </div>
+</section> -->
 
 
-        <!-- ===== ===== User Main-Profile ===== ===== -->
-        <section class="userProfile card">
-            <div class="profile">
-                <figure><img src="img.jpg" alt="profile" width="250px" height="250px"></figure>
-            </div>
-        </section>
+<section class="userProfile card">
+    <div class="profile" id="profilePhoto">
+        <!-- Background image will be applied here -->
+        <label for="photoUploadInput" id="photoUploadLabel" class="fileLabel">Choose File</label>
+        <input type="file" id="photoUploadInput" name="profilePhoto" accept=".jpg, .png" onchange="updateSelectedFileName()">
+        <button id="uploadButton" type="button" onclick="uploadPhoto()">Upload</button>
+    </div>
+</section>
+
+
+
+
+
 
 
         <!-- ===== ===== Work & Skills Section ===== ===== -->

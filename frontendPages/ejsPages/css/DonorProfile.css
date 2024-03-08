@@ -84,3 +84,14 @@ body {
 .contact-info h2, .basic-info h2 {
     margin-top: 0;
 }
+
+/* Style for profile photo */
+.profile {
+    width: 250px;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  /* Rest of your CSS styles... */
+  

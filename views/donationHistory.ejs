@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Blood Donation Tracker</title>
+	
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+<link rel="stylesheet" href="ejsPages/css/donationHistory.css">
+
+<script>
+    const userid = '<%= userid %>';
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="/ejsPages/js/donationHistory.js" defer></script>
+
+</head>
+<body>   
+   
+	   
+<div class="navbar">
+   
+        <h2>Donation History<h4 id="huhuhu">~Track Your Generosity Over Time~</h4></h2>
+      
+   
+    
+  </div>
+      
+
+  <div class="container">
+    <div class="chart-container">
+        <h2 id="ooo">Donation Distribution</h2>
+        <canvas id="donation-chart"></canvas>
+    </div>
+</div>
+	
+		<div class="upper-section">
+
+            <h2>DONATION TO BLOOD BANKS</h2>
+			<table id="blood-bank-table">
+				<thead>
+					<tr>
+						<th>Bank Name</th>
+						<th>Donation Date</th>
+						<th>Time</th>
+						<th>District</th>
+						<th>Area</th>
+						<th>Bank Rating</th>
+						<th>Bank Review</th>
+						<th>Donor Rating</th>
+						<th>Donor Review</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+      
+		<div class="lower-section">
+			<h2>DONATION TO USERS</h2>
+			<table id="user-table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Donation Date</th>
+						<th>Time</th>
+                        <th>Contacts</th>
+						<th>Reason</th>
+						<th>User Rating</th>
+						<th>User Review</th>
+						<th>Donor Rating</th>
+						<th>Donor Review</th>
+						
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+
+       
+      
+       
+
+   
+	
+</body>
+</html>

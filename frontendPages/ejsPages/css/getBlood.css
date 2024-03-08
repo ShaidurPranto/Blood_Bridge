@@ -423,3 +423,21 @@ body {
         border-color: #4caf50; /* Border color on focus */
     }
     
+
+    #hii {
+        background-color: #d9d6d6; /* Your desired background color */
+        color: #550011;
+        padding: 100px;
+        border-radius: 5px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        display: flex;
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        flex-direction: column; /* Align text vertically */
+        text-align: center; /* Align text horizontally */
+    }

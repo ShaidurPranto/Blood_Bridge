@@ -3,7 +3,28 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px; /* Adds space between the cards */
-}.blood-bank-card {
+}
+.card {
+    background: #c3d6eb;
+    color: #333;
+    border-radius: 3px;
+    box-shadow: 3px 2px 10px rgba(159, 85, 85, 0.3);
+    padding: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 70%;
+    margin: 20px auto;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.bloodBankCard.card-header
+{
+    margin-bottom: 0;
+}
+
+.blood-bank-card {
     background: #555a5f;
     color: #fff;
     border-radius: 8px;
@@ -55,18 +76,20 @@ body, html {
     width: 20%;
     background-color: #550011;
 }
-
 .second-div {
-    flex: 2;
-    width: 40%;
+    flex-grow: 1; /* Allow the div to grow and take up remaining space */
+    width: 25%;
     background-color: #f1dce1;
+    overflow-y: auto; /* Add vertical scrollbar if content exceeds the height */
 }
 
 .third-div {
-    flex: 2;
-    width: 40%;
+    flex-grow: 1; /* Allow the div to grow and take up remaining space */
+    width: 25%;
     background-color: #e7ebf0;
+    overflow-y: auto; /* Add vertical scrollbar if content exceeds the height */
 }
+
 
 
 #urgent {
@@ -107,7 +130,7 @@ body, html {
 
 
 #quantity {
-    background-color:  #f8a5b6;
+    background-color:  #bf96ce;
         color:white;
     
     padding: 10px;
@@ -122,4 +145,360 @@ body, html {
 
 .count {
     color: rgb(146, 52, 52); /* Example color for count */
+}
+
+#bloodBankResults2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adds space between the cards */
+}.blood-bank-card2 {
+    background: #555a5f;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 3px 2px 10px rgba(159, 85, 85, 0.3);
+    padding: 6px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%; /* Set the width to 100% */
+    height: 300px; /* Allow the height to adjust based on content */
+    max-width: 500px;
+    margin-left: 45px; /* Optionally, set a maximum width */
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.bloodBankCard.card-header2
+{
+    margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+    .blood-bank-card2 {
+        flex: 0 0 calc(50% - 20px); /* Two cards per row on medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .blood-bank-card2 {
+        flex: 0 0 100%; /* One card per row on small screens */
+    }
+}
+
+
+
+#noAppointmentMessage {
+    background-color:   #f8a5b6;
+    color:white;
+    
+    /* background-color: yellow; */
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+#pendingMessage {
+    background-color:  #f8a5b6;
+    color:white;
+    
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 50px;
+}
+
+#acceptMessage {
+    background-color:  #f8a5b6;
+    color:white;
+    
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+}
+
+
+#successMessage {
+    background-color:  #f8a5b6;
+        color:white;
+    
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 35px;
+    margin-bottom: 17px;
+}
+
+.donate-link {
+    
+    color:wheat;
+
+    text-decoration: underline; /* Add underline */
+}
+/* successful*/
+.bank-message {
+    margin-top: 10px;
+    color: #333; /* Adjust text color as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    animation: highlight 1.5s infinite alternate; /* Animation properties */
+    margin-bottom: 10px;
+   
+}
+
+@keyframes highlight {
+    0% { background-color: #e84062; } /* Initial background color */
+    100% { background-color: #f78548; } /* Highlighted background color */
+}
+.rating-review select,
+.rating-review textarea {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: rgb(199, 96, 96);
+    background-color: rgb(244, 225, 225);
+    transition: border-color 0.3s, background-color 0.3s;
+    margin-bottom: 2px;
+}
+
+.rating-review button {
+    background-color: #550011; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#cancelAppointmentButton {
+    background-color: #550011;
+    color: white;
+   
+    padding: 10px 20px;
+    margin: 10px auto; /* Set left and right margins to auto */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block; /* Ensure the button takes up full width */
+    width: fit-content; /* Adjust width to fit its content */
+}
+#viewprofile
+{
+    background-color: #550011;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px auto; /* Set left and right margins to auto */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block; /* Ensure the button takes up full width */
+    width: fit-content; /* Adjust width to fit its content */
+
+
+}
+#showApp
+{
+    background-color: #550011;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px auto; /* Set left and right margins to auto */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block; /* Ensure the button takes up full width */
+    width: fit-content; /* Adjust width to fit its content */  
+}
+#cancelAppointmentButton2 {
+    background-color: #550011;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px auto; /* Set left and right margins to auto */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block; /* Ensure the button takes up full width */
+    width: fit-content; /* Adjust width to fit its content */
+}
+
+
+.rating-review button:hover {
+    background-color:  #f8a5b6;
+}
+
+#bs
+{
+    margin-top: 5px;
+}
+
+#bankname {
+    margin-top: 40px;
+   text-align: center;
+   color:#550011;
+}
+.confirmation-box {
+    display: none;
+    position: fixed;
+    top: 56%;
+    font-size: large;
+   
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    left: 80%; /* Adjust left position */
+    transform: translate(-50%, -50%);
+    background-color:#3f5474; /* New background color */
+     color: #ccc;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 999; /* Ensure it's above other content */
+    height: 150px; /* Adjust width */
+    width: 300px;
+    text-align: center;
+}
+
+
+.confirmation-box button {
+    margin: 10px; /* Add some space around the buttons */
+    padding: 12px 24px; /* Increase padding for bigger buttons */
+    font-size: 16px; /* Increase font size */
+}
+
+
+
+.confirmation-box2 {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    max-width: 300px;
+    margin: 20px auto;
+}
+
+.confirmation-message {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.select-container {
+    margin-bottom: 15px;
+}
+
+.cancel-reason {
+   
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: rgb(199, 96, 96);
+    background-color: rgb(244, 225, 225);
+    transition: border-color 0.3s, background-color 0.3s;
+    margin-bottom: 2px;
+}
+
+.button-container {
+    text-align: center;
+}
+
+.confirm-button, .cancel-button {
+    padding: 10px 20px;
+    margin: 10px auto; /* Set left and right margins to auto */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block; /* Ensure the button takes up full width */
+    width: fit-content; /* Adjust width to fit its content */
+}
+
+.confirm-button {
+    background-color: #adfbaf;
+    color: rgb(109, 106, 106);
+}
+
+.cancel-button {
+    background-color: #feb4af;
+    color: rgb(109, 106, 106);
+}
+
+
+.bank-headline {
+    margin-bottom: 20px; /* Add space between headline and cards */
+}
+
+/* CSS for the donor headline */
+.donor-headline {
+    margin-top: 20px; /* Add space between bank cards and donor headline */
+    margin-bottom: 20px; /* Add space between donor headline and donor cards */
+}
+
+/* CSS for the right section */
+.right-section {
+    width: 60%; /* 40% of the container */
+    position: relative;
+}
+
+/* CSS for overlays */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(193, 103, 211, 0.5); /* Semi-transparent black */
+    z-index: 1; /* Ensure overlays are above other content */
+}
+
+.overlay.overlay-1 {
+    z-index: 2; /* Make the first overlay on top */
+}
+ 
+.overlay.overlay-2 {
+    z-index: 3; /* Make the second overlay on top of the first */
+}
+
+/* CSS for the cards */
+.card {
+    background: #c3d6eb;
+    color: #333;
+    border-radius: 3px;
+    box-shadow: 3px 2px 10px rgba(159, 85, 85, 0.3);
+    padding: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 70%; /* Decrease width size */
+    margin: 20px auto; /* Center horizontally and adjust vertical margin */
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#bloodBankResults1,#bloodBankResults2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adds space between the cards */
+}
+
+@media (max-width: 768px) {
+    .blood-bank-card {
+        flex: 0 0 calc(50% - 20px); /* Two cards per row on medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .blood-bank-card {
+        flex: 0 0 100%; /* One card per row on small screens */
+    }
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+.card p {
+    margin-bottom: 0;
 }

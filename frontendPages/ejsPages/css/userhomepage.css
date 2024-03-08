@@ -658,3 +658,241 @@ main {
     background-color: #feb4af;
     color: rgb(109, 106, 106);
 }
+
+/* //////////////qna/////////////////  */
+
+.qna-div{
+    background-color: #adadad;
+}
+
+.your-questions-state1{
+    padding: 20px;
+    width: 100%;
+    background-color: #f9f4f4;
+    margin-bottom : 30px;
+    border-radius: 10px;
+}
+.your-questions-state1 p{
+    font-size: 20px;
+    color: #550011;
+    align-self: center;
+}
+
+.your-questions-state2{
+    padding: 20px;
+    width: 100%;
+    background-color: #c4c0c0;
+    margin-bottom : 30px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.close-button-div{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.questions-div{
+    display: flex;
+    flex-direction: column;
+}
+
+.one-qna-div{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    border-bottom: 2px solid black;
+    background-color: #f9f4f4;
+    padding : 20px;
+}
+
+.one-qna-div .question-div{
+    background-color: #dbe2dd;
+    color: #030303;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom : 5px;
+}
+
+.one-qna-div .photo-div-your-questions{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+    width: 400px;
+    height: 300px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-color: #3f5474;
+}
+
+.one-qna-div .answers-div{
+    background-color: #121211;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom : 5px;
+    margin-left: 20px;
+}
+
+.one-qna-div .answers-div .answer-div{
+    background-color: #dbe2dd;
+    color: #030303;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom : 5px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.user-div{
+    background-color: white;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.no-answer-div p{
+    font-size: 20px;
+    color: #ffffff;
+    align-self: center;
+}
+
+
+
+
+
+.create-qna{
+    padding: 20px;
+    width: 100%;
+    background-color: #f9f4f4;
+}
+.create-qna p{
+    font-size: 20px;
+    color: #550011;
+    align-self: center;
+}
+
+.create-qna-form{
+    background-color: #f9f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+    width: 100%;
+    padding: 20px;
+}
+
+.question-div{
+    background-color: #d8d8d8;
+}
+
+.qna-input{
+    min-height: 100px;
+    resize: vertical;
+}
+
+.attach-photo{
+    margin-top: 5px;
+    background-color: #550011;
+    color: white;
+    width: 100px;
+    margin-bottom: 10px;
+    padding : 5px;
+}
+.selected-photo{
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.photo{
+    width: 500px;
+    height: 400px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.make-qna-button-div{ 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    padding: 10px;
+}
+
+
+.show-qna-div{
+    margin-top: 20px;
+    position: relative;
+    border-radius: 5px;
+}
+.one-qna-div{
+    border-radius: 10px;
+}
+.one-qna-div .photo-div{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+    width: 400px;
+    height: 300px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-color: #3f5474;
+}
+.one-qna-div .question-div{
+    margin-top: 30px;
+}
+.one-qna-div .maker-div{
+    position: absolute;
+    background-color: var(--main-color);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom : 5px;
+    width: 50%;
+    text-align: center;
+    top: 0;
+    left: 0;
+
+}
+.add-answer-div{
+    display: flex;
+    flex-direction: row;
+    background-color: #f9f4f4;
+}
+
+.add-answer-div textarea{
+    width: 60%;
+    height: 40px;
+    resize: vertical;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.add-answer-div button{
+    /* background-color: #0e6606f7; */
+    color: rgb(226, 2, 2);
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+    border : 1px solid #0e6606f7;
+}
+.add-answer-div button:hover{
+    background-color: var(--main-color);
+    color: white;
+}
+
+.no-answer-div p {
+    font-size: 12px;
+    color: #ffffff;
+    align-self: center;
+    opacity: 0.5;
+}

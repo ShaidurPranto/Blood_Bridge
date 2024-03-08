@@ -417,7 +417,7 @@ async function changePassword(oldPassword, newPassword, confirmPassword) {
 
     try {
         console.log("making request with oldPassword:", oldPassword, "newPassword:", newPassword);
-        const response = await fetch('/bankHome/profile/updatePassword', {
+        const response = await ('/bankHome/profile/updatePassword', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -614,6 +614,7 @@ async function fetchBankPhoto() {
         if (!response.ok) {
             throw new Error('Failed to fetch photo');
         }
+        
         const photoBlob = await response.blob();
         const photoURL = URL.createObjectURL(photoBlob);
         console.log("Fetching photo done");

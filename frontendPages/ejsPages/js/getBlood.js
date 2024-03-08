@@ -5,9 +5,6 @@ var Quantity;
 var BloodGroup;
 var Rh;
 
-
-
-
 function searchBloodBanks() {
    
     // Get values from left section search options
@@ -53,8 +50,29 @@ function searchBloodBanks() {
 async function getBloodBanks() {
     try {
        
-         const response = await fetch(`/userHomePage/getBloodBankOnRequest/${encodeURIComponent(Division)}/${encodeURIComponent(Area)}/${encodeURIComponent(BloodGroup)}/${encodeURIComponent(Rh)}/${encodeURIComponent(Quantity)}`);
-         const data = await response.json();
+        const response = await fetch(`/userHomePage/ifAnyOngoingWithBank/${userid}`);
+        const data = await response.text();
+
+         console.log(data);
+
+          //HERE I WILL CHECK IF ANY REQUEST IS PENDING I HAVE ACCESS TO USERID
+
+
+          if(data==='true'){
+
+            const bloodBankResultsDiv = document.getElementById('bloodBankResults');
+
+            bloodBankResultsDiv.innerHTML = '<h3> ~You are currently in touch with the bank, aiming for a positive outcome. Thanks for your ongoing support.</h3>';
+
+          }
+          else{
+              
+         
+    
+
+            const response = await fetch(`/userHomePage/getBloodBankOnRequest/${encodeURIComponent(Division)}/${encodeURIComponent(Area)}/${encodeURIComponent(BloodGroup)}/${encodeURIComponent(Rh)}/${encodeURIComponent(Quantity)}`);
+            const data = await response.json();
+       
          if (response.ok) {
             displayBloodBanks(data.bloodBanks);
         } else {
@@ -62,15 +80,15 @@ async function getBloodBanks() {
 
             bloodBankResultsDiv.innerHTML = '<h3>Sorry! No such Blood Banks Available at this moment!</h3>';
         }
+    }
 
     } catch (error) {
         console.error('Error:', error);
-    }
-
+    }}
          
         
         
-    }
+    
 
 
     let bloodBankCard;
@@ -180,6 +198,7 @@ rightSection.appendChild(bloodBankDiv);
         const requestNowButtons = document.querySelectorAll('.buttwo');
         requestNowButtons.forEach(button => {
             button.addEventListener('click', async function(event) {
+               
                 event.preventDefault();
                 const requestId = this.dataset.requestId;
                 console.log("..........."+requestId);
@@ -193,7 +212,8 @@ rightSection.appendChild(bloodBankDiv);
                         document.getElementById('area').value =userData[0].area;
                         document.getElementById('district').value =userData[0].district;
                         // Assuming Quantity is available from somewhere
-                        document.getElementById('bloodGroup').value =BloodGroup+','+Rh;
+                        console.log(BloodGroup+Rh);
+                        document.getElementById('bloodGrou').value =BloodGroup+''+Rh;
                         document.getElementById('quantity').value = Quantity;
 
                         // Toggle visibility of userDetail and overlay divs
@@ -227,60 +247,174 @@ document.getElementById('cancelUpdate').addEventListener('click', function(event
 
 
 
+// document.getElementById('submit').addEventListener('click', async function(event) {
+//     event.preventDefault();
+
+     
+//         id=id;
+//         let area=Area;
+//         district=Division;
+//         let bloodgroup=BloodGroup;
+//         let rh=Rh;
+//         let quantity=Quantity;
+//         date=document.getElementById('date').value;
+//         time=document.getElementById('time').value;
+//         description=document.getElementById('description').value;
+//         document=document.getElementById('document').value;
+//         mobile=document.getElementById('mobile').value;
+//         healthcare=document.getElementById('healthcare').value;
+
+//          // Check if date is filled
+//     if (date === '') {
+//         alert('Please fill out the date field.');
+//         return; // Exit the function if criteria are not met
+//     }
+
+//     // Check if time is filled
+//     if (time === '') {
+//         alert('Please fill out the time field.');
+//         return; // Exit the function if criteria are not met
+//     }
+
+//     // Check if healthcare center is filled
+//     if (healthcare === '') {
+//         alert('Please fill out the healthcare center field.');
+//         return; // Exit the function if criteria are not met
+//     }
+
+//     // Check if mobile number length is 11
+//     if (mobile.length !== 11) {
+//         alert('Mobile number must be 11 digits long.');
+//         return; // Exit the function if criteria are not met
+//     }
+       
+//         var data = {
+//             userid: userid,
+//             id: id,
+//             area: area,
+//             district: district,
+//             bloodGroup: bloodgroup,
+//             rh: rh,
+//             quantity: quantity,
+//             date: date,
+//             time: time,
+//             description: description,
+//             document: document,
+//             mobile:mobile,
+//             healthcareCenter: healthcare
+
+//         };
+
+//         const response = await fetch('/userHomePage/userBankAppoinment', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify(data)
+//         });
+
+//         if (response.status===200) {
+//             // Handle a successful response
+//             const responseData = await response.json();
+//             alert('Successfully created your appoinment');
+//             // Redirect or perform other actions as needed
+
+           
+//         } else {
+//             // Handle an error response
+//             alert('Error creating! Please try again');
+//         }
+    
+
+//     // Hide userDetail and overlay divs when cancel button is clicked
+//     document.querySelector('.userDetail').style.display = 'none';
+//     document.querySelector('.overlay').style.display = 'none';
+//     document.querySelector('.updateProfileForm').style.display = 'none';
+// });
+
 document.getElementById('submit').addEventListener('click', async function(event) {
     event.preventDefault();
 
-     
-        id=id;
-        let area=Area;
-        district=Division;
-        let bloodgroup=BloodGroup;
-        let rh=Rh;
-        let quantity=Quantity;
-        date=document.getElementById('date').value;
-        time=document.getElementById('time').value;
-        description=document.getElementById('description').value;
-        document=document.getElementById('document').value;
-       
-        var data = {
-            userid: userid,
-            id: id,
-            area: area,
-            district: district,
-            bloodGroup: bloodgroup,
-            rh: rh,
-            quantity: quantity,
-            date: date,
-            time: time,
-            description: description,
-            document: document,
+    // Retrieve form input values
+    id=id;
+    let date = document.getElementById('date').value;
+    let time = document.getElementById('time').value;
+    let healthcare = document.getElementById('healthcare').value;
+    let mobile = document.getElementById('mobile').value;
+    let fileInput = document.getElementById('document');
 
-        };
+    // Check if date, time, healthcare center, and mobile meet criteria
+    if (time === '') {
+                alert('Please fill out the time field.');
+                return; // Exit the function if criteria are not met
+            }
+        
+            // Check if healthcare center is filled
+            if (healthcare === '') {
+                alert('Please fill out the healthcare center field.');
+                return; // Exit the function if criteria are not met
+            }
+        
+            // Check if mobile number length is 11
+            if (mobile.length !== 11) {
+                alert('Mobile number must be 11 digits long.');
+                return; // Exit the function if criteria are not met
+            }
+               
 
-        const response = await fetch('/userHomePage/userBankAppoinment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
+    // Extract file from file input field
+    let file = fileInput.files[0];
+// if(!file){
+//     if (!['application/pdf'].includes(file.type)) {
+//         alert('Please upload a file PDF format.');
+//         return; // Exit the function if file format is not allowed
+//     }
+// }
 
-        if (response.status===200) {
-            // Handle a successful response
-            const responseData = await response.json();
-            alert('Successfully created your appoinment');
-            // Redirect or perform other actions as needed
+    // Create FormData object to send both data and file
+    let formData = new FormData();
+    formData.append('date', date);
+    formData.append('time', time);
+    formData.append('healthcareCenter', healthcare);
+    formData.append('mobile', mobile);
+    formData.append('file', file);
 
-           
-        } else {
-            // Handle an error response
-            alert('Error creating! Please try again');
-        }
-    
+    // Further form data retrieval and processing
+    let area = Area;
+    let district = Division;
+    let bloodgroup = BloodGroup;
+    let rh = Rh;
+    let quantity = Quantity;
+    let description = document.getElementById('description').value;
+
+    formData.append('userid', userid);
+    formData.append('id', id);
+    formData.append('area', area);
+    formData.append('district', district);
+    formData.append('bloodGroup', bloodgroup);
+    formData.append('rh', rh);
+    formData.append('quantity', quantity);
+    formData.append('description', description);
+
+    // Send data to server
+    const response = await fetch('/userHomePage/userBankAppoinment', {
+        method: 'POST',
+        body: formData
+    });
+
+    // Handle response
+    if (response.status === 200) {
+        // Handle a successful response
+        const responseData = await response.json();
+        alert('Successfully created your appointment');
+        // Redirect or perform other actions as needed
+    } else {
+        // Handle an error response
+        alert('Error creating! Please try again');
+    }
 
     // Hide userDetail and overlay divs when cancel button is clicked
     document.querySelector('.userDetail').style.display = 'none';
     document.querySelector('.overlay').style.display = 'none';
     document.querySelector('.updateProfileForm').style.display = 'none';
 });
-

@@ -1,5 +1,6 @@
 const express = require('express');
 const userHomePageController = require('../controller/userHomePageController');
+const upload = require('../multer/multer');
 
 const userHomePageRouter = express.Router();
 
@@ -13,7 +14,6 @@ userHomePageRouter.route('/getBankID/:requestid').get(userHomePageController.get
 userHomePageRouter.route('/getDonorID/:userid').get(userHomePageController.getDonorID);
 userHomePageRouter.route('/getUserData/:userid').get(userHomePageController.getUserData);
 userHomePageRouter.route('/donationDonorAppointment').post(userHomePageController.donationDonorAppointment);
-userHomePageRouter.route('/userBankAppoinment').post(userHomePageController.userBankAppointment);
 userHomePageRouter.route('/donorProfileUpdate').post(userHomePageController.donorProfileUpdate);
 userHomePageRouter.route('/getAppointmentData/:userid').get(userHomePageController.getAppointmentData);
 userHomePageRouter.route('/getBloodBankInfos/:requestId').get(userHomePageController.bloodBankInfos);
@@ -31,4 +31,14 @@ userHomePageRouter.route('/getDonorsIf/:userid').get(userHomePageController.getD
 userHomePageRouter.route('/getDonorsIfAccepted/:userid').get(userHomePageController.getDonorsIfAccepted);
 userHomePageRouter.route('/getQuanitiyCount/:firstRequestId').get(userHomePageController.getQuantity);
 userHomePageRouter.route('/getCurrentQuanitiyCount/:firstRequestId').get(userHomePageController.getQuantityCount);
+userHomePageRouter.route('/getRequestBankFromUser/:userid').get(userHomePageController.getAppointmentBankData);
+userHomePageRouter.route('/bankAppCancelByUser').post(userHomePageController.bankAppCancelByUser);
+userHomePageRouter.route('/getstillLeft/:userid').get(userHomePageController.getstillLeft);
+userHomePageRouter.route('/getBloodBankHistory/:userid').get(userHomePageController.getBankHistory);
+userHomePageRouter.route('/getUserHistory/:userid').get(userHomePageController.getUserHistory);
+userHomePageRouter.route('/uploadDonorPhoto').post(upload.photoUpload.single('file'),userHomePageController.updateProfilePhoto);
+userHomePageRouter.route('/getProfilePhoto/:userid').get(userHomePageController.getProfilePhoto);
+userHomePageRouter.route('/ifAnyOngoingWithBank/:userid').get(userHomePageController.ifAnyOngoingWithBank);
+userHomePageRouter.route('/userBankAppoinment').post(upload.pdfUpload.single('file'),userHomePageController.userBankAppointment);
+
 module.exports = userHomePageRouter;

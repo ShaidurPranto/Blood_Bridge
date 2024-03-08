@@ -123,6 +123,20 @@ app.get('/yourRequests', (req, res) => {
 });
 
 
+app.get('/pendingRequests', (req, res) => {
+  const userid = req.query.userid;
+  res.render('pendingRequests', { userid: userid });
+
+});
+
+///donationHistory
+
+app.get('/donationHistory', (req, res) => {
+  const userid = req.query.userid;
+  res.render('donationHistory', { userid: userid });
+});
+
+
 const renderRouter = require('./renderRouter/renderRouter');
 const userLoginRouter = require('./router/userLoginRouter');
 const userSignupRouter = require('./router/userSignupRouter');

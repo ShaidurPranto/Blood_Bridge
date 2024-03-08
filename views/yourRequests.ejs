@@ -36,9 +36,98 @@
 
         <!-- Third Div -->
         <div class="third-div">
-            <h2 id="headers">Requests From Blood Banks</h2>
+            <h1 id="headers">Requests From Blood Banks</h1>
             <p id="urgent">~The bloodbanks are trusted and authozized by us for your services!</p>
             <!-- Content for the third div -->
+             
+            <h3 id="noAppointmentMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Currently you have no appointment!<br><a class="donate-link" href="/getblood?userid=<%= encodeURIComponent(userid) %>">Book Request Now!</a>
+            </a></h3>
+            <h3 id="pendingMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Plase wait! Your appointment is currently pending! </h3>
+            <h3 id="acceptMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Appointment Accepted! Please be on exact <b>time and date</b></h3>
+            <p id="bankname" style="display: none;">
+                <h2 id="bname" class="las la-hand-holding-heart" style="display: none;">here</h2>
+                
+            </p>
+
+          
+        
+            <div id="successMessage" style="display: none;">
+                <i class="las la-heart"></i> <strong>Thanks for requesting blood via us!</strong>
+                <br>
+                ~We wish you good health and encourage you to continue being kind to people.<br><br>
+                <h4 id="br"><i class="las la-heart"></i>Bank's Review:</h4>
+                <div id="bankMessage" class="bank-message" style="background-color: white; padding: 10px; margin-top: 10px; border-radius: 5px;">Bank's message here</div>
+                <div class="rating-review" style="margin-top: 10px;">
+                    <label for="rating"><h4 id="br"><i class="las la-heart"></i>Give the bank a rating:</h4></label>
+                    <select name="rating" id="rating">
+                        <option value="5">5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1">1 Star</option>
+                    </select>
+                    <br>
+                    <label for="review"><h4 id="br"><i class="las la-heart"></i>Give the bank a rating:</h4></label>
+                    <textarea id="review" rows="3" placeholder="Type your review here..."></textarea>
+                    <button onclick="submitReview()">Submit Review</button>
+                </div>
+            </div>
+            
+            <div class="card-wrapper">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 id="headd" class="center-text"><i class="las la-quote-left"></i>Appointment Details<i class="las la-quote-right"></i></h1>
+                        <h2><p><strong><i class="las la-calendar"></i>Appointment Date: </strong> <span id="ad"></span></p></h2>
+                        <h3 id="statuss" class="ssss"><p><strong><i class="las la-bullhorn"></i> Status: </strong> <span id="status"></span></p></h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Bank Name: </strong> <span id="bankName">A</span></p>
+                        <p><strong>Blood Group: </strong> <span id="bloodGroup">Group A</span></p>
+                        <p><strong>RH Factor: </strong> <span id="rhFactor">Positive</span></p>
+                        <p><strong>Quantity: </strong> <span id="quantity">5 units</span></p>
+                        <p><strong>Request Date: </strong> <span id="requestDate">January 1, 2024</span></p>
+                        <p><strong>Division: </strong> <span id="district">District Name</span></p>
+                        <p><strong>Area: </strong> <span id="area">Area Name</span></p>
+                        <p><strong>Health Care Center: </strong> <span id="hcc">Area Name</span></p>
+                        <p><strong>Description: </strong><span id="description">Area Name</span></p>
+                    </div>
+                </div>
+            </div>
+
+           
+            <button id="cancelAppointmentButton" onclick="showConfirmation()">Cancel My Appointment</button>
+            <button id="cancelAppointmentButton2" onclick="showConfirmation2()">Cancel My Appointment</button>
+
+            <!-- Confirmation box -->
+            <div id="confirmationBox" class="confirmation-box">
+                <p>Are you sure you want to cancel your appointment?</p>
+                <button onclick="cancelAppointment()">Yes</button>
+                <button onclick="hideConfirmation()">No</button>
+            </div>
+           
+
+          
+            <div id="confirmationBox2" class="confirmation-box2" style="display: none;">
+                <p class="confirmation-message">Why do you want to cancel the appointment?</p>
+                <div class="select-container">
+                    <select id="cancelReason" class="cancel-reason">
+                        <option value="scheduleConflict">Schedule Conflict</option>
+                        <option value="notFeelingWell">Already Managed</option>
+                        <option value="emergency">Emergency</option>
+                        <option value="notinarearn">Not in this area right now</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="button-container">
+                    <button onclick="cancelAppointment2()" class="confirm-button">Confirm Cancellation</button>
+                    <button onclick="hideConfirmation2()" class="cancel-button">No, Keep Appointment</button>
+                </div>
+            </div>
+            
+           
+            
+        
+   
         </div>
     </div>
 </body>
