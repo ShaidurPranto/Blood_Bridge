@@ -854,4 +854,4 @@ async function getQNA(){
 
 
 
-setInterval(checkDonationStatusAndNotify, 1000*60*10); //10 minutes
+setInterval(checkDonationStatusAndNotify,5000); //10 minutes
