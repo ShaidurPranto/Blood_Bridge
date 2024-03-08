@@ -662,7 +662,8 @@ main {
 /* //////////////qna/////////////////  */
 
 .qna-div{
-    background-color: #adadad;
+    background-color: #dbd9d9;
+    overflow: auto; /* or overflow: scroll; */
 }
 
 .your-questions-state1{

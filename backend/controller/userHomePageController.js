@@ -1027,7 +1027,7 @@ async function userBankAppointment(req, res) {
         let filename = req.file.filename;
         console.log("filename is ",filename);
         console.log(nextID);
-         const query = ` INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP, RH, QUANTITY, DISTRICT, HEALTH_CARE_CENTER, AREA, REQUEST_DATE, DESCRIPTION, REQUEST_TO,REQUIRED_DATE,REQUIRED_TIME,MOBILE_NUMBER,DOCUMENT) 
+         const query = ` INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP, RH, QUANTITY, DISTRICT, HEALTH_CARE_CENTER, AREA, REQUEST_DATE, DESCRIPTION, REQUEST_TO,REQUIRED_DATE,REQUIRED_TIME,PHONE_NUMBER,DOCUMENT) 
         VALUES (:REQUESTID, :USERID, :BLOODGROUP, :RH, :QUANTITY, UPPER(:DISTRICT), UPPER(:HEALTHCARECENTER), UPPER(:AREA), SYSDATE, UPPER(:DESCRIPTION), UPPER(:REQUESTTO),TO_DATE(:APPOINTMENTDATE,'YYYY-MM-DD'),:time,:mobile,:filename)`;
         const binds = {
             REQUESTID: nextID,
@@ -1054,7 +1054,7 @@ async function userBankAppointment(req, res) {
   console.log("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
         // Insert into DONOR_DONATES
         const insertUserRequestQuery = `
-        INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP, RH, QUANTITY, DISTRICT, HEALTH_CARE_CENTER, AREA, REQUEST_DATE, DESCRIPTION, REQUEST_TO,REQUIRED_DATE,REQUIRED_TIME,MOBILE_NUMBER) 
+        INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP, RH, QUANTITY, DISTRICT, HEALTH_CARE_CENTER, AREA, REQUEST_DATE, DESCRIPTION, REQUEST_TO,REQUIRED_DATE,REQUIRED_TIME,PHONE_NUMBER) 
         VALUES (:REQUESTID, :USERID, :BLOODGROUP, :RH, :QUANTITY, UPPER(:DISTRICT), UPPER(:HEALTHCARECENTER), UPPER(:AREA), SYSDATE, UPPER(:DESCRIPTION), UPPER(:REQUESTTO),TO_DATE(:APPOINTMENTDATE,'YYYY-MM-DD'),:time,:mobile)
     `;
     
@@ -1080,8 +1080,8 @@ async function userBankAppointment(req, res) {
 }
         // Insert into user_DONOR_APPOINTMENTS
         const insertAppointmentQuery = `
-            INSERT INTO BANK_USER_APPOINTMENTS (REQUESTID,BANKID,APPOINTMENT_DATE, TIME, STATUS) 
-            VALUES (:REQUESTID, :BANKID, TO_DATE(:APPOINTMENTDATE,'YYYY-MM-DD'), :TIME, :STATUS)
+            INSERT INTO BANK_USER_APPOINTMENTS (REQUESTID,BANKID,APPOINTMENT_DATE, TIME, STATUS,QUANTITY) 
+            VALUES (:REQUESTID, :BANKID, TO_DATE(:APPOINTMENTDATE,'YYYY-MM-DD'), :TIME, :STATUS, :quantity)
         `;
 
         const insertAppointmentBinds = {
@@ -1089,7 +1089,8 @@ async function userBankAppointment(req, res) {
             BANKID: id,
             APPOINTMENTDATE: date,
             TIME: time,
-            STATUS: STATUS,   
+            STATUS: STATUS,  
+            quantity: quantity 
         };
 
         await connection.execute(insertAppointmentQuery, insertAppointmentBinds);
@@ -2397,7 +2398,7 @@ async function getUserHistory(req, res) {
     }
 
     const query1 = `
-    SELECT US.NAME, BR.REQUIRED_DATE, BR.REQUIRED_TIME, BR.DESCRIPTION, DU.USER_RATING, DU.USER_REVIEW, DU.DONOR_RATING, DU.DONOR_REVIEW, BR.MOBILE_NUMBER
+    SELECT US.NAME, BR.REQUIRED_DATE, BR.REQUIRED_TIME, BR.DESCRIPTION, DU.USER_RATING, DU.USER_REVIEW, DU.DONOR_RATING, DU.DONOR_REVIEW, BR.PHONE_NUMBER
     FROM DONOR_USER_APPOINTMENTS DU
     JOIN BLOOD_REQUEST BR ON DU.REQUESTID = BR.REQUESTID
     JOIN USER_DONOR U ON U.USERID = BR.USERID
@@ -2422,7 +2423,7 @@ if (result && result.length > 0) {
             userReview: row.USER_REVIEW,
             donorRating: row.DONOR_RATING,
             donorReview: row.DONOR_REVIEW,
-            mobileNumber: row.MOBILE_NUMBER
+            mobileNumber: row.PHONE_NUMBER
         };
     });
 
