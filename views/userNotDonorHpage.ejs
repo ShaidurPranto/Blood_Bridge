@@ -12,7 +12,7 @@
     <script>
         const userid = '<%= userid %>';
     </script>
-    <script type="text/javascript" src="/ejsPages/js/userDonorHomepage.js" defer></script>
+    <script type="text/javascript" src="/ejsPages/js/usd.js" defer></script>
 </head>
 
 <body>
@@ -48,30 +48,7 @@
                 <span style="font-size: 20px;">From Donors</span>
                </span></a></li> 
         </ul>  -->
-                <ul>
-                    <li><a href="#" onclick="toggleBloodRequest()"><span class="las la-hand-point-down"><span> Request
-                                    Blood</span></span></a></li>
-                </ul>
-
-                <ul id="bloodBankLists" style="display: none;">
-                    <li style="margin-left: 55px;"><a href="/getblood?userid=<%= encodeURIComponent(userid) %>"><span
-                                class="las la-handshake">
-                                <span style="font-size: 20px;">From Blood Banks</span>
-                            </span></a></li>
-                </ul>
-                <ul id="donorLists" style="display: none;">
-                    <li style="margin-left: 55px;"><a
-                            href="/getbloodFromDonor?userid=<%= encodeURIComponent(userid) %>"><span
-                                class="las la-handshake">
-                                <span style="font-size: 20px;">From Donors</span>
-                            </span></a></li>
-                </ul>
-                <ul>
-                    <li><a href="/yourRequests?userid=<%= encodeURIComponent(userid) %>"><span
-                                class="las la-file-medical-alt">
-                                <span>Your Requests</span>
-                            </span></a></li>
-                </ul>
+               
 
                 <ul>
                     <li><a href="/donorSignup?userid=<%= encodeURIComponent(userid) %>"><span class="las la-tint">

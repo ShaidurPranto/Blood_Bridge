@@ -1,25 +1,3 @@
-window.onload = function() {
-   checkIfElgible();
-};
-
- async function checkIfElgible()
- {
-    const response = await fetch(`/userHomePage/ifEligible/${userid}`);
-    const appointmentData = await response.json();
-    const v_result = appointmentData.v_result;
-    if(v_result===0)
-    {    document.getElementById('hii').style.display = 'none';
-        extractFormValues();
-    }
-    else
-    {
-        document.getElementById('hii').style.display = 'block';
-        
-    }
-
- }
-
-
 
 
 
