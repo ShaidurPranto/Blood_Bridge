@@ -27,6 +27,8 @@
             <h1 id="headers">Requests From Donors</h1>
             <p id="urgent">~The donors are trusted and always there for your services!</p>
             <h3 id="quantity"><i class="las la-bell"></i></h3>
+            <h3 id="noAppointmentMessage2" style="display: none;"><i class="las la-exclamation-circle"></i> Currently you have no appointment!<br><a class="donate-link" href="/getbloodFromDonor?userid=<%= encodeURIComponent(userid) %>">Book Request Now to Donor!</a>
+            </a></h3>
             <h2 id="dList" >Donor Lists for your request:</h2>
             <!-- Content for the second div -->
             <div id="bloodBankResults">
@@ -40,8 +42,9 @@
             <p id="urgent">~The bloodbanks are trusted and authozized by us for your services!</p>
             <!-- Content for the third div -->
              
-            <h3 id="noAppointmentMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Currently you have no appointment!<br><a class="donate-link" href="/getblood?userid=<%= encodeURIComponent(userid) %>">Book Request Now!</a>
+            <h3 id="noAppointmentMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Currently you have no appointment!<br><a class="donate-link" href="/getblood?userid=<%= encodeURIComponent(userid) %>">Book Request Now to Bank!</a>
             </a></h3>
+            
             <h3 id="pendingMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Plase wait! Your appointment is currently pending! </h3>
             <h3 id="acceptMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Appointment Accepted! Please be on exact <b>time and date</b></h3>
             <p id="bankname" style="display: none;">

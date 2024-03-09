@@ -186,7 +186,7 @@ body, html {
 
 
 
-#noAppointmentMessage {
+#noAppointmentMessage,#noAppointmentMessage2 {
     background-color:   #f8a5b6;
     color:white;
     

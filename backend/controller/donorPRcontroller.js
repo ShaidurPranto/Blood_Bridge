@@ -57,7 +57,7 @@ async function isThereAnyDonationInThreeMonths(req,res){
 async function getBloodRequetsInSameArea(req,res){
     const donorid = req.params.donorid;
     // ekhane required date dea hoi nai , tui table update korar por eta add kre dish select er moddhe 
-    const query = `SELECT U.NAME, BR.REQUESTID , BR.USERID , BR.DISTRICT , BR.AREA , BR.DESCRIPTION , BR.HEALTH_CARE_CENTER , BR.MOBILE_NUMBER, BR.REQUIRED_DATE,BR.REQUEST_DATE
+    const query = `SELECT U.NAME, BR.REQUESTID , BR.USERID , BR.DISTRICT , BR.AREA , BR.DESCRIPTION , BR.HEALTH_CARE_CENTER , BR.PHONE_NUMBER, BR.REQUIRED_DATE,BR.REQUEST_DATE
     FROM BLOOD_REQUEST BR JOIN USER_REQUEST UR ON UR.REQUESTID = BR.REQUESTID
                                                 JOIN USERS U ON U.USERID = UR.USERID
     WHERE (BR.REQUEST_TO = 'DONOR') AND 
@@ -84,7 +84,7 @@ if (result && result.length > 0) {
         area: item.AREA,
         description: item.DESCRIPTION,
         healthcareCenter: item.HEALTH_CARE_CENTER,
-        phoneNumber: item.MOBILE_NUMBER,
+        phoneNumber: item.PHONE_NUMBER,
         requiredDate: item.REQUIRED_DATE,
         requestDate: item.REQUEST_DATE
     }));
@@ -100,7 +100,7 @@ if (result && result.length > 0) {
 async function getBloodRequetsInSameAreaDesc(req,res){
     const donorid = req.params.donorid;
     // ekhane required date dea hoi nai , tui table update korar por eta add kre dish select er moddhe 
-    const query = `SELECT U.NAME, BR.REQUESTID , BR.USERID , BR.DISTRICT , BR.AREA , BR.DESCRIPTION , BR.HEALTH_CARE_CENTER , BR.MOBILE_NUMBER, BR.REQUIRED_DATE,BR.REQUEST_DATE
+    const query = `SELECT U.NAME, BR.REQUESTID , BR.USERID , BR.DISTRICT , BR.AREA , BR.DESCRIPTION , BR.HEALTH_CARE_CENTER , BR.PHONE_NUMBER, BR.REQUIRED_DATE,BR.REQUEST_DATE
     FROM BLOOD_REQUEST BR JOIN USER_REQUEST UR ON UR.REQUESTID = BR.REQUESTID
                                                 JOIN USERS U ON U.USERID = UR.USERID
     WHERE (BR.REQUEST_TO = 'DONOR') AND 
@@ -128,7 +128,7 @@ if (result && result.length > 0) {
         area: item.AREA,
         description: item.DESCRIPTION,
         healthcareCenter: item.HEALTH_CARE_CENTER,
-        phoneNumber: item.MOBILE_NUMBER,
+        phoneNumber: item.PHONE_NUMBER,
         requiredDate: item.REQUIRED_DATE,
         requestDate: item.REQUEST_DATE
     }));
@@ -144,7 +144,7 @@ if (result && result.length > 0) {
 async function getBloodRequetsInSameAreaAsc(req,res){
     const donorid = req.params.donorid;
     // ekhane required date dea hoi nai , tui table update korar por eta add kre dish select er moddhe 
-    const query = `SELECT U.NAME, BR.REQUESTID , BR.USERID , BR.DISTRICT , BR.AREA , BR.DESCRIPTION , BR.HEALTH_CARE_CENTER , BR.MOBILE_NUMBER, BR.REQUIRED_DATE,BR.REQUEST_DATE
+    const query = `SELECT U.NAME, BR.REQUESTID , BR.USERID , BR.DISTRICT , BR.AREA , BR.DESCRIPTION , BR.HEALTH_CARE_CENTER , BR.PHONE_NUMBER, BR.REQUIRED_DATE,BR.REQUEST_DATE
     FROM BLOOD_REQUEST BR JOIN USER_REQUEST UR ON UR.REQUESTID = BR.REQUESTID
                                                 JOIN USERS U ON U.USERID = UR.USERID
     WHERE (BR.REQUEST_TO = 'DONOR') AND 
@@ -172,7 +172,7 @@ if (result && result.length > 0) {
         area: item.AREA,
         description: item.DESCRIPTION,
         healthcareCenter: item.HEALTH_CARE_CENTER,
-        phoneNumber: item.MOBILE_NUMBER,
+        phoneNumber: item.PHONE_NUMBER,
         requiredDate: item.REQUIRED_DATE,
         requestDate: item.REQUEST_DATE
     }));
@@ -189,7 +189,7 @@ async function getBloodRequestsInSameDistrict(req,res){
     const donorid = req.params.donorid;
 
 const query = `
-    SELECT U.NAME, BR.REQUESTID, BR.USERID, BR.DISTRICT, BR.AREA, BR.DESCRIPTION, BR.HEALTH_CARE_CENTER, BR.MOBILE_NUMBER, BR.REQUIRED_DATE, BR.REQUEST_DATE
+    SELECT U.NAME, BR.REQUESTID, BR.USERID, BR.DISTRICT, BR.AREA, BR.DESCRIPTION, BR.HEALTH_CARE_CENTER, BR.PHONE_NUMBER, BR.REQUIRED_DATE, BR.REQUEST_DATE
     FROM BLOOD_REQUEST BR
     JOIN USER_REQUEST UR ON UR.REQUESTID = BR.REQUESTID
     JOIN USERS U ON U.USERID = UR.USERID
@@ -217,7 +217,7 @@ try {
             area: item.AREA,
             description: item.DESCRIPTION,
             healthcareCenter: item.HEALTH_CARE_CENTER,
-            phoneNumber: item.MOBILE_NUMBER,
+            phoneNumber: item.PHONE_NUMBER,
             requiredDate: item.REQUIRED_DATE,
             requestDate: item.REQUEST_DATE
         }));
@@ -238,7 +238,7 @@ async function getBloodRequestsInSameDistrictAsc(req,res){
     const donorid = req.params.donorid;
 
 const query = `
-    SELECT U.NAME, BR.REQUESTID, BR.USERID, BR.DISTRICT, BR.AREA, BR.DESCRIPTION, BR.HEALTH_CARE_CENTER, BR.MOBILE_NUMBER, BR.REQUIRED_DATE, BR.REQUEST_DATE
+    SELECT U.NAME, BR.REQUESTID, BR.USERID, BR.DISTRICT, BR.AREA, BR.DESCRIPTION, BR.HEALTH_CARE_CENTER, BR.PHONE_NUMBER, BR.REQUIRED_DATE, BR.REQUEST_DATE
     FROM BLOOD_REQUEST BR
     JOIN USER_REQUEST UR ON UR.REQUESTID = BR.REQUESTID
     JOIN USERS U ON U.USERID = UR.USERID
@@ -267,7 +267,7 @@ try {
             area: item.AREA,
             description: item.DESCRIPTION,
             healthcareCenter: item.HEALTH_CARE_CENTER,
-            phoneNumber: item.MOBILE_NUMBER,
+            phoneNumber: item.PHONE_NUMBER,
             requiredDate: item.REQUIRED_DATE,
             requestDate: item.REQUEST_DATE
         }));
@@ -289,7 +289,7 @@ async function getBloodRequestsInSameDistrictDesc(req,res){
     const donorid = req.params.donorid;
 
 const query = `
-    SELECT U.NAME, BR.REQUESTID, BR.USERID, BR.DISTRICT, BR.AREA, BR.DESCRIPTION, BR.HEALTH_CARE_CENTER, BR.MOBILE_NUMBER, BR.REQUIRED_DATE, BR.REQUEST_DATE
+    SELECT U.NAME, BR.REQUESTID, BR.USERID, BR.DISTRICT, BR.AREA, BR.DESCRIPTION, BR.HEALTH_CARE_CENTER, BR.PHONE_NUMBER, BR.REQUIRED_DATE, BR.REQUEST_DATE
     FROM BLOOD_REQUEST BR
     JOIN USER_REQUEST UR ON UR.REQUESTID = BR.REQUESTID
     JOIN USERS U ON U.USERID = UR.USERID
@@ -318,7 +318,7 @@ try {
             area: item.AREA,
             description: item.DESCRIPTION,
             healthcareCenter: item.HEALTH_CARE_CENTER,
-            phoneNumber: item.MOBILE_NUMBER,
+            phoneNumber: item.PHONE_NUMBER,
             requiredDate: item.REQUIRED_DATE,
             requestDate: item.REQUEST_DATE
         }));

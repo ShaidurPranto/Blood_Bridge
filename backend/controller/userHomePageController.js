@@ -1968,7 +1968,6 @@ const query1 = `
 SELECT COUNT(*) AS COUNT
 FROM BLOOD_REQUEST B JOIN DONOR_USER_APPOINTMENTS D ON B.REQUESTID=D.REQUESTID
 WHERE B.USERID= :userid AND D.STATUS='CONFIRMED'
-GROUP BY B.USERID
 `;
 
     const binds1 = {
@@ -2284,7 +2283,7 @@ FROM
 LEFT JOIN 
     DONOR_USER_APPOINTMENTS DUA ON BR.REQUESTID = DUA.REQUESTID
 WHERE 
-    BR.USERID = :userid
+    BR.USERID = :userid  AND BR.REQUEST_TO='DONOR' AND DUA.STATUS<>'REPORTED'
 GROUP BY 
     BR.USERID, BR.REQUESTID, BR.QUANTITY
 HAVING 
@@ -2529,9 +2528,67 @@ async function ifAnyOngoingWithBank(req,res){
 }
 
 
+// async function ifElgibleToRequestToDonor(req, res) {
+//     const userid = req.params.userdi; // Declare and initialize userid here
+//     console.log(requestid);
+//     const query2 = `
+//     DECLARE
+//     v_result NUMBER;
+// BEGIN
+//     :v_result := check_appointments_quantity(:userid); 
+// END;
+//     `;
+
+             
+//     const binds2 = {
+//        userid:userid
+//     };
+
+//     const result2 = await databaseConnection.execute(query2, binds2);
+
+//     const Infos = [{
+//         v_result: result2.outBinds.v_results,
+//     }];
+
+//     console.log(Infos);
+//     res.send(Infos);
+// }
+async function ifEligibleToRequestToDonor(req, res) {
+    const userid = req.params.userid; // Declare and initialize userid here
+     console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"+userid);
+    const query = `
+    DECLARE
+        v_result NUMBER;
+    BEGIN
+        :v_result := check_appointments_quantity(:userid); 
+    END;
+    `;
+
+    const binds = {
+        userid: userid,
+        v_result: {dir: oracledb.BIND_OUT, type: oracledb.NUMBER }
+    };
+
+    try {
+        const result = await databaseConnection.execute(query, binds);
+        const v_result = result.outBinds.v_result;
+        console.log('v_result:', v_result);
+        res.send({ v_result });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error occurred while checking eligibility.');
+    }
+}
+
+
+
+
+
+
+
 module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID, getUserData, getBloodBank, donorProfileUpdate, getAppointmentData,
     getBloodBankOnRequest, bloodBankInfos,userBankAppointment,
     appoinmentEnded,appoinmentCancel,appoinmentCancelAccepted,donorUserAppointment,getDonorOnRequest,appoinmentCanceled,
     appoinmentCancelFromUserAccepted,giveSuccessfulUpdate,appoinmentEndedByUser,userReportDonor,getDonorsIf,getDonorsIfAccepted
 ,getQuantity,getQuantityCount,getAppointmentBankData,bankAppCancelByUser,getstillLeft,getBankHistory,getUserHistory,updateProfilePhoto,getProfilePhoto
-,ifAnyOngoingWithBank};
+,ifAnyOngoingWithBank,ifEligibleToRequestToDonor};

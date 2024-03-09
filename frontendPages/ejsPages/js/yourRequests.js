@@ -255,7 +255,10 @@ const message = `
 // Update the content of the quantity element with the message
 quantityElement.innerHTML = message;
 if(quantityCount===quantity)
-{ bloodBankResultsDiv.innerHTML = '<h3>Currently You have No appointment!</h3>';
+
+{ 
+    document.getElementById('noAppointmentMessage2').style.display = 'none';
+    bloodBankResultsDiv.innerHTML = '<h3>Currently You have No appointment!</h3>';
 document.getElementById('dList').style.display = 'none';
 document.getElementById('quantity').style.display = 'none';}
 else{
@@ -271,7 +274,7 @@ else{
 }
     
 else
-{   
+{     document.getElementById('noAppointmentMessage2').style.display = 'none';
     const response99=await fetch(`/userHomePage/getstillLeft/${userid}`);
     const data99= await response99.json();
     console.log(data99);
@@ -285,7 +288,7 @@ else
      let counts=quantity-ac;
     
      if(counts>0)
-     {  
+     {     
            const response200= await fetch(`/userHomePage/getQuanitiyCount/${firstRequestId}`);
            const data200= await response200.json();
            quantityy=data200.quantity;
@@ -320,7 +323,7 @@ const message = `
     document.getElementById('dList').style.display = 'none';
     document.getElementById('quantity').style.display = 'none';
 
-    bloodBankResultsDiv.innerHTML = '<h3>Currently You have No appointment!</h3>';
+    document.getElementById('noAppointmentMessage2').style.display = 'block';
     }
 
 }
