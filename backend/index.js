@@ -135,6 +135,15 @@ app.get('/donationHistory', (req, res) => {
   res.render('donationHistory', { userid: userid });
 });
 
+
+
+
+app.get('/userDonationUpdate', (req, res) => {
+  const userid = req.query.userid;
+  res.render('userDonationUpdate', { userid: userid });
+});
+
+
 const renderRouter = require('./renderRouter/renderRouter');
 const userLoginRouter = require('./router/userLoginRouter');
 const userSignupRouter = require('./router/userSignupRouter');

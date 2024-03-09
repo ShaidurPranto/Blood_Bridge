@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="ejsPages/css/user.css">
+    <script>
+        const userid = '<%= userid %>';
+    </script>
+    <script type="text/javascript" src="/ejsPages/js/user.js" defer></script>
+</head>
+<body>
+    
+
+           
+    <div class="card-wrapper">
+        <div class="notification-section">
+
+            <h2> <i class="las la-envelope"></i>Blood Request to User Updates</h2>
+
+            <p>~Stay updated with real-time alerts</p><br><br>
+
+            <p id="noAppointmentMessage" style="display: none;"><i class="las la-exclamation-circle"></i>
+                Currently you have no appointment!<br><a class="donate-link"
+                    href="/bloodRequest?userid=<%= encodeURIComponent(userid) %>"> Donate now!</a>
+                </a></p>
+            <p id="pendingMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Plase wait!
+                Your appointment is currently pending! </p>
+
+                <p id="acceptMessage" style="display: none;"><i class="las la-exclamation-circle"></i>
+                    Currently you have no appointment!<br></p>
+            
+            <p id="bankname" style="display: none;">
+            <h2 id="bname" class="las la-hand-holding-heart" style="display: none;">here</h2>
+
+            </p>
+
+
+
+            <div id="successMessage" style="display: none;">
+                <i class="las la-heart"></i> <strong>You gave donation and saved life!</strong>
+                <br>
+                ~We wish you good health and encourage you to continue being kind to people.<br><br>
+                <h4 id="br"><i class="las la-heart"></i>Users's Review:</h4>
+                <div id="bankMessage" class="bank-message"
+                    style="background-color: white; padding: 10px; margin-top: 10px; border-radius: 5px;">user's
+                    message here</div>
+                <div class="rating-review" style="margin-top: 10px;">
+                    <label for="rating">
+                        <h4 id="br"><i class="las la-heart"></i>Give the User a rating:</h4>
+                    </label>
+                    <select name="rating" id="rating">
+                        <option value="5">5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1">1 Star</option>
+                    </select>
+                    <br>
+                    <label for="review">
+                        <h4 id="br"><i class="las la-heart"></i>Give the User a review:</h4>
+                    </label>
+                    <textarea id="review" rows="3" placeholder="Type your review here..."></textarea>
+                    <button onclick="submitReview()">Submit Review</button>
+                </div>
+            </div>
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

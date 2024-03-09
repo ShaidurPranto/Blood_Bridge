@@ -891,6 +891,60 @@ async function getAppointmentData(req, res) {
 
 
 
+async function getAppointmentDataU(req, res) {
+    const userid = req.params.userid; // Declare and initialize userid here
+    console.log("User id is ", userid);
+
+    const query0 = 'SELECT DONORID FROM USER_DONOR WHERE USERID=:userid';
+    const binds0 = {
+        userid: userid,
+    };
+    var donorid;
+    const result0 = (await databaseConnection.execute(query0, binds0)).rows;
+    if (result0) {
+        donorid = result0[0]["DONORID"];
+    }
+
+    console.log("request received for letting know what is donorID");
+    
+    const query1 = `
+    
+SELECT DU.STATUS,DU.REQUESTID,DU.DONORID,DU.USER_RATING,DU.USER_REVIEW
+FROM DONOR_USER_APPOINTMENTS DU JOIN BLOOD_REQUEST BR ON DU.REQUESTID=BR.REQUESTID
+WHERE DU.DONORID=:donorid
+ORDER BY BR.REQUEST_DATE DESC
+
+
+        `; // Corrected query, removed extra closing parenthesis
+    const binds1 = {
+        donorid: donorid,
+    };
+    const result = (await databaseConnection.execute(query1, binds1)).rows;
+    if (result && result.length > 0) {
+        Status=result[0]["STATUS"];
+        requestid=result[0]["REQUESTID"];
+        donationid=result[0]["DONORID"];
+        userRating=result[0]["USER_RATING"];
+        userReview=result[0]["USER_REVIEW"];
+       
+
+        res.send({
+            donorid:donorid,
+            Status: Status,
+            requestid: requestid,
+            userRating: userRating,
+            userReview: userReview
+        });
+    } else {
+        res.send({
+           Status:"no",
+        });
+        console.log("cannot retrieve the id");
+    }
+}
+
+
+
 async function getBloodBankOnRequest(req, res) {
     
     const Division = req.params.Division;
@@ -1908,6 +1962,92 @@ async function appoinmentEndedByUser(req, res) {
 }
 
 
+async function appoinmentEndedByDonor(req, res) {
+ 
+
+    const {rating, review,requestid,donorid } = req.body;
+
+    console.log(rating);
+    console.log(review);
+   
+    
+
+    try {
+        // Get a database connection
+        connection = await databaseConnection.getConnection();
+        if (!connection) {
+            console.log("Could not get connection");
+            return res.status(500).send({
+                status: "unsuccessful",
+                message: "Database connection failed"
+            });
+        }
+        
+        // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
+        // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
+       
+        connection.autoCommit = false;
+        const status='ENDEDBD';
+
+        console.log("hi");
+
+        // Insert into BANK_DONOR_APPOINTMENTS
+        const query = `     
+ UPDATE DONOR_USER_APPOINTMENTS
+ SET DONOR_RATING= :rating, DONOR_REVIEW = :review, STATUS= :status
+ WHERE REQUESTID=:requestid AND DONORID=:donorid
+        `;
+
+        const binds = {
+           rating: rating,
+           review: review,
+           status: status,
+           donorid: donorid,
+           requestid: requestid
+        
+        };
+
+        
+
+
+        await connection.execute(query,binds);
+        
+       
+        // Commit the transaction
+        //await connection.commit();
+        connection.autoCommit = true;
+        res.send({
+            status: "ended",
+        });
+    } catch (error) {
+        console.error("Error in submitting review and rating", error);
+        // Rollback in case of error
+        if (connection) {
+            try {
+               
+                await connection.rollback();
+            } catch (rollbackError) {
+                console.error("Rollback error:", rollbackError);
+            }
+        }
+        return res.status(500).send({
+            status: "notended",
+            message: "Error submitting review and rating"
+        });
+    } finally {
+        if (connection) {
+            try {
+                // Always close connections
+                await connection.close();
+            } catch (closeError) {
+                console.error("Error closing connection:", closeError);
+            }
+        }
+    }
+   
+}
+
+
 
 async function userReportDonor(req, res) {
  
@@ -2727,4 +2867,4 @@ module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, dona
     appoinmentEnded,appoinmentCancel,appoinmentCancelAccepted,donorUserAppointment,getDonorOnRequest,appoinmentCanceled,
     appoinmentCancelFromUserAccepted,giveSuccessfulUpdate,appoinmentEndedByUser,userReportDonor,getDonorsIf,getDonorsIfAccepted
 ,getQuantity,getQuantityCount,getAppointmentBankData,bankAppCancelByUser,getstillLeft,getBankHistory,getUserHistory,updateProfilePhoto,getProfilePhoto
-,ifAnyOngoingWithBank,ifEligibleToRequestToDonor,donorProfileVisit,getUserid};
+,ifAnyOngoingWithBank,ifEligibleToRequestToDonor,donorProfileVisit,getUserid,getAppointmentDataU,appoinmentEndedByDonor};

@@ -43,6 +43,7 @@ userHomePageRouter.route('/userBankAppoinment').post(upload.pdfUpload.single('fi
 userHomePageRouter.route('/ifEligible/:userid').get(userHomePageController.ifEligibleToRequestToDonor);
 userHomePageRouter.route('/uv/:requestid/:donorid').get(userHomePageController.donorProfileVisit);
 userHomePageRouter.route(`/gid/:donorid`).get(userHomePageController.getUserid);;
-
+userHomePageRouter.route(`/getAppointmentDataU/:userid`).get(userHomePageController.getAppointmentDataU);
+userHomePageRouter.route('/appoinmentEndedD').post(userHomePageController.appoinmentEndedByDonor);
 
 module.exports = userHomePageRouter;
