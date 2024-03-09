@@ -112,8 +112,7 @@ app.get('/yourRequest', (req, res) => {
 
 app.get('/userViewDonorProfile', (req, res) => { 
   const userid = req.query.userid;
-  const requestid = req.query.requestid;
-  res.render('userViewDonorProfile',{userid: userid, requestid: requestid});
+  res.render('userViewDonorProfile',{userid: userid});
 });
 
 app.get('/yourRequests', (req, res) => {
@@ -129,13 +128,12 @@ app.get('/pendingRequests', (req, res) => {
 
 });
 
-///donationHistory
+///donationHistory   /userVisit
 
 app.get('/donationHistory', (req, res) => {
   const userid = req.query.userid;
   res.render('donationHistory', { userid: userid });
 });
-
 
 const renderRouter = require('./renderRouter/renderRouter');
 const userLoginRouter = require('./router/userLoginRouter');

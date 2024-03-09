@@ -13,7 +13,7 @@ async function getUserData() {
 // Function to update HTML elements with user data
 async function showProfile() {
     const userData = await getUserData();
-
+    const profilePhotoDiv = document.getElementById('profilePhoto');
     if (userData) {
          
         lastDonationDate=userData.lastDonationDate;
@@ -47,6 +47,17 @@ async function showProfile() {
         
         const ageInfo = document.querySelector('.basic_info .age .info');
         ageInfo.textContent = userData.age;//ONE
+
+        // Fetch donor photo URL
+        // Fetch donor photo URL
+        const photoURL = await fetchDonorPhoto();
+        if (photoURL) {
+            console.log("hioooooooooooo");
+            profilePhotoDiv.style.backgroundImage = `url(${photoURL})`;
+        } else {
+            // If photo URL is null, show the default photo
+            profilePhotoDiv.style.backgroundImage = `url(default.jpg)`; // Replace 'default.jpg' with your default photo path
+        }
     }
 }
 
@@ -198,3 +209,73 @@ document.getElementById('togglePassword').addEventListener('click', function() {
         icon.classList.add('ri-eye-fill');
     }
 });
+
+
+// Function to update label text with selected file name
+function updateSelectedFileName() {
+    const fileInput = document.getElementById('photoUploadInput');
+    const label = document.getElementById('photoUploadLabel');
+    const file = fileInput.files[0];
+    
+    if (file) {
+        label.textContent = 'Selected file: ' + file.name;
+    } else {
+        label.textContent = 'Choose File';
+    }
+}
+
+
+// Function to upload photo
+function uploadPhoto() {
+    const fileInput = document.getElementById('photoUploadInput');
+    const uploadedFile = fileInput.files[0];
+    console.log(".............................."+userid);
+    if (uploadedFile) {
+        const formData = new FormData();
+        formData.append('file', uploadedFile);
+        formData.append('userid', userid); //
+        
+        fetch('/userHomePage/uploadDonorPhoto', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Photo uploaded successfully');
+                // Handle success response
+                alert('Photo uploaded successfully');
+                // Reset file input
+                fileInput.value = ''; // Reset file input to clear selected file
+                updateSelectedFileName(); // Update label text
+            } else {
+                console.error('Failed to upload photo');
+                // Handle error response
+            }
+        })
+        .catch(error => {
+            console.error('Error uploading photo:', error);
+            // Handle network error
+        });
+    } else {
+        console.log('No file selected');
+    }
+}
+
+///userHomePage/getUserData/${userid}
+
+async function fetchDonorPhoto() {
+    try {
+        const response = await fetch(`/userHomePage/getProfilePhoto/${userid}`);
+       
+        if (!response.ok) {
+            throw new Error('Failed to fetch photo');
+        }
+        const photoBlob = await response.blob();
+        const photoURL = URL.createObjectURL(photoBlob);
+        console.log("hi");
+        return photoURL;
+    } catch (error) {
+        console.error('Error fetching user photo:', error.message);
+        return null;
+    }
+}

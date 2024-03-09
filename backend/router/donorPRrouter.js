@@ -14,6 +14,6 @@ donorPRrouter.route('/getBloodRequetsInSameAreaAsc/:donorid').get(donorPRcontrol
 donorPRrouter.route('/getBloodRequetsInSameAreaDesc/:donorid').get(donorPRcontroller.getBloodRequetsInSameAreaDesc);
 donorPRrouter.route('/getBloodRequestsInSameDistrictAsc/:donorid').get(donorPRcontroller.getBloodRequestsInSameDistrictAsc);
 donorPRrouter.route('/getBloodRequestsInSameDistrictDesc/:donorid').get(donorPRcontroller.getBloodRequestsInSameDistrictDesc);
-
+donorPRrouter.route('/donationDateNull/:donorid').get(donorPRcontroller.donationDateNull);
 module.exports = donorPRrouter;
 

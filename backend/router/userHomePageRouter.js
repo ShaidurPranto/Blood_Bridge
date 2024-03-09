@@ -41,6 +41,8 @@ userHomePageRouter.route('/getProfilePhoto/:userid').get(userHomePageController.
 userHomePageRouter.route('/ifAnyOngoingWithBank/:userid').get(userHomePageController.ifAnyOngoingWithBank);
 userHomePageRouter.route('/userBankAppoinment').post(upload.pdfUpload.single('file'),userHomePageController.userBankAppointment);
 userHomePageRouter.route('/ifEligible/:userid').get(userHomePageController.ifEligibleToRequestToDonor);
+userHomePageRouter.route('/uv/:requestid/:donorid').get(userHomePageController.donorProfileVisit);
+userHomePageRouter.route(`/gid/:donorid`).get(userHomePageController.getUserid);;
 
 
 module.exports = userHomePageRouter;

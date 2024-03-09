@@ -501,6 +501,43 @@ async function getDonorID(req, res) {
 
 
 
+
+async function getUserid(req, res) {
+    console.log("request recieved for letting know what is donorID");
+    const donorid = req.params.donorid;
+    console.log("User id is ", userid);
+
+    const query1 = 'SELECT USERID FROM USER_DONOR WHERE DONORID=:donorid';
+    const binds1 = {
+        donorid:donorid
+    };
+    var userid;
+    const result = (await databaseConnection.execute(query1, binds1)).rows;
+    if (result) {
+        userid = result[0]["USERID"];
+
+        
+
+
+        res.send({
+           userid: userid
+
+        });
+
+
+    }
+
+    else {
+        console.log("cannot retrive the id");
+    }
+
+
+
+}
+
+
+
+
 async function donationDonorAppointment(req, res) {
     const { DONORID, BANKID, DONATION_DATE, TIME, STATUS, USERID } = req.body;
     let connection;
@@ -2273,21 +2310,21 @@ async function getstillLeft(req, res) {
     
 
 const query1 = `
-
-SELECT 
+SELECT
     BR.REQUESTID,
     BR.QUANTITY,
-    COUNT(DISTINCT DUA.DONORID) AS APPOINTMENTS_COUNT
-FROM 
+    COUNT(DISTINCT CASE WHEN DUA.STATUS != 'REPORTED' THEN DUA.DONORID END) AS APPOINTMENTS_COUNT
+FROM
     BLOOD_REQUEST BR
-LEFT JOIN 
+LEFT JOIN
     DONOR_USER_APPOINTMENTS DUA ON BR.REQUESTID = DUA.REQUESTID
-WHERE 
-    BR.USERID = :userid  AND BR.REQUEST_TO='DONOR' AND DUA.STATUS<>'REPORTED'
-GROUP BY 
-    BR.USERID, BR.REQUESTID, BR.QUANTITY
-HAVING 
-    BR.QUANTITY != COUNT(DISTINCT DUA.DONORID)
+WHERE
+    BR.USERID =:userid AND BR.REQUEST_TO = 'DONOR'
+GROUP BY
+    BR.REQUESTID, BR.QUANTITY
+HAVING
+    BR.QUANTITY != COUNT(DISTINCT CASE WHEN DUA.STATUS != 'REPORTED' THEN DUA.DONORID END)
+
 
 
 
@@ -2403,7 +2440,7 @@ async function getUserHistory(req, res) {
     JOIN USER_DONOR U ON U.USERID = BR.USERID
     JOIN USERS US ON US.USERID = U.USERID
     
-WHERE DU.DONORID=:donorid AND DU.STATUS='SUCCESSFUL' OR DU.STATUS='ENDEDBD' OR DU.STATUS='ENDEDBU'`;
+WHERE DU.DONORID=:donorid AND (DU.STATUS='SUCCESSFUL' OR DU.STATUS='ENDEDBD' OR DU.STATUS='ENDEDBU')`;
 
 const binds1 = {
     donorid:donorid,
@@ -2581,6 +2618,105 @@ async function ifEligibleToRequestToDonor(req, res) {
 }
 
 
+async function donorProfileVisit(req, res) {
+    const requestid = req.params.requestId;
+    const donorid=req.params.donorid; // Declare and initialize userid here
+    console.log(requestid);
+    const query2 = `
+    DECLARE
+    v_total NUMBER;
+    v_rating NUMBER;
+    v_name VARCHAR2(100);
+    v_blood_group VARCHAR2(5);
+    v_rh VARCHAR2(1);
+    v_last_donation_date DATE;
+    v_area VARCHAR2(100);
+    v_district VARCHAR2(100);
+    v_phone VARCHAR2(20);
+    v_phone2 VARCHAR2(20);
+    v_gender VARCHAR2(20);
+    v_age NUMBER;
+BEGIN
+    GET_DONOR_INFO(
+        :requestid,
+        :donorid,
+        GET_TOTAL => v_total,
+        GET_RATING => v_rating,
+        GET_NAME => v_name,
+        GET_BLOOD_GROUP => v_blood_group,
+        GET_RH => v_rh,
+        GET_LAST_DONATION_DATE => v_last_donation_date,
+        GET_AREA => v_area,
+        GET_DISTRICT => v_district,
+        GET_PHONE => v_phone,
+        GET_PHONE2 => v_phone2,
+        GET_GENDER => v_gender,
+        GET_AGE => v_age
+    );
+
+   
+    :total := v_total;
+    :rating := v_rating;
+    :name := v_name;
+    :blood_group := v_blood_group;
+    :rh := v_rh;
+    :last_donation_date := TO_CHAR(v_last_donation_date, 'YYYY-MM-DD');
+    :area := v_area;
+    :district := v_district;
+    :phone := v_phone;
+    :phone2 := v_phone2;
+    :gender := v_gender;
+    :age := v_age;
+END;
+
+    `;
+
+             
+    const binds2 = {
+        requestid: requestid,
+        donorid: donorid,
+    bankName: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    area: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    district: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    description: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    total: {type: oracledb.NUMBER, dir: oracledb.BIND_OUT},
+    rating: {type: oracledb.NUMBER, dir: oracledb.BIND_OUT},
+    name: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    blood_group: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    rh: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    last_donation_date: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    area: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    district: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    phone: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    phone2: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    gender: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
+    age: {type: oracledb.NUMBER, dir: oracledb.BIND_OUT}
+    };
+
+    const result2 = await databaseConnection.execute(query2, binds2);
+const Infos = {
+    bankName: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    area: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    district: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    description: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    total: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
+    rating: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
+    name: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    blood_group: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    rh: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    last_donation_date: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    area: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    district: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    phone: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    phone2: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    gender: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+    age: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT }
+};
+
+
+    console.log(Infos);
+    res.send(Infos);
+}
 
 
 
@@ -2591,4 +2727,4 @@ module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, dona
     appoinmentEnded,appoinmentCancel,appoinmentCancelAccepted,donorUserAppointment,getDonorOnRequest,appoinmentCanceled,
     appoinmentCancelFromUserAccepted,giveSuccessfulUpdate,appoinmentEndedByUser,userReportDonor,getDonorsIf,getDonorsIfAccepted
 ,getQuantity,getQuantityCount,getAppointmentBankData,bankAppCancelByUser,getstillLeft,getBankHistory,getUserHistory,updateProfilePhoto,getProfilePhoto
-,ifAnyOngoingWithBank,ifEligibleToRequestToDonor};
+,ifAnyOngoingWithBank,ifEligibleToRequestToDonor,donorProfileVisit,getUserid};

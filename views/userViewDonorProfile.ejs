@@ -18,7 +18,7 @@
     <script>
         const userid = '<%= userid %>';
     </script>
-    <!-- //<script type="text/javascript" src="/ejsPages/js/userVisitDonorProfile.js" defer></script> -->
+    <script type="text/javascript" src="/ejsPages/js/donorProfile.js" defer></script>
 </head>
 
 <body>
@@ -35,14 +35,34 @@
                 <span>Donor Profile</span>
             </div>
         </header>
+<!-- ===== ===== User Main-Profile ===== ===== -->
+<!-- <section class="userProfile card">
+    <div class="profile">
+        <form id="photoUploadForm" enctype="multipart/form-data">
+            <figure>
+                <img src="img.jpg" alt="profile" width="250px" height="250px">
+                <label for="photoUploadInput" id="photoUploadLabel" class="fileLabel">Choose File</label>
+                <input type="file" id="photoUploadInput" name="profilePhoto" accept=".jpg, .png" onchange="updateSelectedFileName()">
+                <button id="uploadButton" type="button" onclick="uploadPhoto()">Upload</button>
+            </figure>
+        </form>
+    </div>
+</section> -->
 
 
-        <!-- ===== ===== User Main-Profile ===== ===== -->
-        <section class="userProfile card">
-            <div class="profile">
-                <figure><img src="img.jpg" alt="profile" width="250px" height="250px"></figure>
-            </div>
-        </section>
+<section class="userProfile card">
+    <div class="profile" id="profilePhoto">
+        <!-- Background image will be applied here -->
+        <label for="photoUploadInput" id="photoUploadLabel" class="fileLabel">Choose File</label>
+        <input type="file" id="photoUploadInput" name="profilePhoto" accept=".jpg, .png" onchange="updateSelectedFileName()">
+        <button id="uploadButton" type="button" onclick="uploadPhoto()">Upload</button>
+    </div>
+</section>
+
+
+
+
+
 
 
         <!-- ===== ===== Work & Skills Section ===== ===== -->
@@ -86,7 +106,6 @@
                     <span>New York, NY</span>
                 </div> -->
                 <p>Blood Group: O+</p>
-               
             </div>
 
             <div class="rank">
@@ -101,13 +120,7 @@
                 </div>
             </div>
 
-            <div class="donation_info">
-                <p>Total Donations: 50</p>
-                <p>Last Donation Date: 15 January,2023</p>
-            </div>
-
-
-            
+           
         </section>
 
 
@@ -146,10 +159,10 @@
             <div class="basic_info">
                 <h1 class="heading">Basic Information</h1>
                 <ul>
-                    <!-- <li class="birthday">
+                    <li class="birthday">
                         <h1 class="label">Birthday:</h1>
                         <span class="info">Dec 25, 2000</span>
-                    </li> -->
+                    </li>
 
                     <li class="gender">
                         <h1 class="label">Gender:</h1>
@@ -160,7 +173,6 @@
                         <h1 class="label">Age:</h1>
                         <span class="info">18</span>
                     </li>
-                    
 
 
                 </ul>

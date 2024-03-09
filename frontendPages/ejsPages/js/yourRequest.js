@@ -295,13 +295,18 @@ function hideConfirmation2() {
     confirmationBox.style.display = "none";
 }
 
-function viewprofile()
-{
-    window.location.href = `/userViewDonorProfile?requestid=${encodeURIComponent(requestid)}&userid=${encodeURIComponent(userid)}`;
+async function viewprofile()
+{   
+    console.log(donorid);
+    const response1=await fetch(`/userHomePage/gid/${donorid}`);
+    const data = await response1.json();
+    console.log(data.userid);
     
+    window.location.href = `/userViewDonorProfile?userid=${encodeURIComponent(data.userid)}`;
+   
 }
 
-
+ 
 // Function to handle cancel appointment action
 function cancelAppointment2() {
     // Get the selected reason for cancellation
@@ -385,5 +390,6 @@ function cancelReportDonor() {
     // Hide both confirmation boxes
     hideConfirmationBoxes();
 }
+
 
 setInterval(checkAndNotify, 5000); 

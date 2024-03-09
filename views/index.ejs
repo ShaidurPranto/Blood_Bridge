@@ -1,18 +1,139 @@
-<!-- views/index.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Express App</title>
+    <title>Blood Donation Landing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #550011;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #550011;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        nav a:hover {
+            background-color: #880022;
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .blog-section {
+            margin-top: 50px;
+        }
+
+        .blog-section h2 {
+            color: #550011;
+        }
+
+        .blog-post {
+            background-color: #f5f5f5;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .blog-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .blog-link {
+            margin: 10px;
+            text-align: center;
+        }
+
+        .blog-link img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        footer {
+            background-color: #550011;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1><%= message %></h1>
-    <div class="login"><a href="/htmlPages/userLogin.html">Login</a></div>
-    <div class="signup"><a href="/htmlPages/userSignup2.html">Don't have and acoount? Sign up</a></div>
-    <div class="bankLogin"><a href="/htmlPages/bankLogin.html">Bank Login</a></div>    
-    <div class="BankSignup"><a href="/htmlPages/bankSignup.html">Bank signup</a></div>
+    <header>
+        <h1>BLOOD BRIDGE</h1>
+    </header>
+  
+    <nav>
+        <!-- <a href="#"><img src="admin-login.jpg" alt="Admin Login"></a> -->
+        <a href="/htmlPages/bankSignup.html">Sign Up as Blood Bank</a>
+        <a href="/htmlPages/userSignup2.html">Sign Up as User</a>
+        <a href="/htmlPages/userLogin.html">Login</a>
+        <a href="/htmlPages/bankLogin.html">Blood Bank Login</a>
+    </nav>
 
+    <main>
+        <img src="blood-donation.jpg" alt="Blood Donation" width="400">
+        <h1>Welcome to our Blood Donation Service</h1>
+        <p>Join our mission to save lives by donating blood.</p>
+
+        <div class="blog-links">
+            <div class="blog-link">
+                <a href="#https://www.hhs.gov/givingequalsliving/giveblood/why-give#:~:text=If%20you%20donate%20blood%2C%20it,them%20from%20making%20blood%20correctly.">
+                    <img src="../pictures/blog1.jpg" alt="Blog 1">
+                    <p>Why Blood donation is critical?</p>
+                </a>
+            </div>
+            <div class="blog-link">
+                <a href="https://www.lifeblood.com.au/blood/learn-about-blood/why-donate-blood">
+                    <img src="../pictures/blog2.jpg" alt="Blog 2">
+                    <p>Why Donate Blood?</p>
+                </a>
+            </div>
+            <div class="blog-link">
+                <a href="https://www.healthline.com/health/benefits-of-donating-blood">
+                    <img src="../pictures/blog3.jpg" alt="Blog 3">
+                    <p>Benefits of Blood Donation</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="blog-section">
+            <h2>Blog Posts</h2>
+            <div class="blog-post">
+                <h3>The Importance of Blood Donation</h3>
+                <p>Learn why blood donation is crucial and how you can make a difference.</p>
+            </div>
+            <div class="blog-post">
+                <h3>Blood Donation Myths Debunked</h3>
+                <p>Dispel common misconceptions about blood donation and get the facts straight.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Blood Bridge</p>
+    </footer>
 </body>
 </html>

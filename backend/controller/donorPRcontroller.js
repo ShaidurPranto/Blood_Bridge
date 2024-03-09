@@ -38,7 +38,7 @@ async function isThereAnyDonationInThreeMonths(req,res){
     const donorid = req.params.donorid;
     const query = `SELECT COUNT(DONORID) AS NUM
     FROM DONOR
-    WHERE (LAST_DONATION_DATE IS NULL OR 
+    WHERE (LAST_DONATION_DATE IS NOT NULL OR 
           MONTHS_BETWEEN(SYSDATE, LAST_DONATION_DATE) <= 3)
                 AND 
                 DONORID = :donorid `;
@@ -63,8 +63,10 @@ async function getBloodRequetsInSameArea(req,res){
     WHERE (BR.REQUEST_TO = 'DONOR') AND 
                 (BR.BLOOD_GROUP = (SELECT DBI.BLOOD_GROUP FROM DONOR_BLOOD_INFO DBI WHERE DBI.DONORID = :donorid)) AND
                 (BR.RH = (SELECT DBI2.RH FROM DONOR_BLOOD_INFO DBI2 WHERE DBI2.DONORID = :donorid) ) AND 
-                (BR.QUANTITY > (SELECT COUNT(DISTINCT DONORID)
-                                             FROM DONOR_USER_APPOINTMENTS DUA JOIN BLOOD_REQUEST BR2 ON BR2.REQUESTID = DUA.REQUESTID)) AND 
+                (BR.QUANTITY > (SELECT COUNT(DISTINCT DUA.DONORID)
+                FROM DONOR_USER_APPOINTMENTS DUA 
+                JOIN BLOOD_REQUEST BR2 ON BR2.REQUESTID = DUA.REQUESTID
+                WHERE DUA.STATUS IS NOT NULL AND DUA.STATUS NOT IN ('REPORTED', 'CANCEL'))) AND 
                                              (UPPER(BR.DISTRICT) = (SELECT UPPER(DISTRICT) FROM DONOR D3 WHERE D3.DONORID = :donorid)) AND 
                                              (UPPER(BR.AREA) = (SELECT UPPER(AREA) FROM DONOR D4 WHERE D4.DONORID = :donorid)) AND
                                              (U.USERID != (SELECT T.USERID FROM USER_DONOR T WHERE T.DONORID = :donorid))
@@ -93,7 +95,7 @@ if (result && result.length > 0) {
     });
 }
     else{
-        console.log("need to handle error in getBloodRequetsInSameArea from donorPRcontroller.js");
+        res.send({ message: "No users found matching the criteria." });
     }
 }
 
@@ -106,8 +108,10 @@ async function getBloodRequetsInSameAreaDesc(req,res){
     WHERE (BR.REQUEST_TO = 'DONOR') AND 
                 (BR.BLOOD_GROUP = (SELECT DBI.BLOOD_GROUP FROM DONOR_BLOOD_INFO DBI WHERE DBI.DONORID = :donorid)) AND
                 (BR.RH = (SELECT DBI2.RH FROM DONOR_BLOOD_INFO DBI2 WHERE DBI2.DONORID = :donorid) ) AND 
-                (BR.QUANTITY > (SELECT COUNT(DISTINCT DONORID)
-                                             FROM DONOR_USER_APPOINTMENTS DUA JOIN BLOOD_REQUEST BR2 ON BR2.REQUESTID = DUA.REQUESTID)) AND 
+                (BR.QUANTITY > (SELECT COUNT(DISTINCT DUA.DONORID)
+                FROM DONOR_USER_APPOINTMENTS DUA 
+                JOIN BLOOD_REQUEST BR2 ON BR2.REQUESTID = DUA.REQUESTID
+                WHERE DUA.STATUS IS NOT NULL AND DUA.STATUS NOT IN ('REPORTED', 'CANCEL'))) AND 
                                              (UPPER(BR.DISTRICT) = (SELECT UPPER(DISTRICT) FROM DONOR D3 WHERE D3.DONORID = :donorid)) AND 
                                              (UPPER(BR.AREA) = (SELECT UPPER(AREA) FROM DONOR D4 WHERE D4.DONORID = :donorid)) AND
                                              (U.USERID != (SELECT T.USERID FROM USER_DONOR T WHERE T.DONORID = :donorid))
@@ -137,6 +141,7 @@ if (result && result.length > 0) {
     });
 }
     else{
+        res.send({ users: [] }); 
         console.log("need to handle error in getBloodRequetsInSameArea from donorPRcontroller.js");
     }
 }
@@ -150,8 +155,10 @@ async function getBloodRequetsInSameAreaAsc(req,res){
     WHERE (BR.REQUEST_TO = 'DONOR') AND 
                 (BR.BLOOD_GROUP = (SELECT DBI.BLOOD_GROUP FROM DONOR_BLOOD_INFO DBI WHERE DBI.DONORID = :donorid)) AND
                 (BR.RH = (SELECT DBI2.RH FROM DONOR_BLOOD_INFO DBI2 WHERE DBI2.DONORID = :donorid) ) AND 
-                (BR.QUANTITY > (SELECT COUNT(DISTINCT DONORID)
-                                             FROM DONOR_USER_APPOINTMENTS DUA JOIN BLOOD_REQUEST BR2 ON BR2.REQUESTID = DUA.REQUESTID)) AND 
+                (BR.QUANTITY > (SELECT COUNT(DISTINCT DUA.DONORID)
+                FROM DONOR_USER_APPOINTMENTS DUA 
+                JOIN BLOOD_REQUEST BR2 ON BR2.REQUESTID = DUA.REQUESTID
+                WHERE DUA.STATUS IS NOT NULL AND DUA.STATUS NOT IN ('REPORTED', 'CANCEL'))) AND 
                                              (UPPER(BR.DISTRICT) = (SELECT UPPER(DISTRICT) FROM DONOR D3 WHERE D3.DONORID = :donorid)) AND 
                                              (UPPER(BR.AREA) = (SELECT UPPER(AREA) FROM DONOR D4 WHERE D4.DONORID = :donorid)) AND
                                              (U.USERID != (SELECT T.USERID FROM USER_DONOR T WHERE T.DONORID = :donorid))
@@ -181,6 +188,7 @@ if (result && result.length > 0) {
     });
 }
     else{
+        res.send({ users: [] }); 
         console.log("need to handle error in getBloodRequetsInSameArea from donorPRcontroller.js");
     }
 }
@@ -196,9 +204,10 @@ const query = `
     WHERE (BR.REQUEST_TO = 'DONOR') AND 
           (BR.BLOOD_GROUP = (SELECT DBI.BLOOD_GROUP FROM DONOR_BLOOD_INFO DBI WHERE DBI.DONORID = :1)) AND
           (BR.RH = (SELECT DBI2.RH FROM DONOR_BLOOD_INFO DBI2 WHERE DBI2.DONORID = :2)) AND 
-          (BR.QUANTITY > (SELECT COUNT(DISTINCT DONORID)
-                          FROM DONOR_USER_APPOINTMENTS DUA 
-                          JOIN BLOOD_REQUEST BR2 ON BR2.REQUESTID = DUA.REQUESTID)) AND 
+          (BR.QUANTITY > (SELECT COUNT(DISTINCT DUA.DONORID)
+          FROM DONOR_USER_APPOINTMENTS DUA 
+          JOIN BLOOD_REQUEST BR2 ON BR2.REQUESTID = DUA.REQUESTID
+          WHERE DUA.STATUS IS NOT NULL AND DUA.STATUS NOT IN ('REPORTED', 'CANCEL'))) AND 
           (UPPER(BR.DISTRICT) = (SELECT UPPER(DISTRICT) FROM DONOR D3 WHERE D3.DONORID = :3)) AND
           (U.USERID != (SELECT T.USERID FROM USER_DONOR T WHERE T.DONORID = :4))
           
@@ -245,9 +254,10 @@ const query = `
     WHERE (BR.REQUEST_TO = 'DONOR') AND 
           (BR.BLOOD_GROUP = (SELECT DBI.BLOOD_GROUP FROM DONOR_BLOOD_INFO DBI WHERE DBI.DONORID = :1)) AND
           (BR.RH = (SELECT DBI2.RH FROM DONOR_BLOOD_INFO DBI2 WHERE DBI2.DONORID = :2)) AND 
-          (BR.QUANTITY > (SELECT COUNT(DISTINCT DONORID)
-                          FROM DONOR_USER_APPOINTMENTS DUA 
-                          JOIN BLOOD_REQUEST BR2 ON BR2.REQUESTID = DUA.REQUESTID)) AND 
+          (BR.QUANTITY > (SELECT COUNT(DISTINCT DUA.DONORID)
+          FROM DONOR_USER_APPOINTMENTS DUA 
+          JOIN BLOOD_REQUEST BR2 ON BR2.REQUESTID = DUA.REQUESTID
+          WHERE DUA.STATUS IS NOT NULL AND DUA.STATUS NOT IN ('REPORTED', 'CANCEL'))) AND 
           (UPPER(BR.DISTRICT) = (SELECT UPPER(DISTRICT) FROM DONOR D3 WHERE D3.DONORID = :3)) AND
           (U.USERID != (SELECT T.USERID FROM USER_DONOR T WHERE T.DONORID = :4))
           ORDER BY BR.REQUEST_DATE ASC
@@ -296,9 +306,10 @@ const query = `
     WHERE (BR.REQUEST_TO = 'DONOR') AND 
           (BR.BLOOD_GROUP = (SELECT DBI.BLOOD_GROUP FROM DONOR_BLOOD_INFO DBI WHERE DBI.DONORID = :1)) AND
           (BR.RH = (SELECT DBI2.RH FROM DONOR_BLOOD_INFO DBI2 WHERE DBI2.DONORID = :2)) AND 
-          (BR.QUANTITY > (SELECT COUNT(DISTINCT DONORID)
-                          FROM DONOR_USER_APPOINTMENTS DUA 
-                          JOIN BLOOD_REQUEST BR2 ON BR2.REQUESTID = DUA.REQUESTID)) AND 
+          (BR.QUANTITY > (SELECT COUNT(DISTINCT DUA.DONORID)
+          FROM DONOR_USER_APPOINTMENTS DUA 
+          JOIN BLOOD_REQUEST BR2 ON BR2.REQUESTID = DUA.REQUESTID
+          WHERE DUA.STATUS IS NOT NULL AND DUA.STATUS NOT IN ('REPORTED', 'CANCEL'))) AND 
           (UPPER(BR.DISTRICT) = (SELECT UPPER(DISTRICT) FROM DONOR D3 WHERE D3.DONORID = :3)) AND
           (U.USERID != (SELECT T.USERID FROM USER_DONOR T WHERE T.DONORID = :4))
           ORDER BY BR.REQUEST_DATE DESC
@@ -391,6 +402,34 @@ async function donorEndsAnAppointment(req,res){
 
 // test();
 
+async function donationDateNull(req, res) {
+    const donorid = req.params.donorid;
+    console.log("++++++++" + donorid);
+
+    // Adjusted SQL query to check if the donation date is null
+    const query = `
+        SELECT 
+            CASE 
+                WHEN LAST_DONATION_DATE IS NULL THEN 'NO' 
+                ELSE 'YES' 
+            END AS HAS_DONATION
+        FROM 
+            DONOR
+        WHERE 
+            DONORID = :donorid`;
+
+    const binds = [donorid];
+    try {
+        const result = await databaseConnection.execute(query, binds);
+        const hasDonation = result.rows[0].HAS_DONATION;
+        res.send(hasDonation);
+    } catch (error) {
+        console.error("Error executing query:", error);
+        res.status(500).send("An error occurred while processing your request.");
+    }
+}
+
+
 module.exports = {
     doesDonorHasAPendingRequest,
     isThereAnyDonationInThreeMonths,
@@ -403,4 +442,6 @@ module.exports = {
     getBloodRequetsInSameAreaDesc,
     getBloodRequestsInSameDistrictAsc,
     getBloodRequestsInSameDistrictDesc,
+    donationDateNull
 }
+

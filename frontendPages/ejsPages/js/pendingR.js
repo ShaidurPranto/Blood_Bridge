@@ -58,7 +58,7 @@ if (data2=== 'true') {
         p.innerHTML = '<h1 id="ho"><i class="las la-exclamation-circle"></i>You have already a pending/ongoing request with a bank!</h1>';
     }
     else if(data3==='false')
-    {  
+    {    
         const response4=await fetch(`/donorPR/isThereAnyDonationInThreeMonths/${donorid}`);
         const data4 = await response4.text();
         if (data4=== 'true') {
