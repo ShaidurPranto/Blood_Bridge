@@ -399,16 +399,17 @@ function submitReview() {
     const rating = document.getElementById('rating').value;
     const review = document.getElementById('review').value;
     console.log(`Rating: ${rating}, Review: ${review}`);
+    console.log(requestid2);
     
     // Create a data object to send to the server
     const data = {
         rating: rating,
         review: review,
-        donationid: donationid
+       requestid: requestid2
     };
     
     // Make a POST request to the backend endpoint
-    const response=fetch('/userHomePage/appoinmentEnded', {
+    const response=fetch('/userHomePage/appoinmentEndeduu', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -417,11 +418,10 @@ function submitReview() {
     })
     //correct the mistake
     try {
-        if (response.ok) {
+       
             alert("Successfully submitted your review");
-        } else {
-            alert("Error submitting the review");  // Handle error, if needed
-        }
+       
+    
     } catch (error) {
         console.error('Error:', error);
         // Handle error, if needed
@@ -522,7 +522,7 @@ function cancelAppointment2() {
 
     
 // setInterval(getBloodBanks2,getBloodBanks, 5000); 
-setInterval(function() {
-    getBloodBanks();
-    getBloodBanks2();
-}, 5000);
+// setInterval(function() {
+//     getBloodBanks();
+//     getBloodBanks2();
+// }, 5000);

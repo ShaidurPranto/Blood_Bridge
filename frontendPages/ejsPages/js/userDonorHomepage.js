@@ -188,11 +188,9 @@ function submitReview() {
     })
     //correct the mistake
     try {
-        if (response.ok) {
+       
             alert("Successfully submitted your review");
-        } else {
-            alert("Error submitting the review");  // Handle error, if needed
-        }
+     
     } catch (error) {
         console.error('Error:', error);
         // Handle error, if needed

@@ -1,7 +1,92 @@
+/* css/userSignup.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
 .sign-up {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
+    width: 100%;
     text-align: center;
-    background: #e86060; /* Add your desired background color */
+}
+
+h1 {
+    color: #550011;
+    margin-bottom: 10px;
+}
+
+h4 {
+    color: #888;
+    margin-bottom: 20px;
+}
+
+form {
+    text-align: left;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #550011;
+}
+
+.submitAgrre {
+    margin-bottom: 15px;
+}
+
+button {
+    background-color: #550011;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #880022;
+}
+
+.loginHere {
+    color: #555;
+}
+
+.loginHere a {
+    color: #550011;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.loginHere a:hover {
+    text-decoration: underline;
 }

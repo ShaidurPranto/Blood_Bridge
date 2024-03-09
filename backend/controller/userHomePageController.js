@@ -5,9 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 
-
 //logic handling functions
-
 async function isDonor(req, res) {
     console.log("request recieved for verifying if an user is donor");
     const email = req.params.email;
@@ -1304,6 +1302,90 @@ async function appoinmentEnded(req, res) {
    
 }
 
+
+async function appoinmentEndeduu(req, res) {
+ 
+
+    const {rating, review, requestid} = req.body;
+
+    console.log(rating);
+    console.log(review);
+    console.log("lllllllllllll"+requestid);
+    
+
+    try {
+        // Get a database connection
+        connection = await databaseConnection.getConnection();
+        if (!connection) {
+            console.log("Could not get connection");
+            return res.status(500).send({
+                status: "unsuccessful",
+                message: "Database connection failed"
+            });
+        }
+        
+        // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
+        // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
+       
+        connection.autoCommit = false;
+        const status='ENDED';
+
+        console.log("hi");
+
+        // Insert into BANK_DONOR_APPOINTMENTS
+        const query = `     
+ UPDATE BANK_USER_APPOINTMENTS
+ SET USER_RAITNG= :rating, USER_REVIEW = :review, STATUS= :status
+ WHERE REQUESTID= :requestid
+        `;
+
+        const binds = {
+           rating: rating,
+           review: review,
+           status: status,
+           requestid: requestid
+        
+        };
+
+        
+
+
+        await connection.execute(query,binds);
+        
+       
+        // Commit the transaction
+        //await connection.commit();
+        connection.autoCommit = true;
+        res.send({
+            status: "ended",
+        });
+    } catch (error) {
+        console.error("Error in submitting review and rating", error);
+        // Rollback in case of error
+        if (connection) {
+            try {
+               
+                await connection.rollback();
+            } catch (rollbackError) {
+                console.error("Rollback error:", rollbackError);
+            }
+        }
+        return res.status(500).send({
+            status: "notended",
+            message: "Error submitting review and rating"
+        });
+    } finally {
+        if (connection) {
+            try {
+                // Always close connections
+                await connection.close();
+            } catch (closeError) {
+                console.error("Error closing connection:", closeError);
+            }
+        }
+    }
+   
+}
 
 
 async function appoinmentCancel(req, res) {
@@ -2867,4 +2949,4 @@ module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, dona
     appoinmentEnded,appoinmentCancel,appoinmentCancelAccepted,donorUserAppointment,getDonorOnRequest,appoinmentCanceled,
     appoinmentCancelFromUserAccepted,giveSuccessfulUpdate,appoinmentEndedByUser,userReportDonor,getDonorsIf,getDonorsIfAccepted
 ,getQuantity,getQuantityCount,getAppointmentBankData,bankAppCancelByUser,getstillLeft,getBankHistory,getUserHistory,updateProfilePhoto,getProfilePhoto
-,ifAnyOngoingWithBank,ifEligibleToRequestToDonor,donorProfileVisit,getUserid,getAppointmentDataU,appoinmentEndedByDonor};
+,ifAnyOngoingWithBank,ifEligibleToRequestToDonor,donorProfileVisit,getUserid,getAppointmentDataU,appoinmentEndedByDonor,appoinmentEndeduu};

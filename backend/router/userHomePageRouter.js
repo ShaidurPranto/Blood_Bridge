@@ -45,5 +45,6 @@ userHomePageRouter.route('/uv/:requestid/:donorid').get(userHomePageController.d
 userHomePageRouter.route(`/gid/:donorid`).get(userHomePageController.getUserid);;
 userHomePageRouter.route(`/getAppointmentDataU/:userid`).get(userHomePageController.getAppointmentDataU);
 userHomePageRouter.route('/appoinmentEndedD').post(userHomePageController.appoinmentEndedByDonor);
+userHomePageRouter.route('/appoinmentEndeduu').post(userHomePageController.appoinmentEndeduu);
 
 module.exports = userHomePageRouter;
