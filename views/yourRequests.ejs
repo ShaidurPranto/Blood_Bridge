@@ -16,37 +16,34 @@
 </head>
 <body>
     <div class="container">
-        <!-- First Div -->
         <div class="first-div">
-            <!-- Content for the first div -->
+
         </div>
 
-        <!-- Second Div -->
         <div class="second-div">
            
-            <h1 id="headers">Requests From Donors</h1>
-            <p id="urgent">~The donors are trusted and always there for your services!</p>
-            <h3 id="quantity"><i class="las la-bell"></i></h3>
+            <h1 id="headers">Requests made to Donors</h1>
+            <p id="urgent">~The donors are trusted and always there for your service!</p>
+            <h3 id="quantity1"><i class="las la-bell"></i></h3>
             <h3 id="noAppointmentMessage2" style="display: none;"><i class="las la-exclamation-circle"></i> Currently you have no appointment!<br><a class="donate-link" href="/getbloodFromDonor?userid=<%= encodeURIComponent(userid) %>">Book Request Now to Donor!</a>
             </a></h3>
-            <h2 id="dList" >Donor Lists for your request:</h2>
-            <!-- Content for the second div -->
+            <h2 id="dList" >Donor Lists for your request:</h2>>
+
             <div id="bloodBankResults">
                
             </div>
         </div>
 
-        <!-- Third Div -->
+
         <div class="third-div">
-            <h1 id="headers">Requests From Blood Banks</h1>
-            <p id="urgent">~The bloodbanks are trusted and authozized by us for your services!</p>
-            <!-- Content for the third div -->
+            <h1 id="headers">Requests made to Blood Banks</h1>
+            <p id="urgent">~The bloodbanks are trusted and authorized for your service!</p>
              
             <h3 id="noAppointmentMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Currently you have no appointment!<br><a class="donate-link" href="/getblood?userid=<%= encodeURIComponent(userid) %>">Book Request Now to Bank!</a>
             </a></h3>
             
             <h3 id="pendingMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Plase wait! Your appointment is currently pending! </h3>
-            <h3 id="acceptMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Appointment Accepted! Please be on exact <b>time and date</b></h3>
+            <h3 id="acceptMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Appointment Accepted! <b>Stay in touch with the provider</b></h3>
             <p id="bankname" style="display: none;">
                 <h2 id="bname" class="las la-hand-holding-heart" style="display: none;">here</h2>
                 
@@ -85,14 +82,14 @@
                     </div>
                     <div class="card-body">
                         <p><strong>Bank Name: </strong> <span id="bankName">A</span></p>
+                        <p><strong>Phone: </strong><span id="phone">123</span></p>
                         <p><strong>Blood Group: </strong> <span id="bloodGroup">Group A</span></p>
                         <p><strong>RH Factor: </strong> <span id="rhFactor">Positive</span></p>
-                        <p><strong>Quantity: </strong> <span id="quantity">5 units</span></p>
+                        <p><strong>Quantity: </strong> <span id="quantity2">3 units</span></p>
                         <p><strong>Request Date: </strong> <span id="requestDate">January 1, 2024</span></p>
                         <p><strong>Division: </strong> <span id="district">District Name</span></p>
                         <p><strong>Area: </strong> <span id="area">Area Name</span></p>
                         <p><strong>Health Care Center: </strong> <span id="hcc">Area Name</span></p>
-                        <p><strong>Description: </strong><span id="description">Area Name</span></p>
                     </div>
                 </div>
             </div>
@@ -107,8 +104,6 @@
                 <button onclick="cancelAppointment()">Yes</button>
                 <button onclick="hideConfirmation()">No</button>
             </div>
-           
-
           
             <div id="confirmationBox2" class="confirmation-box2" style="display: none;">
                 <p class="confirmation-message">Why do you want to cancel the appointment?</p>
@@ -127,10 +122,6 @@
                 </div>
             </div>
             
-           
-            
-        
-   
         </div>
     </div>
 </body>

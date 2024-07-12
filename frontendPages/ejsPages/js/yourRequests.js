@@ -2,7 +2,6 @@ console.log("yourRequests.js loaded");
 
 let lastStatus = '';
 window.onload = function () {
-    // Your code here
     getBloodBanks();
     getBloodBanks2();
 };
@@ -12,19 +11,18 @@ let bankid2;
 async function getBloodBanks2() {
     try {
         console.log(userid);
+        console.log("hitting the api /userHomePage/getRequestBankFromUser/ with userid: " + userid + "from getBloodBanks2() function");
         const response = await fetch(`/userHomePage/getRequestBankFromUser/${userid}`);
         const appointmentData = await response.json();
         requestid2 = appointmentData.requestid;
         bankid2 = appointmentData.bankid;
+        console.log("received data from getRequestBankFromUser: " + appointmentData);
 
         // Store the current status
         let currentStatus = appointmentData.Status;
         console.log(currentStatus);
 
-
-
         if (currentStatus === "no" || currentStatus === "ENDED" || currentStatus === "CANCELED") {
-
             document.getElementById('noAppointmentMessage').style.display = 'block';
             document.getElementById('bname').style.display = 'none';
             document.getElementById('acceptMessage').style.display = 'none';
@@ -42,10 +40,6 @@ async function getBloodBanks2() {
             document.getElementById('successMessage').style.display = 'none';
             console.log(currentStatus);
         }
-
-
-
-
         else if (currentStatus === "PENDING") {
 
             document.getElementById('acceptMessage').style.display = 'none';
@@ -81,23 +75,21 @@ async function getBloodBanks2() {
                 document.getElementById('ad').textContent = formattedDate;
                 document.getElementById('status').textContent = currentStatus;
                 document.getElementById('bankName').textContent = appointmentData.bankName;
+                document.getElementById('phone').textContent = appointmentData.phone;
                 document.getElementById('hcc').textContent = appointmentData.healthcareCenter;
                 document.getElementById('bloodGroup').textContent = appointmentData.bloodGroup;
                 document.getElementById('rhFactor').textContent = appointmentData.rh;
-                document.getElementById('quantity').textContent = appointmentData.quantity;
+                document.getElementById('quantity2').textContent = appointmentData.quantity + " units";
+
+                console.log("quantity shown (first)" + appointmentData.quantity);
+
                 document.getElementById('requestDate').textContent = formattedDate2;
                 document.getElementById('district').textContent = appointmentData.district;
                 document.getElementById('area').textContent = appointmentData.area;
 
-                document.getElementById('description').textContent = appointmentData.description;
-
                 document.getElementById('cancelAppointmentButton').style.display = 'block';
 
-
             }
-
-
-
         }
 
         else if (currentStatus === "SUCCESSFUL") {
@@ -133,19 +125,19 @@ async function getBloodBanks2() {
                 document.getElementById('ad').textContent = formattedDate;
                 document.getElementById('status').textContent = currentStatus;
                 document.getElementById('bankName').textContent = appointmentData.bankName;
+                document.getElementById('phone').textContent = appointmentData.phone;
                 document.getElementById('bloodGroup').textContent = appointmentData.bloodGroup;
                 document.getElementById('rhFactor').textContent = appointmentData.rh;
-                document.getElementById('quantity').textContent = appointmentData.quantity;
+                document.getElementById('quantity2').textContent = appointmentData.quantity + " units";
+
+                console.log("quantity shown (second)" + appointmentData.quantity);
+
+
                 document.getElementById('requestDate').textContent = formattedDate2;
                 document.getElementById('district').textContent = appointmentData.district;
                 document.getElementById('area').textContent = appointmentData.area;
                 document.getElementById('hcc').textContent = appointmentData.healthcareCenter;
-                document.getElementById('description').textContent = appointmentData.description;
-
-
-
             }
-
         }
         else {
             document.getElementById('bname').style.display = 'none';
@@ -181,41 +173,33 @@ async function getBloodBanks2() {
                 document.getElementById('ad').textContent = formattedDate;
                 document.getElementById('status').textContent = currentStatus;
                 document.getElementById('bankName').textContent = appointmentData.bankName;
+                document.getElementById('phone').textContent = appointmentData.phone;
                 document.getElementById('bloodGroup').textContent = appointmentData.bloodGroup;
                 document.getElementById('rhFactor').textContent = appointmentData.rh;
-                document.getElementById('quantity').textContent = appointmentData.quantity;
+                document.getElementById('quantity2').textContent = appointmentData.quantity + " units";
+
+                console.log("quantity shown (third)" + appointmentData.quantity);
+
+                
                 document.getElementById('requestDate').textContent = formattedDate2;
                 document.getElementById('district').textContent = appointmentData.district;
                 document.getElementById('area').textContent = appointmentData.area;
                 document.getElementById('hcc').textContent = appointmentData.healthcareCenter;
-                document.getElementById('description').textContent = appointmentData.description;
 
                 document.getElementById('cancelAppointmentButton2').style.display = 'block';
-
-
             }
-
         }
-
-
-
-
-
     }
     catch (error) {
         console.error('Error:', error);
     }
-
-
-
-
 }
 
 
 
 async function getBloodBanks() {
     try {
-
+        console.log("hitting the api /userHomePage/getDonorsIf/ with userid: " + userid + "from getBloodBanks() function");
         const response1 = await fetch(`/userHomePage/getDonorsIf/${userid}`);
         const data = await response1.json();
         const count = data.count;
@@ -235,7 +219,7 @@ async function getBloodBanks() {
                 const data2 = await response2.json();
                 quantityCount = data2.quantity;
                 console.log("ooooooooooooo" + quantityCount);
-                const quantityElement = document.getElementById("quantity");
+                const quantityElement = document.getElementById("quantity1");
 
                 // Manipulate the quantity value to create the desired message
                 const message = `
@@ -251,7 +235,7 @@ async function getBloodBanks() {
                     document.getElementById('noAppointmentMessage2').style.display = 'none';
                     bloodBankResultsDiv.innerHTML = '<h3>Currently You have No appointment!</h3>';
                     document.getElementById('dList').style.display = 'none';
-                    document.getElementById('quantity').style.display = 'none';
+                    document.getElementById('quantity1').style.display = 'none';
                 }
                 else {
                     document.getElementById('dList').style.display = 'block';
@@ -288,7 +272,7 @@ async function getBloodBanks() {
                 const data2 = await response2.json();
                 quantityCountt = data2.quantity;
                 console.log("ooooooooooooo" + quantityCountt);
-                const quantityElement = document.getElementById("quantity");
+                const quantityElement = document.getElementById("quantity1");
 
                 // Manipulate the quantity value to create the desired message
                 const message = `
@@ -304,15 +288,11 @@ async function getBloodBanks() {
 
                 bloodBankResultsDiv.innerHTML = `<h3>Currently, no donor has yet accepted your request for <span class="count">${counts}</span> bag/bags.Please have patience <i class="las la-heart"></i></h3>`;
 
-
-
             }
-
-
             else {
                 const bloodBankResultsDiv = document.getElementById('bloodBankResults');
                 document.getElementById('dList').style.display = 'none';
-                document.getElementById('quantity').style.display = 'none';
+                document.getElementById('quantity1').style.display = 'none';
 
                 document.getElementById('noAppointmentMessage2').style.display = 'block';
             }
@@ -322,10 +302,6 @@ async function getBloodBanks() {
     catch (error) {
         console.error('Error:', error);
     }
-
-
-
-
 }
 
 
@@ -411,13 +387,13 @@ function submitReview() {
     try {
 
         alert("Successfully submitted your review");
-
+        //reload the page
+        location.reload();
 
     } catch (error) {
         console.error('Error:', error);
         // Handle error, if needed
     }
-
 }
 function showConfirmation() {
     document.getElementById('confirmationBox').style.display = 'block';
@@ -506,9 +482,6 @@ function cancelAppointment2() {
         hideConfirmation2();
     }
 }
-
-
-
 
 
 // setInterval(getBloodBanks2,getBloodBanks, 5000);
