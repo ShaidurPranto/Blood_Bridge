@@ -1,3 +1,5 @@
+console.log("userDonorHomepage.js is connected");
+
 let lastStatus = ''; // Variable to store the last status
 let isVisible = false;
 
@@ -852,4 +854,4 @@ async function getQNA(){
 
 
 
-setInterval(checkDonationStatusAndNotify,5000); //10 minutes
+setInterval(checkDonationStatusAndNotify,1000*60*10); //10 minutes

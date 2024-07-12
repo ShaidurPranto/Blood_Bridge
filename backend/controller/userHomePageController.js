@@ -7,7 +7,8 @@ const path = require('path');
 
 //logic handling functions
 async function isDonor(req, res) {
-    console.log("request recieved for verifying if an user is donor");
+    console.log("\n\nrequest recieved for verifying if an user is donor");
+
     const email = req.params.email;
     console.log("user email is ", email);
 
@@ -66,6 +67,7 @@ async function isDonor(req, res) {
 
 
 async function donorSignup(req, res) {
+    console.log("\n\nrequest recieved for registering a user as a donor");
     //data in the request must be like the following example
 
     //userid = 123
@@ -214,7 +216,7 @@ async function donorSignup(req, res) {
         else {
             console.log("user is not registered as a donor");
             console.log("undoing the insertions");
-            if(donor_mobile_number_insertion){
+            if (donor_mobile_number_insertion) {
                 const donorMobileQuery = `DELETE FROM DONOR_MOBILE_NUMBER
                 WHERE DONORID = (SELECT DONORID FROM USER_DONOR WHERE USERID = :userid)`;
                 const donorMobileBinds = {
@@ -223,7 +225,7 @@ async function donorSignup(req, res) {
                 connection.execute(donorMobileQuery, donorMobileBinds);
                 console.log("deleted from donor_mobile_number");
             }
-            if(donor_blood_info_insertion){
+            if (donor_blood_info_insertion) {
                 const donorBloodInfoQuery = `DELETE FROM DONOR_BLOOD_INFO
                 WHERE DONORID = (SELECT DONORID FROM USER_DONOR WHERE USERID = :userid)`;
                 const donorBloodInfoBinds = {
@@ -232,7 +234,7 @@ async function donorSignup(req, res) {
                 connection.execute(donorBloodInfoQuery, donorBloodInfoBinds);
                 console.log("deleted from donor_blood_info");
             }
-            if(donor_insertion){
+            if (donor_insertion) {
                 const query2 = `DELETE FROM DONOR
                 WHERE DONORID = (SELECT DONORID FROM USER_DONOR WHERE USERID = :userid)`;
                 const binds2 = {
@@ -241,7 +243,7 @@ async function donorSignup(req, res) {
                 connection.execute(query2, binds2);
                 console.log("deleted from donor");
             }
-            if(user_donor_insertion){
+            if (user_donor_insertion) {
                 const query1 = `DELETE FROM USER_DONOR
                 WHERE USERID = :userid`;
                 const binds1 = {
@@ -261,7 +263,8 @@ async function donorSignup(req, res) {
 }
 
 async function getName(req, res) {
-    console.log("request recieved for letting know what is user's name");
+    console.log("\n\nrequest recieved for getting the name of the user");
+
     const userid = req.params.userid;
     console.log("user id is ", userid);
 
@@ -286,18 +289,15 @@ async function getName(req, res) {
     else {
         console.log("cannot retrive the name");
     }
-
-
-
 }
 
 
 
 async function getBloodBanks(req, res) {
-    console.log("Request received for letting know the blood banks");
+    console.log("\n\n request recieved to get the blood banks");
+
     const userid = req.params.userid;
     console.log("User ID is ", userid);
-
     const query1 = `
  
 SELECT REQUESTID,NAME, DISTRICT, AREA
@@ -367,7 +367,7 @@ WHERE UPPER(AREA) IN (
     }
 }
 async function getBloodBank(req, res) {
-    console.log("Request received for letting know the blood banks");
+    console.log("\n\n request recieved to get the blood banks");
     const userid = req.params.userid;
     const parameter = req.query.parameter;
 
@@ -400,7 +400,7 @@ async function getBloodBank(req, res) {
     const binds1 = {
         userid: userid,
         parameter: parameter
-       
+
     };
 
     try {
@@ -430,7 +430,8 @@ async function getBloodBank(req, res) {
 
 
 async function getBankId(req, res) {
-    console.log("request recieved for letting know what is BankId");
+    console.log("\n\nrequest recieved to get the bank id");
+
     const requestid = req.params.requestid;
     console.log("Request id is ", requestid);
 
@@ -442,29 +443,22 @@ async function getBankId(req, res) {
     const result = (await databaseConnection.execute(query1, binds1)).rows;
     if (result) {
         bankid = result[0]["BANKID"];
-
         console.log("Bank id is : ", bankid);
-
-
         res.send({
             bankid: bankid,
 
 
         });
-
-
     }
-
     else {
         console.log("cannot retrive the id");
     }
-
-
-
 }
 
+
 async function getDonorID(req, res) {
-    console.log("request recieved for letting know what is donorID");
+    console.log("\n\n request received to get the donor id");
+
     const userid = req.params.userid;
     console.log("User id is ", userid);
 
@@ -478,59 +472,39 @@ async function getDonorID(req, res) {
         donorid = result[0]["DONORID"];
 
         console.log("DONORID is : ", donorid);
-
-
         res.send({
             donorid: donorid,
-
-
         });
-
-
     }
-
     else {
         console.log("cannot retrive the id");
     }
-
-
-
 }
 
 
 
 
 async function getUserid(req, res) {
-    console.log("request recieved for letting know what is donorID");
+    console.log("\n\n request received to get the user id");
+
     const donorid = req.params.donorid;
     console.log("User id is ", userid);
 
     const query1 = 'SELECT USERID FROM USER_DONOR WHERE DONORID=:donorid';
     const binds1 = {
-        donorid:donorid
+        donorid: donorid
     };
     var userid;
     const result = (await databaseConnection.execute(query1, binds1)).rows;
     if (result) {
         userid = result[0]["USERID"];
-
-        
-
-
         res.send({
-           userid: userid
-
+            userid: userid
         });
-
-
     }
-
     else {
         console.log("cannot retrive the id");
     }
-
-
-
 }
 
 
@@ -550,7 +524,7 @@ async function donationDonorAppointment(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
         let query2 = 'SELECT MAX(DONATIONID) AS MAXID FROM BANK_DONOR_APPOINTMENTS';
@@ -594,8 +568,8 @@ async function donationDonorAppointment(req, res) {
 
 
         await connection.execute(insertAppointmentQuery, insertAppointmentBinds);
-        
-       
+
+
         // Commit the transaction
         await connection.commit();
 
@@ -659,38 +633,38 @@ WHERE E.DONORID = (
     const result = (await databaseConnection.execute(query1, binds1)).rows;
     if (result[0]) {
         Name = result[0]["NAME"];
-        Email=result[0]["EMAIL"];
-        Address=result[0]["AREA"]+","+result[0]["DISTRICT"];
-        Gender=result[0]["GENDER"];
-        birthday=result[0]["BIRTH_DATE_"];
-        bloodGroup=result[0]["BLOOD_GROUP"]+result[0]["RH"];
-        phone=result[0]["MOBILE_NUMBER"];
-        age=result[0]["AGE"];
-        Password=result[0]["PASSWORD"];
-        BloodGroup=result[0]["BLOOD_GROUP"];
-        Rh=result[0]["RH"];
-        District=result[0]["DISTRICT"];
-        Area=result[0]["AREA"];
-        lastDonationDate=result[0]["LAST_DONATION_DATE"];
-        birth=result[0]["BIRTH"];
+        Email = result[0]["EMAIL"];
+        Address = result[0]["AREA"] + "," + result[0]["DISTRICT"];
+        Gender = result[0]["GENDER"];
+        birthday = result[0]["BIRTH_DATE_"];
+        bloodGroup = result[0]["BLOOD_GROUP"] + result[0]["RH"];
+        phone = result[0]["MOBILE_NUMBER"];
+        age = result[0]["AGE"];
+        Password = result[0]["PASSWORD"];
+        BloodGroup = result[0]["BLOOD_GROUP"];
+        Rh = result[0]["RH"];
+        District = result[0]["DISTRICT"];
+        Area = result[0]["AREA"];
+        lastDonationDate = result[0]["LAST_DONATION_DATE"];
+        birth = result[0]["BIRTH"];
 
 
         res.send({
-           Name: Name,
-           Email: Email,
-           Address: Address,
-           gender: Gender,
-           birthday: birthday,
-           bloodGroup: bloodGroup,
-           phone: phone,
-           age: age,
-           Password:Password,
-           District: District,
-           Area: Area,
-           BloodGroup:BloodGroup,
-           Rh:Rh,
-           lastDonationDate:lastDonationDate,
-           birth: birth,
+            Name: Name,
+            Email: Email,
+            Address: Address,
+            gender: Gender,
+            birthday: birthday,
+            bloodGroup: bloodGroup,
+            phone: phone,
+            age: age,
+            Password: Password,
+            District: District,
+            Area: Area,
+            BloodGroup: BloodGroup,
+            Rh: Rh,
+            lastDonationDate: lastDonationDate,
+            birth: birth,
 
 
         });
@@ -704,18 +678,13 @@ WHERE E.DONORID = (
 
 
 async function donorProfileUpdate(req, res) {
-    
-    const { userid,name, phone, area, district, password, email, birthday, gender, bloodGroup, rh, lastDonationDate } = req.body;
- 
-     
-    console.log("UserId",userid);
-    console.log("name",name);
-    console.log("password",password);
+
+    const { userid, name, phone, area, district, password, email, birthday, gender, bloodGroup, rh, lastDonationDate } = req.body;
 
 
-
-    
-    
+    console.log("UserId", userid);
+    console.log("name", name);
+    console.log("password", password);
     console.log(bloodGroup);
     const connection = await databaseConnection.getConnection();
     if (!connection) {
@@ -726,9 +695,9 @@ async function donorProfileUpdate(req, res) {
         return;
     }
     connection.autoCommit = false;
-    
+
     let isSuccessful = 0;
-    
+
     try {
         // Update the USER_DONOR table
         const updateUserQuery = `UPDATE USERS
@@ -744,92 +713,92 @@ async function donorProfileUpdate(req, res) {
         };
 
 
-         const updateUserResult = await connection.execute(updateUserQuery, updateUserBinds);
+        const updateUserResult = await connection.execute(updateUserQuery, updateUserBinds);
 
 
-         console.log("Hi");
-         isSuccessful++;
-            // Update the DONOR table
-            const updateDonorQuery = `UPDATE DONOR
+        console.log("Hi");
+        isSuccessful++;
+        // Update the DONOR table
+        const updateDonorQuery = `UPDATE DONOR
                                       SET GENDER = :gender,
                                          
                                           AREA = :area,
                                           DISTRICT = :district,
                                           LAST_DONATION_DATE = TO_DATE(:lastDonationDate, 'YYYY-MM-DD')
                                       WHERE DONORID = (SELECT DONORID FROM USER_DONOR WHERE USERID = :userid)`;
-            const updateDonorBinds = {
-                gender: gender,
-              
-                area: area,
-                district: district,
-                lastDonationDate: lastDonationDate,
-                userid: userid
-            };
+        const updateDonorBinds = {
+            gender: gender,
 
-            const updateDonorResult = await connection.execute(updateDonorQuery, updateDonorBinds);
-            if (updateDonorResult.rowsAffected && updateDonorResult.rowsAffected > 0) {
-                console.log("Successfully updated DONOR table");
-    
-                // Update the DONOR_BLOOD_INFO table
-                const updateDonorBloodInfoQuery = `UPDATE DONOR_BLOOD_INFO
+            area: area,
+            district: district,
+            lastDonationDate: lastDonationDate,
+            userid: userid
+        };
+
+        const updateDonorResult = await connection.execute(updateDonorQuery, updateDonorBinds);
+        if (updateDonorResult.rowsAffected && updateDonorResult.rowsAffected > 0) {
+            console.log("Successfully updated DONOR table");
+
+            // Update the DONOR_BLOOD_INFO table
+            const updateDonorBloodInfoQuery = `UPDATE DONOR_BLOOD_INFO
                                                    SET BLOOD_GROUP = :bloodGroup,
                                                        RH = :rh
                                                    WHERE DONORID = (SELECT DONORID FROM USER_DONOR WHERE USERID = :userid)`;
-                const updateDonorBloodInfoBinds = {
-                    bloodGroup: bloodGroup,
-                    rh: rh,
-                    userid: userid
-                };
-                const updateDonorBloodInfoResult = await connection.execute(updateDonorBloodInfoQuery, updateDonorBloodInfoBinds);
-                if (updateDonorBloodInfoResult.rowsAffected && updateDonorBloodInfoResult.rowsAffected > 0) {
-                    console.log("Successfully updated DONOR_BLOOD_INFO table");
-                    isSuccessful++;
-                } else {
-                    console.log('Failed to update DONOR_BLOOD_INFO table');
-                }
-    
-                // Update the DONOR_MOBILE_NUMBER table
-                const updateDonorMobileQuery = `UPDATE DONOR_MOBILE_NUMBER
+            const updateDonorBloodInfoBinds = {
+                bloodGroup: bloodGroup,
+                rh: rh,
+                userid: userid
+            };
+            const updateDonorBloodInfoResult = await connection.execute(updateDonorBloodInfoQuery, updateDonorBloodInfoBinds);
+            if (updateDonorBloodInfoResult.rowsAffected && updateDonorBloodInfoResult.rowsAffected > 0) {
+                console.log("Successfully updated DONOR_BLOOD_INFO table");
+                isSuccessful++;
+            } else {
+                console.log('Failed to update DONOR_BLOOD_INFO table');
+            }
+
+            // Update the DONOR_MOBILE_NUMBER table
+            const updateDonorMobileQuery = `UPDATE DONOR_MOBILE_NUMBER
                                                 SET MOBILE_NUMBER = :phone
                                                 WHERE DONORID = (SELECT DONORID FROM USER_DONOR WHERE USERID = :userid)`;
-                const updateDonorMobileBinds = {
-                    phone: phone,
-                    userid: userid
-                };
-                const updateDonorMobileResult = await connection.execute(updateDonorMobileQuery, updateDonorMobileBinds);
-                if (updateDonorMobileResult.rowsAffected && updateDonorMobileResult.rowsAffected > 0) {
-                    console.log("Successfully updated DONOR_MOBILE_NUMBER table");
-                    isSuccessful++;
-                } else {
-                    console.log('Failed to update DONOR_MOBILE_NUMBER table');
-                }
+            const updateDonorMobileBinds = {
+                phone: phone,
+                userid: userid
+            };
+            const updateDonorMobileResult = await connection.execute(updateDonorMobileQuery, updateDonorMobileBinds);
+            if (updateDonorMobileResult.rowsAffected && updateDonorMobileResult.rowsAffected > 0) {
+                console.log("Successfully updated DONOR_MOBILE_NUMBER table");
+                isSuccessful++;
             } else {
-                console.log('Failed to update DONOR table');
+                console.log('Failed to update DONOR_MOBILE_NUMBER table');
             }
-        
-          
+        } else {
+            console.log('Failed to update DONOR table');
+        }
+
+
     } catch (err) {
         console.log('Error executing the update queries:', err.message);
     }
-    
+
     finally {
         if (isSuccessful == 3) {
             console.log("User info Updated");
             connection.commit();
             res.send({
-                status:2000
+                status: 2000
             });
         } else {
             console.log("User info is not updated ");
             connection.rollback();
             res.send({
-                status:100
+                status: 100
             });
         }
         connection.autoCommit = true;
         await connection.close();
     }
-    
+
 }
 
 async function getAppointmentData(req, res) {
@@ -847,7 +816,7 @@ async function getAppointmentData(req, res) {
     }
 
     console.log("request received for letting know what is donorID");
-    
+
     const query1 = `
         SELECT BS.NAME,B.DONATION_DATE,B.TIME,B.STATUS,B.BANK_REVIEW,B.BANK_RATING,B.DONATIONID,B.DONORID
         FROM BANK_SIGNUP_REQEUSTS BS 
@@ -860,28 +829,28 @@ async function getAppointmentData(req, res) {
     };
     const result = (await databaseConnection.execute(query1, binds1)).rows;
     if (result && result.length > 0) {
-        donorid=result[0]["DONORID"];
-        donationid=result[0]["DONATIONID"];
+        donorid = result[0]["DONORID"];
+        donationid = result[0]["DONATIONID"];
         bankName = result[0]["NAME"];
         Status = result[0]["STATUS"];
         donationDate = result[0]["DONATION_DATE"];
         appointmentTime = result[0]["TIME"];
-        bankReview=result[0]["BANK_REVIEW"];
-        bankRating=result[0]["BANK_RATING"];
+        bankReview = result[0]["BANK_REVIEW"];
+        bankRating = result[0]["BANK_RATING"];
 
         res.send({
-            donorid:donorid,
+            donorid: donorid,
             donationid: donationid,
             bankName: bankName,
             Status: Status,
             donationDate: donationDate,
             appointmentTime: appointmentTime,
             bankReview: bankReview,
-             bankRating: bankRating, 
+            bankRating: bankRating,
         });
     } else {
         res.send({
-           Status:"no",
+            Status: "no",
         });
         console.log("cannot retrieve the id");
     }
@@ -904,7 +873,7 @@ async function getAppointmentDataU(req, res) {
     }
 
     console.log("request received for letting know what is donorID");
-    
+
     const query1 = `
     
 SELECT DU.STATUS,DU.REQUESTID,DU.DONORID,DU.USER_RATING,DU.USER_REVIEW
@@ -919,15 +888,15 @@ ORDER BY BR.REQUEST_DATE DESC
     };
     const result = (await databaseConnection.execute(query1, binds1)).rows;
     if (result && result.length > 0) {
-        Status=result[0]["STATUS"];
-        requestid=result[0]["REQUESTID"];
-        donationid=result[0]["DONORID"];
-        userRating=result[0]["USER_RATING"];
-        userReview=result[0]["USER_REVIEW"];
-       
+        Status = result[0]["STATUS"];
+        requestid = result[0]["REQUESTID"];
+        donationid = result[0]["DONORID"];
+        userRating = result[0]["USER_RATING"];
+        userReview = result[0]["USER_REVIEW"];
+
 
         res.send({
-            donorid:donorid,
+            donorid: donorid,
             Status: Status,
             requestid: requestid,
             userRating: userRating,
@@ -935,7 +904,7 @@ ORDER BY BR.REQUEST_DATE DESC
         });
     } else {
         res.send({
-           Status:"no",
+            Status: "no",
         });
         console.log("cannot retrieve the id");
     }
@@ -944,13 +913,13 @@ ORDER BY BR.REQUEST_DATE DESC
 
 
 async function getBloodBankOnRequest(req, res) {
-    
+
     const Division = req.params.Division;
     const Area = req.params.Area;
-    const BloodGroup=req.params.BloodGroup;
+    const BloodGroup = req.params.BloodGroup;
     const Rh = req.params.Rh;
     const Quantity = req.params.Quantity;
-    
+
     console.log(Division);
     console.log(Area);
 
@@ -969,19 +938,19 @@ WHERE UPPER(DISTRICT) = UPPER(:Division) AND UPPER(AREA) = UPPER(:Area) AND EXIS
 `;
 
     const binds1 = {
-       Division: Division,
-       Area: Area,
-       BloodGroup: BloodGroup,
-       Rh: Rh,
-       Quantity: Quantity
-       
+        Division: Division,
+        Area: Area,
+        BloodGroup: BloodGroup,
+        Rh: Rh,
+        Quantity: Quantity
+
     };
 
     try {
         const result = (await databaseConnection.execute(query1, binds1)).rows;
 
         if (result && result.length > 0) {
-            const bloodBanks = result.map(({REQUESTID,NAME,DISTRICT,AREA,DESCRIPTION }) => ({requestid: REQUESTID,name :NAME, district: DISTRICT, area: AREA, description:DESCRIPTION }));
+            const bloodBanks = result.map(({ REQUESTID, NAME, DISTRICT, AREA, DESCRIPTION }) => ({ requestid: REQUESTID, name: NAME, district: DISTRICT, area: AREA, description: DESCRIPTION }));
             console.log("Details of the user's blood banks are: ", bloodBanks);
 
             res.send({
@@ -1032,15 +1001,15 @@ async function bloodBankInfos(req, res) {
         END;
     `;
 
-             
+
     const binds2 = {
         requestid: requestid,
-        bankName: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-        area: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-        district: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-        description: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-        total: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-        rating: {type: oracledb.STRING, dir: oracledb.BIND_OUT}
+        bankName: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        area: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        district: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        description: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        total: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        rating: { type: oracledb.STRING, dir: oracledb.BIND_OUT }
     };
 
     const result2 = await databaseConnection.execute(query2, binds2);
@@ -1061,9 +1030,9 @@ async function bloodBankInfos(req, res) {
 
 
 async function userBankAppointment(req, res) {
-    const {userid,id,area,district,bloodGroup,rh,quantity,date,time,healthcareCenter,description,mobile} = req.body;
+    let { userid, id, area, district, bloodGroup, rh, quantity, date, time, healthcareCenter, description, mobile } = req.body;
     let connection;
-    STATUS='PENDING';
+    STATUS = 'PENDING';
     console.log(area);
     console.log(district);
     console.log(bloodGroup);
@@ -1084,7 +1053,7 @@ async function userBankAppointment(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
         let query2 = 'SELECT MAX(REQUESTID) AS MAXID FROM USER_REQUEST';
@@ -1097,76 +1066,89 @@ async function userBankAppointment(req, res) {
             nextID = 1; // Starting ID if table is empty
         }
         console.log("The next requestID will be", nextID);
-        
+
         const insertUserRequestQuery1 = `
         INSERT INTO USER_REQUEST (USERID, REQUESTID) 
         VALUES (:userid, :REQUESTID)
     `;
 
-    const insertUserRequestBinds1 = {
-       REQUESTID: nextID,
-       userid: userid
-    };
-
-    await connection.execute(insertUserRequestQuery1, insertUserRequestBinds1);
-    
-
-    let requestTo='BANK';
-    if(req.file){
-        let filename = req.file.filename;
-        console.log("filename is ",filename);
-        console.log(nextID);
-         const query = ` INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP, RH, QUANTITY, DISTRICT, HEALTH_CARE_CENTER, AREA, REQUEST_DATE, DESCRIPTION, REQUEST_TO,REQUIRED_DATE,REQUIRED_TIME,PHONE_NUMBER,DOCUMENT) 
-        VALUES (:REQUESTID, :USERID, :BLOODGROUP, :RH, :QUANTITY, UPPER(:DISTRICT), UPPER(:HEALTHCARECENTER), UPPER(:AREA), SYSDATE, UPPER(:DESCRIPTION), UPPER(:REQUESTTO),TO_DATE(:APPOINTMENTDATE,'YYYY-MM-DD'),:time,:mobile,:filename)`;
-        const binds = {
+        const insertUserRequestBinds1 = {
             REQUESTID: nextID,
-            USERID: userid,
-            BLOODGROUP: bloodGroup,
-            RH: rh,
-            QUANTITY: quantity,
-            DISTRICT: district,
-            HEALTHCARECENTER: healthcareCenter,
-            AREA: area,
-            DESCRIPTION: description,
-            REQUESTTO: requestTo,
-            APPOINTMENTDATE: date,
-            TIME: time,
-            MOBILE: mobile,
-            filename :filename
+            userid: userid
         };
 
-        await connection.execute(query, binds);
+        await connection.execute(insertUserRequestQuery1, insertUserRequestBinds1);
 
-    }
 
-  else{
-  console.log("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
-        // Insert into DONOR_DONATES
-        const insertUserRequestQuery = `
+        let requestTo = 'BANK';
+        if (req.file) {
+            let filename = req.file.filename;
+            console.log("filename is ", filename);
+            console.log(nextID);
+            const query = ` INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP, RH, QUANTITY, DISTRICT, HEALTH_CARE_CENTER, AREA, REQUEST_DATE, DESCRIPTION, REQUEST_TO,REQUIRED_DATE,REQUIRED_TIME,PHONE_NUMBER,DOCUMENT) 
+        VALUES (:REQUESTID, :USERID, :BLOODGROUP, :RH, :QUANTITY, UPPER(:DISTRICT), UPPER(:HEALTHCARECENTER), UPPER(:AREA), SYSDATE, UPPER(:DESCRIPTION), UPPER(:REQUESTTO),TO_DATE(:APPOINTMENTDATE,'YYYY-MM-DD'),:time,:mobile,:filename)`;
+            const binds = {
+                REQUESTID: nextID,
+                USERID: userid,
+                BLOODGROUP: bloodGroup,
+                RH: rh,
+                QUANTITY: quantity,
+                DISTRICT: district,
+                HEALTHCARECENTER: healthcareCenter,
+                AREA: area,
+                DESCRIPTION: description,
+                REQUESTTO: requestTo,
+                APPOINTMENTDATE: date,
+                TIME: time,
+                MOBILE: mobile,
+                filename: filename
+            };
+
+            await connection.execute(query, binds);
+
+        }
+
+        else {
+            console.log("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+            // Insert into DONOR_DONATES
+            const insertUserRequestQuery = `
         INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP, RH, QUANTITY, DISTRICT, HEALTH_CARE_CENTER, AREA, REQUEST_DATE, DESCRIPTION, REQUEST_TO,REQUIRED_DATE,REQUIRED_TIME,PHONE_NUMBER) 
         VALUES (:REQUESTID, :USERID, :BLOODGROUP, :RH, :QUANTITY, UPPER(:DISTRICT), UPPER(:HEALTHCARECENTER), UPPER(:AREA), SYSDATE, UPPER(:DESCRIPTION), UPPER(:REQUESTTO),TO_DATE(:APPOINTMENTDATE,'YYYY-MM-DD'),:time,:mobile)
     `;
-    
-    const insertUserRequestBinds = {
-       REQUESTID: nextID,
-       USERID: userid,
-       BLOODGROUP: bloodGroup,
-       RH: rh,
-       QUANTITY: quantity,
-       DISTRICT: district,
-       HEALTHCARECENTER: healthcareCenter,
-       AREA: area,
-       DESCRIPTION: description,
-       REQUESTTO: requestTo,
-       APPOINTMENTDATE: date,
-       TIME: time,
-       MOBILE: mobile
-    };
-    
-        await connection.execute(insertUserRequestQuery, insertUserRequestBinds);
 
-        console.log("doneeeeeeeeeeeeeeeeeeeeeeee");
-}
+            const insertUserRequestBinds = {
+                REQUESTID: nextID,
+                USERID: userid,
+                BLOODGROUP: bloodGroup,
+                RH: rh,
+                QUANTITY: quantity,
+                DISTRICT: district,
+                HEALTHCARECENTER: healthcareCenter,
+                AREA: area,
+                DESCRIPTION: description,
+                REQUESTTO: requestTo,
+                APPOINTMENTDATE: date,
+                TIME: time,
+                MOBILE: mobile
+            };
+
+            await connection.execute(insertUserRequestQuery, insertUserRequestBinds);
+
+            console.log("doneeeeeeeeeeeeeeeeeeeeeeee");
+        }
+
+        let bankid;
+        const query1 = 'SELECT BANKID FROM BLOOD_BANK WHERE REQUESTID = :requestid';
+        const binds1 = {
+            requestid: id
+        };
+        const result1 = (await databaseConnection.execute(query1, binds1)).rows;
+        if (result1) {
+            bankid = result1[0]["BANKID"];
+        }
+        id = bankid;
+
+
         // Insert into user_DONOR_APPOINTMENTS
         const insertAppointmentQuery = `
             INSERT INTO BANK_USER_APPOINTMENTS (REQUESTID,BANKID,APPOINTMENT_DATE, TIME, STATUS,QUANTITY) 
@@ -1178,8 +1160,8 @@ async function userBankAppointment(req, res) {
             BANKID: id,
             APPOINTMENTDATE: date,
             TIME: time,
-            STATUS: STATUS,  
-            quantity: quantity 
+            STATUS: STATUS,
+            quantity: quantity
         };
 
         await connection.execute(insertAppointmentQuery, insertAppointmentBinds);
@@ -1219,14 +1201,14 @@ async function userBankAppointment(req, res) {
 }
 
 async function appoinmentEnded(req, res) {
- 
 
-    const {rating, review, donationid } = req.body;
+
+    const { rating, review, donationid } = req.body;
 
     console.log(rating);
     console.log(review);
     console.log(donationid);
-    
+
 
     try {
         // Get a database connection
@@ -1238,12 +1220,12 @@ async function appoinmentEnded(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
-       
+
         connection.autoCommit = false;
-        const status='ENDED';
+        const status = 'ENDED';
 
         console.log("hi");
 
@@ -1255,19 +1237,19 @@ async function appoinmentEnded(req, res) {
         `;
 
         const binds = {
-           rating: rating,
-           review: review,
-           status: status,
-           donationid: donationid
-        
+            rating: rating,
+            review: review,
+            status: status,
+            donationid: donationid
+
         };
 
-        
 
 
-        await connection.execute(query,binds);
-        
-       
+
+        await connection.execute(query, binds);
+
+
         // Commit the transaction
         //await connection.commit();
         connection.autoCommit = true;
@@ -1279,7 +1261,7 @@ async function appoinmentEnded(req, res) {
         // Rollback in case of error
         if (connection) {
             try {
-               
+
                 await connection.rollback();
             } catch (rollbackError) {
                 console.error("Rollback error:", rollbackError);
@@ -1299,19 +1281,19 @@ async function appoinmentEnded(req, res) {
             }
         }
     }
-   
+
 }
 
 
 async function appoinmentEndeduu(req, res) {
- 
 
-    const {rating, review, requestid} = req.body;
+
+    const { rating, review, requestid } = req.body;
 
     console.log(rating);
     console.log(review);
-    console.log("lllllllllllll"+requestid);
-    
+    console.log("lllllllllllll" + requestid);
+
 
     try {
         // Get a database connection
@@ -1323,36 +1305,36 @@ async function appoinmentEndeduu(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
-       
+
         connection.autoCommit = false;
-        const status='ENDED';
+        const status = 'ENDED';
 
         console.log("hi");
 
         // Insert into BANK_DONOR_APPOINTMENTS
         const query = `     
  UPDATE BANK_USER_APPOINTMENTS
- SET USER_RAITNG= :rating, USER_REVIEW = :review, STATUS= :status
+ SET USER_RATING= :rating, USER_REVIEW = :review, STATUS= :status
  WHERE REQUESTID= :requestid
         `;
 
         const binds = {
-           rating: rating,
-           review: review,
-           status: status,
-           requestid: requestid
-        
+            rating: rating,
+            review: review,
+            status: status,
+            requestid: requestid
+
         };
 
-        
 
 
-        await connection.execute(query,binds);
-        
-       
+
+        await connection.execute(query, binds);
+
+
         // Commit the transaction
         //await connection.commit();
         connection.autoCommit = true;
@@ -1364,7 +1346,7 @@ async function appoinmentEndeduu(req, res) {
         // Rollback in case of error
         if (connection) {
             try {
-               
+
                 await connection.rollback();
             } catch (rollbackError) {
                 console.error("Rollback error:", rollbackError);
@@ -1384,18 +1366,18 @@ async function appoinmentEndeduu(req, res) {
             }
         }
     }
-   
+
 }
 
 
 async function appoinmentCancel(req, res) {
- 
 
-    const {donorid, donationid } = req.body;
 
-     console.log(donorid);
-     console.log(donationid);
-    
+    const { donorid, donationid } = req.body;
+
+    console.log(donorid);
+    console.log(donationid);
+
 
     try {
         // Get a database connection
@@ -1407,12 +1389,12 @@ async function appoinmentCancel(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
-       
+
         connection.autoCommit = false;
-        
+
 
         // Insert into BANK_DONOR_APPOINTMENTS
         const query = `     
@@ -1422,17 +1404,17 @@ async function appoinmentCancel(req, res) {
         `;
 
         const binds = {
-           donorid:donorid,
-           donationid: donationid
-        
+            donorid: donorid,
+            donationid: donationid
+
         };
 
-        
 
 
-        await connection.execute(query,binds);
-        
-       
+
+        await connection.execute(query, binds);
+
+
         // Commit the transaction
         //await connection.commit();
         connection.autoCommit = true;
@@ -1444,7 +1426,7 @@ async function appoinmentCancel(req, res) {
         // Rollback in case of error
         if (connection) {
             try {
-               
+
                 await connection.rollback();
             } catch (rollbackError) {
                 console.error("Rollback error:", rollbackError);
@@ -1464,13 +1446,13 @@ async function appoinmentCancel(req, res) {
             }
         }
     }
-   
+
 }
 
 
 
 async function appoinmentCancelAccepted(req, res) {
-    const { donorid,donationid,description } = req.body;
+    const { donorid, donationid, description } = req.body;
     let connection;
 
     try {
@@ -1483,10 +1465,10 @@ async function appoinmentCancelAccepted(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
-       
+
 
 
         // Insert into BANK_DONOR_APPOINTMENTS
@@ -1494,22 +1476,22 @@ async function appoinmentCancelAccepted(req, res) {
         INSERT INTO CANCELED_APPOINTMENTS (DONORID, BANK_DONOR_DONATIONID, DESCRIPTION)
         VALUES (:donorid, :donationid, :description)
     `;
-    
-    const insertCancelBinds = {
-        donorid: donorid,
-        donationid: donationid,
-        description: description
-    };
-    
-    await connection.execute(insertCancelQuery, insertCancelBinds);
-       
+
+        const insertCancelBinds = {
+            donorid: donorid,
+            donationid: donationid,
+            description: description
+        };
+
+        await connection.execute(insertCancelQuery, insertCancelBinds);
+
         // Commit the transaction
         await connection.commit();
 
         res.send({
             status: "successful",
             message: "Cancelled successfully",
-           
+
         });
     } catch (error) {
         console.error("Error in cancelling appointment:", error);
@@ -1540,9 +1522,9 @@ async function appoinmentCancelAccepted(req, res) {
 
 
 async function donorUserAppointment(req, res) {
-    const {userid,bloodGroup,rhFactor,district,area,healthcareCenter,quantity,donationDate,description} = req.body;
+    const { userid, bloodGroup, rhFactor, district, area, healthcareCenter, quantity, donationDate, description } = req.body;
     let connection;
-    let request='DONOR';
+    let request = 'DONOR';
     console.log(area);
     console.log(district);
     console.log(bloodGroup);
@@ -1550,7 +1532,7 @@ async function donorUserAppointment(req, res) {
     console.log(quantity);
     console.log(healthcareCenter);
     console.log(donationDate);
-   
+
     console.log(description);
 
     try {
@@ -1563,7 +1545,7 @@ async function donorUserAppointment(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
         let query2 = 'SELECT MAX(REQUESTID) AS MAXID FROM USER_REQUEST';
@@ -1576,24 +1558,24 @@ async function donorUserAppointment(req, res) {
             nextID = 1; // Starting ID if table is empty
         }
         console.log("The next requestID will be", nextID);
-        
+
         const insertUserRequestQuery1 = `
         INSERT INTO USER_REQUEST (USERID, REQUESTID) 
         VALUES (:userid, :REQUESTID)
     `;
 
-    const insertUserRequestBinds1 = {
-       REQUESTID: nextID,
-       userid: userid
-    };
+        const insertUserRequestBinds1 = {
+            REQUESTID: nextID,
+            userid: userid
+        };
 
-    await connection.execute(insertUserRequestQuery1, insertUserRequestBinds1);
+        await connection.execute(insertUserRequestQuery1, insertUserRequestBinds1);
 
 
 
-    // INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP, RH, QUANTITY, DISTRICT, AREA, APPROXIMATE_DAYS, DESCRIPTION, REQUEST_TO) 
-    // VALUES (15, 23, 'A', '+', 4, 'DHAKA', 'DHANMONDI', 2, 'YES', 'DONOR');
-    
+        // INSERT INTO BLOOD_REQUEST (REQUESTID, USERID, BLOOD_GROUP, RH, QUANTITY, DISTRICT, AREA, APPROXIMATE_DAYS, DESCRIPTION, REQUEST_TO) 
+        // VALUES (15, 23, 'A', '+', 4, 'DHAKA', 'DHANMONDI', 2, 'YES', 'DONOR');
+
 
         // Insert into DONOR_DONATES
         const insertUserRequestQuery = `
@@ -1604,23 +1586,23 @@ VALUES (:REQUESTID, :userid, :bloodGroup, :rhFactor, :quantity, UPPER(:district)
 
 
         const insertUserRequestBinds = {
-           REQUESTID: nextID,
-           userid: userid,
-           bloodGroup: bloodGroup,
-           rhFactor: rhFactor,
-           quantity: quantity,
-           district: district,
-           area: area,
-           donationDate: donationDate,
-           description:description,
-           request: request,
-           healthcareCenter: healthcareCenter
+            REQUESTID: nextID,
+            userid: userid,
+            bloodGroup: bloodGroup,
+            rhFactor: rhFactor,
+            quantity: quantity,
+            district: district,
+            area: area,
+            donationDate: donationDate,
+            description: description,
+            request: request,
+            healthcareCenter: healthcareCenter
         };
 
         await connection.execute(insertUserRequestQuery, insertUserRequestBinds);
 
         console.log("doneeeeeeeeeeeeeeeeeeeeeeee");
-       
+
         // Commit the transaction
         await connection.commit();
 
@@ -1656,14 +1638,14 @@ VALUES (:REQUESTID, :userid, :bloodGroup, :rhFactor, :quantity, UPPER(:district)
 }
 
 async function getDonorOnRequest(req, res) {
-    
+
     let requestid = req.params.requestid;
-    let donorid=req.params.donorid;
+    let donorid = req.params.donorid;
     console.log(requestid);
     console.log(donorid);
-    
 
-const query1 = `
+
+    const query1 = `
 
 SELECT B.REQUIRED_DATE,D.DONORID,D.STATUS,D.REQUESTID,B.QUANTITY,B.BLOOD_GROUP,B.RH,B.REQUEST_DATE,B.DISTRICT,B.AREA
 FROM DONOR_USER_APPOINTMENTS D JOIN BLOOD_REQUEST B ON B.REQUESTID=D.REQUESTID
@@ -1673,44 +1655,44 @@ ORDER BY b.REQUIRED_DATE DESC
 `;
 
     const binds1 = {
-       requestid: requestid,
-       donorid: donorid
-       
+        requestid: requestid,
+        donorid: donorid
+
     };
 
     try {
         const result = (await databaseConnection.execute(query1, binds1)).rows;
 
-if (result && result.length > 0) {
-    donorid = result[0]["DONORID"];
-    requestid = result[0]["REQUESTID"];
-    Status = result[0]["STATUS"];
-    appointmentDate = result[0]["REQUIRED_DATE"];
-    quantity = result[0]["QUANTITY"];
-    bloodGroup = result[0]["BLOOD_GROUP"];
-    rh = result[0]["RH"];
-    requestDate = result[0]["REQUEST_DATE"];
-    district = result[0]["DISTRICT"];
-    area = result[0]["AREA"];
+        if (result && result.length > 0) {
+            donorid = result[0]["DONORID"];
+            requestid = result[0]["REQUESTID"];
+            Status = result[0]["STATUS"];
+            appointmentDate = result[0]["REQUIRED_DATE"];
+            quantity = result[0]["QUANTITY"];
+            bloodGroup = result[0]["BLOOD_GROUP"];
+            rh = result[0]["RH"];
+            requestDate = result[0]["REQUEST_DATE"];
+            district = result[0]["DISTRICT"];
+            area = result[0]["AREA"];
 
-    res.send({
-        donorid: donorid,
-        requestid: requestid,
-        Status: Status,
-        appointmentDate: appointmentDate,
-        quantity: quantity,
-        bloodGroup: bloodGroup,
-        rh: rh,
-        requestDate: requestDate,
-        district: district,
-        area: area
-    });
-} else {
-        res.send({
-           Status:"no",
-        });
-        console.log("cannot retrieve the id");
-    }
+            res.send({
+                donorid: donorid,
+                requestid: requestid,
+                Status: Status,
+                appointmentDate: appointmentDate,
+                quantity: quantity,
+                bloodGroup: bloodGroup,
+                rh: rh,
+                requestDate: requestDate,
+                district: district,
+                area: area
+            });
+        } else {
+            res.send({
+                Status: "no",
+            });
+            console.log("cannot retrieve the id");
+        }
     } catch (error) {
         console.error("Error fetching blood bank details:", error.message);
         res.status(500).send({
@@ -1721,13 +1703,13 @@ if (result && result.length > 0) {
 
 
 async function appoinmentCanceled(req, res) {
- 
-
-    const {requestid } = req.body;
 
 
-     console.log(requestid);
-    
+    const { requestid } = req.body;
+
+
+    console.log(requestid);
+
 
     try {
         // Get a database connection
@@ -1739,31 +1721,31 @@ async function appoinmentCanceled(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
-       
+
         connection.autoCommit = false;
-        
+
 
         // Insert into BANK_DONOR_APPOINTMENTS
         const query = `     
         DELETE FROM USER_REQUEST
         WHERE REQUESTID=:requestid 
         `;
-          
+
         const binds = {
-        
-           requestid: requestid
-        
+
+            requestid: requestid
+
         };
 
-        
 
 
-        await connection.execute(query,binds);
-        
-       
+
+        await connection.execute(query, binds);
+
+
         // Commit the transaction
         //await connection.commit();
         connection.autoCommit = true;
@@ -1775,7 +1757,7 @@ async function appoinmentCanceled(req, res) {
         // Rollback in case of error
         if (connection) {
             try {
-               
+
                 await connection.rollback();
             } catch (rollbackError) {
                 console.error("Rollback error:", rollbackError);
@@ -1795,12 +1777,12 @@ async function appoinmentCanceled(req, res) {
             }
         }
     }
-   
+
 }
 
 
 async function appoinmentCancelFromUserAccepted(req, res) {
-    const { userid,donorid,requestid,description } = req.body;
+    const { userid, donorid, requestid, description } = req.body;
     let connection;
 
     try {
@@ -1813,10 +1795,10 @@ async function appoinmentCancelFromUserAccepted(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
-       
+
 
 
         // Insert into BANK_DONOR_APPOINTMENTS
@@ -1826,23 +1808,23 @@ async function appoinmentCancelFromUserAccepted(req, res) {
             (USERID, DONOR_USER_REQUEST_DONORID,DONOR_USER_REQUESTID, DESCRIPTION)
             VALUES (:userid,:donorid,:requestid,:description)
     `;
-    
-    const insertCancelBinds = {
-        userid:userid,
-        donorid: donorid,
-        requestid: requestid,
-        description: description
-    };
-    
-    await connection.execute(insertCancelQuery, insertCancelBinds);
-       
+
+        const insertCancelBinds = {
+            userid: userid,
+            donorid: donorid,
+            requestid: requestid,
+            description: description
+        };
+
+        await connection.execute(insertCancelQuery, insertCancelBinds);
+
         // Commit the transaction
         await connection.commit();
 
         res.send({
             status: "successful",
             message: "Cancelled successfully",
-           
+
         });
     } catch (error) {
         console.error("Error in cancelling appointment:", error);
@@ -1874,14 +1856,14 @@ async function appoinmentCancelFromUserAccepted(req, res) {
 //giveSuccessfulUpdate
 
 async function giveSuccessfulUpdate(req, res) {
- 
-  
+
+
     const requestid = req.params.requestid;
     const donorid = req.params.donorid;
-    
 
-   
-    
+
+
+
 
     try {
         // Get a database connection
@@ -1893,12 +1875,12 @@ async function giveSuccessfulUpdate(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
-       
+
         connection.autoCommit = false;
-        const status='SUCCESSFUL';
+        const status = 'SUCCESSFUL';
 
         console.log("hi");
 
@@ -1910,19 +1892,19 @@ async function giveSuccessfulUpdate(req, res) {
         `;
 
         const binds = {
-            
-           requestid: requestid, 
-           status: status,
-           donorid: donorid
-        
+
+            requestid: requestid,
+            status: status,
+            donorid: donorid
+
         };
 
-        
 
 
-        await connection.execute(query,binds);
-        
-       
+
+        await connection.execute(query, binds);
+
+
         // Commit the transaction
         //await connection.commit();
         connection.autoCommit = true;
@@ -1934,7 +1916,7 @@ async function giveSuccessfulUpdate(req, res) {
         // Rollback in case of error
         if (connection) {
             try {
-               
+
                 await connection.rollback();
             } catch (rollbackError) {
                 console.error("Rollback error:", rollbackError);
@@ -1954,19 +1936,19 @@ async function giveSuccessfulUpdate(req, res) {
             }
         }
     }
-   
+
 }
 
 
 async function appoinmentEndedByUser(req, res) {
- 
 
-    const {rating, review, donorid,requestid } = req.body;
+
+    const { rating, review, donorid, requestid } = req.body;
 
     console.log(rating);
     console.log(review);
-   
-    
+
+
 
     try {
         // Get a database connection
@@ -1978,12 +1960,12 @@ async function appoinmentEndedByUser(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
-       
+
         connection.autoCommit = false;
-        const status='ENDEDBU';
+        const status = 'ENDEDBU';
 
         console.log("hi");
 
@@ -1995,20 +1977,20 @@ async function appoinmentEndedByUser(req, res) {
         `;
 
         const binds = {
-           rating: rating,
-           review: review,
-           status: status,
-           donorid: donorid,
-           requestid: requestid
-        
+            rating: rating,
+            review: review,
+            status: status,
+            donorid: donorid,
+            requestid: requestid
+
         };
 
-        
 
 
-        await connection.execute(query,binds);
-        
-       
+
+        await connection.execute(query, binds);
+
+
         // Commit the transaction
         //await connection.commit();
         connection.autoCommit = true;
@@ -2020,7 +2002,7 @@ async function appoinmentEndedByUser(req, res) {
         // Rollback in case of error
         if (connection) {
             try {
-               
+
                 await connection.rollback();
             } catch (rollbackError) {
                 console.error("Rollback error:", rollbackError);
@@ -2040,19 +2022,19 @@ async function appoinmentEndedByUser(req, res) {
             }
         }
     }
-   
+
 }
 
 
 async function appoinmentEndedByDonor(req, res) {
- 
 
-    const {rating, review,requestid,donorid } = req.body;
+
+    const { rating, review, requestid, donorid } = req.body;
 
     console.log(rating);
     console.log(review);
-   
-    
+
+
 
     try {
         // Get a database connection
@@ -2064,12 +2046,12 @@ async function appoinmentEndedByDonor(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
-       
+
         connection.autoCommit = false;
-        const status='ENDEDBD';
+        const status = 'ENDEDBD';
 
         console.log("hi");
 
@@ -2081,20 +2063,20 @@ async function appoinmentEndedByDonor(req, res) {
         `;
 
         const binds = {
-           rating: rating,
-           review: review,
-           status: status,
-           donorid: donorid,
-           requestid: requestid
-        
+            rating: rating,
+            review: review,
+            status: status,
+            donorid: donorid,
+            requestid: requestid
+
         };
 
-        
 
 
-        await connection.execute(query,binds);
-        
-       
+
+        await connection.execute(query, binds);
+
+
         // Commit the transaction
         //await connection.commit();
         connection.autoCommit = true;
@@ -2106,7 +2088,7 @@ async function appoinmentEndedByDonor(req, res) {
         // Rollback in case of error
         if (connection) {
             try {
-               
+
                 await connection.rollback();
             } catch (rollbackError) {
                 console.error("Rollback error:", rollbackError);
@@ -2126,20 +2108,20 @@ async function appoinmentEndedByDonor(req, res) {
             }
         }
     }
-   
+
 }
 
 
 
 async function userReportDonor(req, res) {
- 
+
 
     const requestid = req.params.requestid;
     const donorid = req.params.donorid;
-    
 
-   
-    
+
+
+
 
     try {
         // Get a database connection
@@ -2151,12 +2133,12 @@ async function userReportDonor(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
-       
+
         connection.autoCommit = false;
-        const status='REPORTED';
+        const status = 'REPORTED';
 
         console.log("hi");
 
@@ -2168,19 +2150,19 @@ async function userReportDonor(req, res) {
         `;
 
         const binds = {
-            
-           requestid: requestid, 
-           status: status,
-           donorid: donorid
-        
+
+            requestid: requestid,
+            status: status,
+            donorid: donorid
+
         };
 
-        
 
 
-        await connection.execute(query,binds);
-        
-       
+
+        await connection.execute(query, binds);
+
+
         // Commit the transaction
         //await connection.commit();
         connection.autoCommit = true;
@@ -2192,7 +2174,7 @@ async function userReportDonor(req, res) {
         // Rollback in case of error
         if (connection) {
             try {
-               
+
                 await connection.rollback();
             } catch (rollbackError) {
                 console.error("Rollback error:", rollbackError);
@@ -2212,16 +2194,16 @@ async function userReportDonor(req, res) {
             }
         }
     }
-   
+
 }
 
 async function getDonorsIf(req, res) {
-    
-    const userid = req.params.userid;
-     let cc=0;
-    
 
-const query1 = `
+    const userid = req.params.userid;
+    let cc = 0;
+
+
+    const query1 = `
 
 
 SELECT COUNT(*) AS COUNT
@@ -2230,25 +2212,25 @@ WHERE B.USERID= :userid AND D.STATUS='CONFIRMED'
 `;
 
     const binds1 = {
-      userid: userid
+        userid: userid
     };
 
     try {
         const result = (await databaseConnection.execute(query1, binds1)).rows;
 
-if (result && result.length > 0) {
-    count = result[0]["COUNT"];
-    console.log(count);
+        if (result && result.length > 0) {
+            count = result[0]["COUNT"];
+            console.log(count);
 
-    res.send({
-        count: count
-    });
-} else {
-        res.send({
-          count: cc
-        });
-        console.log("cannot retrieve the id");
-    }
+            res.send({
+                count: count
+            });
+        } else {
+            res.send({
+                count: cc
+            });
+            console.log("cannot retrieve the id");
+        }
     } catch (error) {
         console.error("Error fetching blood bank details:", error.message);
         res.status(500).send({
@@ -2259,9 +2241,9 @@ if (result && result.length > 0) {
 
 
 async function getDonorsIfAccepted(req, res) {
-    
+
     const userid = req.params.userid;
-    
+
 
     const query1 = `
     SELECT U.NAME, D.REQUESTID, D.DONORID, M.MOBILE_NUMBER
@@ -2281,18 +2263,18 @@ async function getDonorsIfAccepted(req, res) {
 
     const binds1 = {
         userid: userid
-     
+
     };
 
     try {
         const result = (await databaseConnection.execute(query1, binds1)).rows;
 
         if (result && result.length > 0) {
-            const donors = result.map(({REQUESTID,NAME,DONORID,MOBILE_NUMBER }) => ({requestid: REQUESTID,name :NAME,donorid: DONORID, phone:MOBILE_NUMBER}));
+            const donors = result.map(({ REQUESTID, NAME, DONORID, MOBILE_NUMBER }) => ({ requestid: REQUESTID, name: NAME, donorid: DONORID, phone: MOBILE_NUMBER }));
             console.log("Details of the user's blood banks are: ", donors);
 
             res.send({
-                donors:donors
+                donors: donors
             });
         } else {
             console.log("Cannot retrieve DONOR details");
@@ -2310,12 +2292,12 @@ async function getDonorsIfAccepted(req, res) {
 
 
 async function getQuantity(req, res) {
-    
-    const requestid = req.params.firstRequestId;
-     let cc=0;
-    
 
-const query1 = `
+    const requestid = req.params.firstRequestId;
+    let cc = 0;
+
+
+    const query1 = `
 
 
 SELECT QUANTITY FROM BLOOD_REQUEST
@@ -2323,25 +2305,25 @@ WHERE REQUESTID= :requestid
 `;
 
     const binds1 = {
-     requestid:requestid
+        requestid: requestid
     };
 
     try {
         const result = (await databaseConnection.execute(query1, binds1)).rows;
 
-if (result && result.length > 0) {
-    quantity = result[0]["QUANTITY"];
+        if (result && result.length > 0) {
+            quantity = result[0]["QUANTITY"];
 
 
-    res.send({
-        quantity:quantity
-    });
-} else {
-        res.send({
-          count: 0
-        });
-        console.log("cannot retrieve the id");
-    }
+            res.send({
+                quantity: quantity
+            });
+        } else {
+            res.send({
+                count: 0
+            });
+            console.log("cannot retrieve the id");
+        }
     } catch (error) {
         console.error("Error fetching blood bank details:", error.message);
         res.status(500).send({
@@ -2350,12 +2332,12 @@ if (result && result.length > 0) {
     }
 }
 async function getQuantityCount(req, res) {
-    
-    const requestid = req.params.firstRequestId;
-     let cc=0;
-    
 
-const query1 = `
+    const requestid = req.params.firstRequestId;
+    let cc = 0;
+
+
+    const query1 = `
 
 
 SELECT COUNT(*) AS COUNT
@@ -2364,25 +2346,25 @@ WHERE REQUESTID=:requestid AND STATUS<>'REPORTED'AND STATUS<>'CANCELED'
 `;
 
     const binds1 = {
-     requestid:requestid
+        requestid: requestid
     };
 
     try {
         const result = (await databaseConnection.execute(query1, binds1)).rows;
 
-if (result && result.length > 0) {
-    quantity = result[0]["COUNT"];
-   
+        if (result && result.length > 0) {
+            quantity = result[0]["COUNT"];
 
-    res.send({
-        quantity:quantity
-    });
-} else {
-        res.send({
-          quantity: 0
-        });
-        console.log("cannot retrieve the id");
-    }
+
+            res.send({
+                quantity: quantity
+            });
+        } else {
+            res.send({
+                quantity: 0
+            });
+            console.log("cannot retrieve the id");
+        }
     } catch (error) {
         console.error("Error fetching blood bank details:", error.message);
         res.status(500).send({
@@ -2397,7 +2379,7 @@ async function getAppointmentBankData(req, res) {
     console.log("User id is ", userid);
 
 
-    
+
     const query1 = `
     SELECT BS.NAME,B.REQUESTID, BU.BANKID, B.BLOOD_GROUP, B.RH, B.QUANTITY, B.DISTRICT, B.AREA, B.REQUIRED_DATE, B.HEALTH_CARE_CENTER, BU.STATUS,B.DESCRIPTION,B.REQUEST_DATE
     FROM BLOOD_REQUEST B 
@@ -2412,7 +2394,7 @@ async function getAppointmentBankData(req, res) {
     };
     const result = (await databaseConnection.execute(query1, binds1)).rows;
     if (result && result.length > 0) {
-        bankName=result[0]["NAME"];
+        bankName = result[0]["NAME"];
         requestId = result[0]["REQUESTID"];
         bankId = result[0]["BANKID"];
         bloodGroup = result[0]["BLOOD_GROUP"];
@@ -2424,10 +2406,10 @@ async function getAppointmentBankData(req, res) {
         healthcareCenter = result[0]["HEALTH_CARE_CENTER"];
         Status = result[0]["STATUS"];
         description = result[0]["DESCRIPTION"]; // Added description
-        requestDate=result[0]["REQUEST_DATE"];
-        
+        requestDate = result[0]["REQUEST_DATE"];
+
         res.send({
-            bankName:bankName,
+            bankName: bankName,
             requestid: requestId,
             bankid: bankId,
             bloodGroup: bloodGroup,
@@ -2439,12 +2421,12 @@ async function getAppointmentBankData(req, res) {
             healthcareCenter: healthcareCenter,
             Status: Status,
             description: description,
-            requestDate:requestDate // Added description
+            requestDate: requestDate // Added description
         });
     }
-     else {
+    else {
         res.send({
-           Status:"no",
+            Status: "no",
         });
         console.log("cannot retrieve the id");
     }
@@ -2453,10 +2435,10 @@ async function getAppointmentBankData(req, res) {
 
 
 async function bankAppCancelByUser(req, res) {
-    const { userid,bankid,requestid,description } = req.body;
+    const { userid, bankid, requestid, description } = req.body;
     let connection;
-    console.log("hiii"+bankid);
-    console.log("kiii"+requestid);
+    console.log("hiii" + bankid);
+    console.log("kiii" + requestid);
 
     try {
         // Get a database connection
@@ -2468,10 +2450,10 @@ async function bankAppCancelByUser(req, res) {
                 message: "Database connection failed"
             });
         }
-        
+
         // Assuming you have a sequence for generating unique IDs, let's say it's named DONATIONID_SEQ
         // If you're manually calculating the next ID as shown, ensure this logic is thread-safe and considers concurrent transactions
-       
+
 
 
         // Insert into BANK_DONOR_APPOINTMENTS
@@ -2479,23 +2461,23 @@ async function bankAppCancelByUser(req, res) {
         INSERT INTO CANCELED_APPOINTMENTS (USERID,BANK_USER_REQUEST_BANKID,BANK_USER_REQUESTID,DESCRIPTION)
         VALUES (:userid,:bankid,:requestid,:description)
     `;
-    
-    const insertCancelBinds = {
-        userid: userid,
-        bankid: bankid,
-        requestid: requestid,
-        description: description
-    };
-    
-    await connection.execute(insertCancelQuery, insertCancelBinds);
-       
+
+        const insertCancelBinds = {
+            userid: userid,
+            bankid: bankid,
+            requestid: requestid,
+            description: description
+        };
+
+        await connection.execute(insertCancelQuery, insertCancelBinds);
+
         // Commit the transaction
         await connection.commit();
 
         res.send({
             status: "successful",
             message: "Cancelled successfully",
-           
+
         });
     } catch (error) {
         console.error("Error in cancelling appointment:", error);
@@ -2526,12 +2508,12 @@ async function bankAppCancelByUser(req, res) {
 
 
 async function getstillLeft(req, res) {
-    
-    const userid = req.params.userid;
-     let cc=0;
-    
 
-const query1 = `
+    const userid = req.params.userid;
+    let cc = 0;
+
+
+    const query1 = `
 SELECT
     BR.REQUESTID,
     BR.QUANTITY,
@@ -2553,31 +2535,31 @@ HAVING
 `;
 
     const binds1 = {
-    userid: userid
+        userid: userid
     };
 
     try {
         const result = (await databaseConnection.execute(query1, binds1)).rows;
 
-if (result && result.length > 0) {
-    ac= result[0]["APPOINTMENTS_COUNT"];
-    quantity=result[0]["QUANTITY"];
-    requestid=result[0]["REQUESTID"];
-    console.log(ac);
-    console.log(quantity);
-    console.log(requestid);
+        if (result && result.length > 0) {
+            ac = result[0]["APPOINTMENTS_COUNT"];
+            quantity = result[0]["QUANTITY"];
+            requestid = result[0]["REQUESTID"];
+            console.log(ac);
+            console.log(quantity);
+            console.log(requestid);
 
-    res.send({
-       ac: ac,
-       quantity: quantity,
-       requestid: requestid
-    });
-} else {
-        res.send({
-          quantity: 0
-        });
-        console.log("cannot retrieve the id");
-    }
+            res.send({
+                ac: ac,
+                quantity: quantity,
+                requestid: requestid
+            });
+        } else {
+            res.send({
+                quantity: 0
+            });
+            console.log("cannot retrieve the id");
+        }
     } catch (error) {
         console.error("Error fetching blood bank details:", error.message);
         res.status(500).send({
@@ -2590,7 +2572,7 @@ if (result && result.length > 0) {
 async function getBankHistory(req, res) {
     const userid = req.params.userid; // Declare and initialize userid here
     console.log("User id is ", userid);
-     
+
     const query = 'SELECT DONORID FROM USER_DONOR WHERE USERID=:userid';
     const binds = {
         userid: userid,
@@ -2607,34 +2589,34 @@ async function getBankHistory(req, res) {
     FROM BANK_DONOR_APPOINTMENTS BD 
     JOIN BLOOD_BANK B ON BD.BANKID = B.BANKID
     JOIN BANK_SIGNUP_REQEUSTS BS ON BS.REQUESTID = B.REQUESTID
-    WHERE BD.DONORID = :donorid AND (BD.STATUS = 'SUCCESSFUL' OR BD.STATUS = 'ENDED')`; 
+    WHERE BD.DONORID = :donorid AND (BD.STATUS = 'SUCCESSFUL' OR BD.STATUS = 'ENDED')`;
 
-const binds1 = {
-    donorid: donorid
-};
+    const binds1 = {
+        donorid: donorid
+    };
 
-const result = (await databaseConnection.execute(query1, binds1)).rows;
+    const result = (await databaseConnection.execute(query1, binds1)).rows;
 
-if (result && result.length > 0) {
-    const bloodBankDatas = result.map(row => {
-        return {
-            bloodBankName: row.NAME,
-            donationDate: row.DONATION_DATE,
-            time: row.TIME,
-            district: row.DISTRICT,
-            area: row.AREA,
-            bankRating: row.BANK_RATING,
-            bankReview: row.BANK_REVIEW,
-            donorRating: row.DONOR_RATING,
-            donorReview: row.DONOR_REVIEW
-        };
-    });
+    if (result && result.length > 0) {
+        const bloodBankDatas = result.map(row => {
+            return {
+                bloodBankName: row.NAME,
+                donationDate: row.DONATION_DATE,
+                time: row.TIME,
+                district: row.DISTRICT,
+                area: row.AREA,
+                bankRating: row.BANK_RATING,
+                bankReview: row.BANK_REVIEW,
+                donorRating: row.DONOR_RATING,
+                donorReview: row.DONOR_REVIEW
+            };
+        });
 
-    res.send(bloodBankDatas);
-} else {
-    // Handle case when no donation history found
-    res.send({ error: "No donation history found for the donor." });
-}
+        res.send(bloodBankDatas);
+    } else {
+        // Handle case when no donation history found
+        res.send({ error: "No donation history found for the donor." });
+    }
 
 }
 
@@ -2642,7 +2624,7 @@ if (result && result.length > 0) {
 async function getUserHistory(req, res) {
     const userid = req.params.userid; // Declare and initialize userid here
     console.log("User id is ", userid);
-     
+
     const query = 'SELECT DONORID FROM USER_DONOR WHERE USERID=:userid';
     const binds = {
         userid: userid,
@@ -2664,44 +2646,44 @@ async function getUserHistory(req, res) {
     
 WHERE DU.DONORID=:donorid AND (DU.STATUS='SUCCESSFUL' OR DU.STATUS='ENDEDBD' OR DU.STATUS='ENDEDBU')`;
 
-const binds1 = {
-    donorid:donorid,
-};
+    const binds1 = {
+        donorid: donorid,
+    };
 
-const result = (await databaseConnection.execute(query1, binds1)).rows;
+    const result = (await databaseConnection.execute(query1, binds1)).rows;
 
-if (result && result.length > 0) {
-    const userDonationDatas= result.map(row => {
-        return {
-            name: row.NAME,
-            requiredDate: row.REQUIRED_DATE,
-            requiredTime: row.REQUIRED_TIME,
-            description: row.DESCRIPTION,
-            userRating: row.USER_RATING,
-            userReview: row.USER_REVIEW,
-            donorRating: row.DONOR_RATING,
-            donorReview: row.DONOR_REVIEW,
-            mobileNumber: row.PHONE_NUMBER
-        };
-    });
+    if (result && result.length > 0) {
+        const userDonationDatas = result.map(row => {
+            return {
+                name: row.NAME,
+                requiredDate: row.REQUIRED_DATE,
+                requiredTime: row.REQUIRED_TIME,
+                description: row.DESCRIPTION,
+                userRating: row.USER_RATING,
+                userReview: row.USER_REVIEW,
+                donorRating: row.DONOR_RATING,
+                donorReview: row.DONOR_REVIEW,
+                mobileNumber: row.PHONE_NUMBER
+            };
+        });
 
-    res.send(userDonationDatas);
-} else {
-    res.send({ status: "no data found" });
-    console.log("No data found");
-}
+        res.send(userDonationDatas);
+    } else {
+        res.send({ status: "no data found" });
+        console.log("No data found");
+    }
 
 }
 
 
 async function updateProfilePhoto(req, res) {
-    const {userid} = req.body;
+    const { userid } = req.body;
     const photo = req.file;
     if (photo) {
         const fileName = photo.filename;
         console.log("file name is ", fileName);
         const query = `UPDATE USERS SET PHOTO = :photo WHERE USERID= :userid`;
-        const binds = { photo: fileName, userid: userid};
+        const binds = { photo: fileName, userid: userid };
         try {
             await databaseConnection.execute(query, binds);
             res.status(200).send(`Changed profile photo`);
@@ -2715,15 +2697,15 @@ async function updateProfilePhoto(req, res) {
 
 async function getProfilePhoto(req, res) {
     console.log("recieved request for getting profile photo of donor");
-    
-    const userid=req.params.userid;
+
+    const userid = req.params.userid;
     const query = `SELECT PHOTO FROM USERS WHERE USERID = :userid`;
-    const binds = { userid: userid};
+    const binds = { userid: userid };
     try {
         const result = await databaseConnection.execute(query, binds);
         if (result && result.rows.length > 0) {
             const photo = result.rows[0]["PHOTO"];
-           
+
             if (photo === null) {
                 const photoPath = path.join(__dirname, `../../userFiles/userProfile.jpg`);
                 fs.readFile(photoPath, (err, data) => {
@@ -2766,11 +2748,11 @@ async function getProfilePhoto(req, res) {
         res.json(error);
     }
 };
- 
 
-async function ifAnyOngoingWithBank(req,res){
+
+async function ifAnyOngoingWithBank(req, res) {
     const userid = req.params.userid;
-    console.log("++++++++"+userid);
+    console.log("++++++++" + userid);
     const query = `SELECT COUNT(*) AS NUM
     FROM BANK_USER_APPOINTMENTS BU JOIN BLOOD_REQUEST BR ON BU.REQUESTID=BR.REQUESTID
     WHERE BR.USERID=:userid AND BU.STATUS<> 'ENDED' AND BU.STATUS<>'SUCCESSFUL' AND BU.STATUS<>'CANCELED'`;
@@ -2778,10 +2760,10 @@ async function ifAnyOngoingWithBank(req,res){
     const result = await databaseConnection.execute(query, binds);
     const counts = result.rows[0].NUM;
     console.log(counts);
-    if(counts > 0){
+    if (counts > 0) {
         res.send('true'); //frontend has to extract this as a text
     }
-    else{
+    else {
         res.send('false');
     }
 }
@@ -2798,7 +2780,7 @@ async function ifAnyOngoingWithBank(req,res){
 // END;
 //     `;
 
-             
+
 //     const binds2 = {
 //        userid:userid
 //     };
@@ -2814,7 +2796,7 @@ async function ifAnyOngoingWithBank(req,res){
 // }
 async function ifEligibleToRequestToDonor(req, res) {
     const userid = req.params.userid; // Declare and initialize userid here
-     console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"+userid);
+    console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM" + userid);
     const query = `
     DECLARE
         v_result NUMBER;
@@ -2825,7 +2807,7 @@ async function ifEligibleToRequestToDonor(req, res) {
 
     const binds = {
         userid: userid,
-        v_result: {dir: oracledb.BIND_OUT, type: oracledb.NUMBER }
+        v_result: { dir: oracledb.BIND_OUT, type: oracledb.NUMBER }
     };
 
     try {
@@ -2842,7 +2824,7 @@ async function ifEligibleToRequestToDonor(req, res) {
 
 async function donorProfileVisit(req, res) {
     const requestid = req.params.requestId;
-    const donorid=req.params.donorid; // Declare and initialize userid here
+    const donorid = req.params.donorid; // Declare and initialize userid here
     console.log(requestid);
     const query2 = `
     DECLARE
@@ -2893,47 +2875,47 @@ END;
 
     `;
 
-             
+
     const binds2 = {
         requestid: requestid,
         donorid: donorid,
-    bankName: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    area: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    district: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    description: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    total: {type: oracledb.NUMBER, dir: oracledb.BIND_OUT},
-    rating: {type: oracledb.NUMBER, dir: oracledb.BIND_OUT},
-    name: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    blood_group: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    rh: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    last_donation_date: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    area: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    district: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    phone: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    phone2: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    gender: {type: oracledb.STRING, dir: oracledb.BIND_OUT},
-    age: {type: oracledb.NUMBER, dir: oracledb.BIND_OUT}
+        bankName: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        area: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        district: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        description: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        total: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
+        rating: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
+        name: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        blood_group: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        rh: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        last_donation_date: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        area: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        district: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        phone: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        phone2: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        gender: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        age: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT }
     };
 
     const result2 = await databaseConnection.execute(query2, binds2);
-const Infos = {
-    bankName: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    area: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    district: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    description: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    total: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
-    rating: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
-    name: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    blood_group: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    rh: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    last_donation_date: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    area: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    district: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    phone: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    phone2: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    gender: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
-    age: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT }
-};
+    const Infos = {
+        bankName: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        area: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        district: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        description: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        total: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
+        rating: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
+        name: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        blood_group: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        rh: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        last_donation_date: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        area: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        district: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        phone: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        phone2: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        gender: { type: oracledb.STRING, dir: oracledb.BIND_OUT },
+        age: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT }
+    };
 
 
     console.log(Infos);
@@ -2944,9 +2926,11 @@ const Infos = {
 
 
 
-module.exports = { isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID, getUserData, getBloodBank, donorProfileUpdate, getAppointmentData,
-    getBloodBankOnRequest, bloodBankInfos,userBankAppointment,
-    appoinmentEnded,appoinmentCancel,appoinmentCancelAccepted,donorUserAppointment,getDonorOnRequest,appoinmentCanceled,
-    appoinmentCancelFromUserAccepted,giveSuccessfulUpdate,appoinmentEndedByUser,userReportDonor,getDonorsIf,getDonorsIfAccepted
-,getQuantity,getQuantityCount,getAppointmentBankData,bankAppCancelByUser,getstillLeft,getBankHistory,getUserHistory,updateProfilePhoto,getProfilePhoto
-,ifAnyOngoingWithBank,ifEligibleToRequestToDonor,donorProfileVisit,getUserid,getAppointmentDataU,appoinmentEndedByDonor,appoinmentEndeduu};
+module.exports = {
+    isDonor, donorSignup, getName, getBloodBanks, getBankId, donationDonorAppointment, getDonorID, getUserData, getBloodBank, donorProfileUpdate, getAppointmentData,
+    getBloodBankOnRequest, bloodBankInfos, userBankAppointment,
+    appoinmentEnded, appoinmentCancel, appoinmentCancelAccepted, donorUserAppointment, getDonorOnRequest, appoinmentCanceled,
+    appoinmentCancelFromUserAccepted, giveSuccessfulUpdate, appoinmentEndedByUser, userReportDonor, getDonorsIf, getDonorsIfAccepted
+    , getQuantity, getQuantityCount, getAppointmentBankData, bankAppCancelByUser, getstillLeft, getBankHistory, getUserHistory, updateProfilePhoto, getProfilePhoto
+    , ifAnyOngoingWithBank, ifEligibleToRequestToDonor, donorProfileVisit, getUserid, getAppointmentDataU, appoinmentEndedByDonor, appoinmentEndeduu
+};

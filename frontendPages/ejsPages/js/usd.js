@@ -1,4 +1,4 @@
-
+console.log("usd.js loaded");
 
 /////////////////////////////////qna part starts
 

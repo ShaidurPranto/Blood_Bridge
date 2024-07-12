@@ -7,8 +7,8 @@ async function initialState() {
     mainContent.innerHTML = "";
     const pendingBankRequestsDiv = await makePendingBankRequestsDiv();
     mainContent.appendChild(pendingBankRequestsDiv);
-    const donorsReportedByBankDiv = await makeDonorsReportedByBankDiv();
-    mainContent.appendChild(donorsReportedByBankDiv);
+    //const donorsReportedByBankDiv = await makeDonorsReportedByBankDiv();
+    //mainContent.appendChild(donorsReportedByBankDiv);
 }
 
 async function makeDonorsReportedByBankDiv() {

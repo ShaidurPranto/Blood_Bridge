@@ -14,8 +14,7 @@ async function getConnection()
         ({
             user          : "BB",
             password      : "bb",
-            connectString : "localhost/ORCLPDB"
-            //connectString : "localhost/ORCL"
+            connectString : "localhost/ORCL"
         });
         console.log("database connection successful");
     }
@@ -33,12 +32,12 @@ async function execute(sql,binds)
     let result;
     try
     {
-        console.log("attempting to execute the following sql and binds");
-        console.log("query: ",sql);
-        console.log("binds: ",binds);
+        // console.log("attempting to execute the following sql and binds");
+        // console.log("query: ",sql);
+        // console.log("binds: ",binds);
         result = await connection.execute(sql,binds);
-        console.log("query executed successfully");
-        console.log("the results are, ", result.rows);
+        // console.log("query executed successfully");
+        // console.log("the results are, ", result.rows);
     }
     catch(err)
     {

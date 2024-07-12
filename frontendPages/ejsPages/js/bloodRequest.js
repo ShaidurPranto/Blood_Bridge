@@ -1,6 +1,7 @@
+console.log("bloodRequest.js loaded");
 
 window.onload = function() {
-    getBloodBanks();  // Call the function to fetch blood banks when the window is loaded
+    getBloodBanks(); 
 };
 
 async function getBloodBanks() {
@@ -20,7 +21,6 @@ async function getBloodBanks() {
     }
 }
 
-
 async function getBloodBank(parameter) {
     try {
         console.log(userid);
@@ -38,42 +38,9 @@ async function getBloodBank(parameter) {
     }
 }
 
-// function displayBloodBanks(bloodBanks) {
-//     console.log("Hi");
-//     const bloodBankResultsDiv = document.getElementById('bloodBankResults');
-//     bloodBankResultsDiv.innerHTML = '<h3>Blood Bank Results:</h3>';
-
-//     bloodBanks.forEach(bloodBank => {
-//         const bloodBankDiv = document.createElement('div');
-//         bloodBankDiv.classList.add('blood-bank');
-
-//         const detailsBoxDiv = document.createElement('div');
-//         detailsBoxDiv.classList.add('details-box');
-
-//         detailsBoxDiv.innerHTML = `
-           
-//             <p><strong>District:</strong> ${bloodBank.district}</p>
-//             <p><strong>Area:</strong> ${bloodBank.area}</p>
-//             <button class="donate-button">Donate Blood</button>
-//         `;
-//         bloodBankDiv.innerHTML=`<p>${bloodBank.name}</p>`;
-//         bloodBankDiv.appendChild(detailsBoxDiv);
-
-//         bloodBankResultsDiv.appendChild(bloodBankDiv);
-//     });
-// }
-// //    --<p><strong>Description:</strong> ${bloodBank.description || 'N/A'}</p>
-//         //     // <p><strong>Details:</strong> ${bloodBank.details || 'N/A'}</p>
-
 async function displayBloodBanks(bloodBanks) {
     const bloodBankResultsDiv = document.getElementById('bloodBankResults');
-
-    
     bloodBankResultsDiv.innerHTML = '';
-
-
-    
-
     bloodBanks.forEach(bloodBank => {
         const bloodBankCard = document.createElement('div');
         bloodBankCard.classList.add('blood-bank-card');
@@ -91,24 +58,15 @@ async function displayBloodBanks(bloodBanks) {
                 <p><strong>District:</strong> ${bloodBank.district}</p>
                 <p><strong>Area:</strong> ${bloodBank.area}</p>
              <a href="/donationForm?userid=${encodeURIComponent(userid)}&bloodBankName=${encodeURIComponent(bloodBankName)}&requestid=${encodeURIComponent(requestId)}" class="donate-button">Donate Blood</a>
-       
-         
-
             </div>
         `;
 
         bloodBankResultsDiv.appendChild(bloodBankCard);
         // <a href="/donationForm?userid=${encodeURIComponent(userid)}&bloodBankName=${encodeURIComponent(bloodBankName)}" class="donate-button">Donate Blood</a>
     });
-
-    
 }
+
 const searchInput = document.getElementById('searchInput');
-// searchInput.addEventListener('input', function() {
-//     const parameter = searchInput.value; // Get the value of the search input
-//     console.log(parameter);
-//     getBloodBank(parameter); // Call the function with the input value as parameter
-// });
 
 searchInput.addEventListener('input', function(event) {
     const parameter = searchInput.value; // Get the value of the search input
@@ -122,7 +80,3 @@ searchInput.addEventListener('input', function(event) {
         getBloodBanks();
     }
 });
-
-
-
-

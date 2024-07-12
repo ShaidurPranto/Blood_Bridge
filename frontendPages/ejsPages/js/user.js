@@ -1,3 +1,5 @@
+console.log("user.js loaded");
+
 let lastStatus = ''; // Variable to store the last status
 let isVisible = false;
 
@@ -160,4 +162,4 @@ function submitReview() {
 
 
 
-setInterval(checkDonationStatusAndNotify,1000); //10 minutes
+setInterval(checkDonationStatusAndNotify,1000*60*10); //10 minutes

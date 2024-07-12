@@ -1,3 +1,5 @@
+console.log("yourRequest.js loaded");
+
 let lastStatus = ''; // Variable to store the last status
 let isVisible = false;
 
@@ -389,4 +391,4 @@ function cancelReportDonor() {
 }
 
 
-setInterval(checkAndNotify, 1000); 
+setInterval(checkAndNotify, 1000*60*10); 

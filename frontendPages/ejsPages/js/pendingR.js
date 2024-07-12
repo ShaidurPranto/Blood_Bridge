@@ -1,3 +1,5 @@
+console.log("pendingR.js loaded");
+
 window.onload = function() {
     // Your code here
   //getBloodBanks();

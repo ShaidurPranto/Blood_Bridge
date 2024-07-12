@@ -1,4 +1,4 @@
-
+console.log("getBloodFromDonortoDonor.js loaded");
 
 
 function extractFormValues() {

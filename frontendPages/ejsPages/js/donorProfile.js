@@ -1,3 +1,5 @@
+console.log("donorProfile.js loaded");
+
 // Function to fetch user data from the server
 let lastDonationDate;
 async function getUserData() {

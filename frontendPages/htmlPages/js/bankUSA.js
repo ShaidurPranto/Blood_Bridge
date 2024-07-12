@@ -59,8 +59,8 @@ async function makeHeaderAndSideDiv() {
     sidebar.classList.add('sidebar');
     const listGroup = document.createElement('div');
     listGroup.classList.add('list-group');
-    const sidebarItems = ['Profile', 'Home', 'Blood Stock', 'Pending Collection Appointments', 'Scheduled Collection Appointments', 'Appointments History'];
-    const sidebarFunctions = [profilePage, homePage, BloodStockPage, pendingCollectionAppointmentsPage, scheduledCollectionAppointmentsPage, appointmentsHistoryPage];
+    const sidebarItems = ['Profile', 'Home', 'Blood Stock', 'Pending Collection Appointments', 'Scheduled Collection Appointments'];
+    const sidebarFunctions = [profilePage, homePage, BloodStockPage, pendingCollectionAppointmentsPage, scheduledCollectionAppointmentsPage];
     sidebarItems.forEach((item, index) => {
         const listItem = document.createElement('div');
         listItem.classList.add('list-group-item');

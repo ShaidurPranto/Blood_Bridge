@@ -13,8 +13,6 @@
     list-style-type: none;
     text-decoration: none;
     font-family: Arial;
-
-
 }
 
 .sidebar
@@ -66,12 +64,11 @@
     display: block;
     color: #fff;
     font-size: 1.1 rem;
-
 }
 
 .sidebar-menu a span:first-child
 {
-    font-size: 1.5rem;
+    font-size: 1rem;
     padding-right: 1 rem;
 }
 
@@ -247,7 +244,6 @@ main {
     flex: 3; /* Larger part takes 75% of the width */
     background-color: #f1f1f1;
     padding: 20px;
-    overflow-y: auto; /* Add overflow-y to enable vertical scrolling */
 }
 
 .card-wrapper {

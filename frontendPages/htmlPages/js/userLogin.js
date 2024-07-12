@@ -43,9 +43,6 @@ async function userLoginRequest(event)
         {
             window.location.href =`/NonDonorUserHomePage?name=${encodeURIComponent(name)}&userid=${encodeURIComponent(userId)}`;
         }
-
-        
-        
     }
     else
     {

@@ -1,3 +1,5 @@
+console.log("donorSignup.js loaded");
+
 document.addEventListener("DOMContentLoaded", async function () {
     const signupForm = document.querySelector('form');
 

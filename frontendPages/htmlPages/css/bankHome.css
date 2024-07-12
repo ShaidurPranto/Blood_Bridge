@@ -1,10 +1,10 @@
 /*whole body*/
 body {
-    background-color: #ffffff;
+    background-color: #1e1b1b;
     margin: 0;
     font-family: Arial, sans-serif;
     overflow-x: hidden;
-    background-image: url("../image/bankHome4.jpg");
+    /* background-image: url("../image/bankHome4.jpg"); */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
