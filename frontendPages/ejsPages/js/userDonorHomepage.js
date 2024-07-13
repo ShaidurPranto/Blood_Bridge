@@ -1,4 +1,6 @@
 console.log("userDonorHomepage.js is connected");
+console.log("name is ", name);
+console.log("userid is ", userid);
 
 let lastStatus = ''; // Variable to store the last status
 let isVisible = false;
@@ -12,14 +14,14 @@ async function toggleNotifications() {
         // If notification wrapper is hidden, show it and fetch data
         notificationWrapper.classList.add('show');
     }
-    
+
     // Toggle the visibility state
     isVisible = !isVisible;
 }
 function toggleBloodRequest() {
     var bloodBankLists = document.getElementById('bloodBankLists');
     var donorLists = document.getElementById('donorLists');
-    
+
     // Toggle the display style of the bottom two lists
     if (bloodBankLists.style.display === 'none' && donorLists.style.display === 'none') {
         bloodBankLists.style.display = 'block';
@@ -34,135 +36,133 @@ let donationid;
 let donorid;
 
 async function checkDonationStatusAndNotify() {
-      console.log(userid);
-   const response = await fetch(`/userHomePage/getAppointmentData/${userid}`);
+    console.log(userid);
+    const response = await fetch(`/userHomePage/getAppointmentData/${userid}`);
     const appointmentData = await response.json();
-    donationid=appointmentData.donationid;
-    donorid=appointmentData.donorid;
-    console.log("/////////////////////"+donorid);
+    donationid = appointmentData.donationid;
+    donorid = appointmentData.donorid;
+    console.log("/////////////////////" + donorid);
     // Store the current status
     let currentStatus = appointmentData.Status;
     console.log(currentStatus);
-    
-    
-    
-    if(currentStatus==="no"||currentStatus==="ENDED"||currentStatus==="CANCELED")
-    
-    {    
+
+
+
+    if (currentStatus === "no" || currentStatus === "ENDED" || currentStatus === "CANCELED") {
 
         document.getElementById('noAppointmentMessage').style.display = 'block';
-        document.getElementById('bname').style.display = 'none'; 
-    document.getElementById('acceptMessage').style.display = 'none';
+        document.getElementById('bname').style.display = 'none';
+        document.getElementById('acceptMessage').style.display = 'none';
         document.getElementById('pendingMessage').style.display = 'none';
         document.getElementById('cancelAppointmentButton').style.display = 'none';
         document.getElementById('cancelAppointmentButton2').style.display = 'none';
-       
-       
 
-       
-        
-    const secondCardWrapper = document.querySelectorAll('.card-wrapper')[1]; // Select the second card wrapper
-    const cardElement = secondCardWrapper.querySelector('.card'); // Accessing a child element with the class '.card'
-   
-   
+
+
+
+
+        const secondCardWrapper = document.querySelectorAll('.card-wrapper')[1]; // Select the second card wrapper
+        const cardElement = secondCardWrapper.querySelector('.card'); // Accessing a child element with the class '.card'
+
+
         cardElement.style.display = 'none'; // Hide the second card wrapper
-    
-  
+
+
         document.getElementById('successMessage').style.display = 'none';
         console.log(currentStatus);
     }
 
 
-    
-   
-    else if(currentStatus==="PENDING") {
-         
-         document.getElementById('acceptMessage').style.display = 'none';
-         document.getElementById('bname').style.display = 'none';
-         document.getElementById('noAppointmentMessage').style.display = 'none';
+
+
+    else if (currentStatus === "PENDING") {
+
+        document.getElementById('acceptMessage').style.display = 'none';
+        document.getElementById('bname').style.display = 'none';
+        document.getElementById('noAppointmentMessage').style.display = 'none';
         document.getElementById('pendingMessage').style.display = 'block';
         document.getElementById('cancelAppointmentButton2').style.display = 'none';
-      
-       
-    // If the current status is different from the last status, update the card
-    if (currentStatus !== lastStatus) {
-        // Update the last status
 
-        lastStatus = currentStatus;
-        const secondCardWrapper = document.querySelectorAll('.card-wrapper')[1]; // Select the second card wrapper
-//secondCardWrapper.style.display = 'flex'; // Hide the second card wrapper
 
-        console.log(appointmentData.bankName);
-        // Select the card wrapper element
-        document.getElementById('bankName').textContent = appointmentData.bankName;
-        document.getElementById('status').textContent = appointmentData.Status;
-        document.getElementById('appointmentDate').textContent = appointmentData.donationDate;
-        document.getElementById('appointmentTime').textContent = appointmentData.appointmentTime;
-        
-        document.getElementById('cancelAppointmentButton').style.display = 'block';
+        // If the current status is different from the last status, update the card
+        if (currentStatus !== lastStatus) {
+            // Update the last status
 
-      
+            lastStatus = currentStatus;
+            const secondCardWrapper = document.querySelectorAll('.card-wrapper')[1]; // Select the second card wrapper
+            //secondCardWrapper.style.display = 'flex'; // Hide the second card wrapper
+
+            console.log(appointmentData.bankName);
+            // Select the card wrapper element
+            document.getElementById('bankName').textContent = appointmentData.bankName;
+            document.getElementById('status').textContent = appointmentData.Status;
+            document.getElementById('appointmentDate').textContent = appointmentData.donationDate;
+            document.getElementById('appointmentTime').textContent = appointmentData.appointmentTime;
+
+            document.getElementById('cancelAppointmentButton').style.display = 'block';
+
+
+        }
+
+
+
     }
 
+    else if (currentStatus === "SUCCESSFUL") {
+        document.getElementById('acceptMessage').style.display = 'none';
+        document.getElementById('noAppointmentMessage').style.display = 'none';
+        document.getElementById('pendingMessage').style.display = 'none';
+        document.getElementById('bname').style.display = 'block';
+        document.getElementById('bname').textContent = 'With Love~ ' + appointmentData.bankName;
+        document.getElementById('successMessage').style.display = 'block';
+        document.getElementById('bankMessage').textContent = appointmentData.bankReview; // Example placeholder, replace with actual data
+        document.getElementById('cancelAppointmentButton').style.display = 'none';
+        document.getElementById('cancelAppointmentButton2').style.display = 'none';
 
-   
-}
+        // If the current status is different from the last status, update the card
+        if (currentStatus !== lastStatus) {
+            // Update the last status
 
-else if(currentStatus==="SUCCESSFUL") {
-    document.getElementById('acceptMessage').style.display = 'none';
-    document.getElementById('noAppointmentMessage').style.display = 'none';
-    document.getElementById('pendingMessage').style.display = 'none';
-    document.getElementById('bname').style.display = 'block';
-    document.getElementById('bname').textContent ='With Love~ '+appointmentData.bankName;
-    document.getElementById('successMessage').style.display = 'block';
-    document.getElementById('bankMessage').textContent =appointmentData.bankReview; // Example placeholder, replace with actual data
-    document.getElementById('cancelAppointmentButton').style.display = 'none';
-    document.getElementById('cancelAppointmentButton2').style.display = 'none';
-   
-// If the current status is different from the last status, update the card
-if (currentStatus !== lastStatus) {
-    // Update the last status
+            lastStatus = currentStatus;
+            const secondCardWrapper = document.querySelectorAll('.card-wrapper')[1]; // Select the second card wrapper
+            const cardElement = secondCardWrapper.querySelector('.card'); // Accessing a child element with the class '.card'
 
-    lastStatus = currentStatus;
-    const secondCardWrapper = document.querySelectorAll('.card-wrapper')[1]; // Select the second card wrapper
-    const cardElement = secondCardWrapper.querySelector('.card'); // Accessing a child element with the class '.card'
-
-        cardElement.style.display = 'none'; // Hide the second card wrapper
-
-           
-  
-}
-
-}
-else {
-    document.getElementById('bname').style.display = 'none'; 
-    document.getElementById('pendingMessage').style.display = 'none';
-     document.getElementById('noAppointmentMessage').style.display = 'none';
-
-     document.getElementById('acceptMessage').style.display = 'block';
-     document.getElementById('cancelAppointmentButton').style.display = 'none';
-     
-// If the current status is different from the last status, update the card
-if (currentStatus !== lastStatus) {
-    // Update the last status
-     
-    lastStatus = currentStatus;
-    const secondCardWrapper = document.querySelectorAll('.card-wrapper')[1]; // Select the second card wrapper
-//secondCardWrapper.style.display = 'flex'; // Hide the second card wrapper
+            cardElement.style.display = 'none'; // Hide the second card wrapper
 
 
-    // Select the card wrapper element
-    document.getElementById('bankName').textContent = appointmentData.bankName;
-    document.getElementById('status').textContent = appointmentData.Status;
-    document.getElementById('appointmentDate').textContent = appointmentData.donationDate;
-    document.getElementById('appointmentTime').textContent = appointmentData.appointmentTime;
-    
-    document.getElementById('cancelAppointmentButton2').style.display = 'block';
 
-  
-}
+        }
 
-}
+    }
+    else {
+        document.getElementById('bname').style.display = 'none';
+        document.getElementById('pendingMessage').style.display = 'none';
+        document.getElementById('noAppointmentMessage').style.display = 'none';
+
+        document.getElementById('acceptMessage').style.display = 'block';
+        document.getElementById('cancelAppointmentButton').style.display = 'none';
+
+        // If the current status is different from the last status, update the card
+        if (currentStatus !== lastStatus) {
+            // Update the last status
+
+            lastStatus = currentStatus;
+            const secondCardWrapper = document.querySelectorAll('.card-wrapper')[1]; // Select the second card wrapper
+            //secondCardWrapper.style.display = 'flex'; // Hide the second card wrapper
+
+
+            // Select the card wrapper element
+            document.getElementById('bankName').textContent = appointmentData.bankName;
+            document.getElementById('status').textContent = appointmentData.Status;
+            document.getElementById('appointmentDate').textContent = appointmentData.donationDate;
+            document.getElementById('appointmentTime').textContent = appointmentData.appointmentTime;
+
+            document.getElementById('cancelAppointmentButton2').style.display = 'block';
+
+
+        }
+
+    }
 }
 
 
@@ -172,16 +172,16 @@ function submitReview() {
     const rating = document.getElementById('rating').value;
     const review = document.getElementById('review').value;
     console.log(`Rating: ${rating}, Review: ${review}`);
-    
+
     // Create a data object to send to the server
     const data = {
         rating: rating,
         review: review,
         donationid: donationid
     };
-    
+
     // Make a POST request to the backend endpoint
-    const response=fetch('/userHomePage/appoinmentEnded', {
+    const response = fetch('/userHomePage/appoinmentEnded', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -190,14 +190,14 @@ function submitReview() {
     })
     //correct the mistake
     try {
-       
-            alert("Successfully submitted your review");
-     
+
+        alert("Successfully submitted your review");
+
     } catch (error) {
         console.error('Error:', error);
         // Handle error, if needed
     }
-    
+
 }
 function showConfirmation() {
     document.getElementById('confirmationBox').style.display = 'block';
@@ -207,16 +207,16 @@ function hideConfirmation() {
     document.getElementById('confirmationBox').style.display = 'none';
 }
 
-function cancelAppointment()
-{     document.getElementById('confirmationBox').style.display = 'none';
+function cancelAppointment() {
+    document.getElementById('confirmationBox').style.display = 'none';
     const data = {
-        donorid:donorid,
+        donorid: donorid,
         donationid: donationid
     };
-    
+
     // Make a POST request to the backend endpoint
     try {
-        const response =fetch('/userHomePage/appoinmentCancel', {
+        const response = fetch('/userHomePage/appoinmentCancel', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -224,11 +224,11 @@ function cancelAppointment()
             body: JSON.stringify(data)
         });
 
-        
-            alert("Canceled successfully");
+
+        alert("Canceled successfully");
     } catch (error) {
         console.error('Error:', error);
-        alert("Cancellation failed due to an error"); 
+        alert("Cancellation failed due to an error");
     }
 }
 
@@ -251,13 +251,13 @@ function cancelAppointment2() {
 
     // Perform actions to cancel appointment based on the reason
     const data = {
-        donorid:donorid,
+        donorid: donorid,
         donationid: donationid,
         description: cancelReason
     };
 
     try {
-        const response =fetch('/userHomePage/appoinmentCancelAccepted', {
+        const response = fetch('/userHomePage/appoinmentCancelAccepted', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -265,11 +265,11 @@ function cancelAppointment2() {
             body: JSON.stringify(data)
         });
 
-        
-            alert("Canceled successfully!");
+
+        alert("Canceled successfully!");
     } catch (error) {
         console.error('Error:', error);
-        alert("Cancellation failed due to an error"); 
+        alert("Cancellation failed due to an error");
     }
     // You can add more logic here as needed
 
@@ -288,7 +288,7 @@ let createQNAdiv;
 let showQNAdiv;
 let yourQuestionsDiv;
 
-async function makeQNAdiv(){
+async function makeQNAdiv() {
     const qnaDiv = document.getElementById('qnaDiv');
     qnaDiv.classList.add('qna-div');
     qnaDiv.innerHTML = '';
@@ -296,13 +296,13 @@ async function makeQNAdiv(){
     createQNAdiv = await makeCreateQNAdiv();
     yourQuestionsDiv = await makeYourQuestionsDiv();
     showQNAdiv = await makeShowQNAdiv();
-    
+
     qnaDiv.appendChild(yourQuestionsDiv);
     qnaDiv.appendChild(createQNAdiv);
     qnaDiv.appendChild(showQNAdiv);
 }
 // 1
-async function makeYourQuestionsDiv(){
+async function makeYourQuestionsDiv() {
     const yourQuestionsDiv = document.createElement('div');
     yourQuestionsDiv.classList.add('your-questions-div');
 
@@ -312,7 +312,7 @@ async function makeYourQuestionsDiv(){
     return yourQuestionsDiv;
 }
 
-async function makeYQ1(){
+async function makeYQ1() {
     const div = document.createElement('div');
     div.classList.add('your-questions-state1');
 
@@ -330,7 +330,7 @@ async function makeYQ1(){
     return div;
 }
 
-async function makeYQ2(){
+async function makeYQ2() {
     const div = document.createElement('div');
     div.classList.add('your-questions-state2');
 
@@ -364,20 +364,20 @@ async function makeYQ2(){
     return div;
 }
 
-async function getQuestions(){
+async function getQuestions() {
     //send userid parameter as query parameter
     const response = await fetch(`/userQNA/getQNAofAuser?userid=${userid}`);
     const questions = await response.json();
     console.log("response from getQuestions");
     console.log(questions);
-    
+
     return questions;
 }
 
 
-async function makeYQoneQna(qna){
+async function makeYQoneQna(qna) {
     console.log("making yq one qna");
-    console.log("the qna is ",qna);
+    console.log("the qna is ", qna);
 
 
     const oneQnaDiv = document.createElement('div');
@@ -386,12 +386,12 @@ async function makeYQoneQna(qna){
     const questionDiv = document.createElement('div');
     questionDiv.classList.add('question-div');
     const question = document.createElement('p');
-    question.innerText = "Q: "+qna.QUESTION;
+    question.innerText = "Q: " + qna.QUESTION;
     questionDiv.appendChild(question);
     oneQnaDiv.appendChild(questionDiv);
 
-    console.log("the photo is ",qna.PHOTO);
-    if(qna.PHOTO !== null){
+    console.log("the photo is ", qna.PHOTO);
+    if (qna.PHOTO !== null) {
         const photoDiv = document.createElement('div');
         photoDiv.classList.add('photo-div-your-questions');
         const photo = await getPhoto(qna.PHOTO);
@@ -399,7 +399,7 @@ async function makeYQoneQna(qna){
 
         oneQnaDiv.appendChild(photoDiv);
     }
-    else{
+    else {
         console.log("no photo");
     }
 
@@ -407,7 +407,7 @@ async function makeYQoneQna(qna){
     answersDiv.classList.add('answers-div');
     //for each answer create a div
     qna.ANSWERS.forEach(async (answer) => {
-        if(answer.ANSWER && answer.ANSWER !== 'null' && answer.ANSWER !== '' && answer.ANSWER !== ' '){
+        if (answer.ANSWER && answer.ANSWER !== 'null' && answer.ANSWER !== '' && answer.ANSWER !== ' ') {
             const answerDiv = document.createElement('div');
             answerDiv.classList.add('answer-div');
 
@@ -433,7 +433,7 @@ async function makeYQoneQna(qna){
         }
     });
     const answers = qna.ANSWERS;
-    if(answers === null || answers.length === 0){
+    if (answers === null || answers.length === 0) {
         console.log("fffffffffff got triggered");
         const noAnswerDiv = document.createElement('div');
         noAnswerDiv.classList.add('no-answer-div');
@@ -449,7 +449,7 @@ async function makeYQoneQna(qna){
 }
 
 
-async function getPhoto(photo){
+async function getPhoto(photo) {
     const response = await fetch(`/userQNA/getPhoto?photo=${photo}`);
     const blob = await response.blob();
     const objectURL = URL.createObjectURL(blob);
@@ -465,7 +465,7 @@ async function makeCreateQNAdiv() {
     const askQuestion = document.createElement('p');
     askQuestion.innerText = 'Ask a question';
     createQNAdiv.appendChild(askQuestion);
-    
+
     createQNAdiv.addEventListener('click', async (event) => {
         const qnaForm = await makeQNAform();
         createQNAdiv.replaceWith(qnaForm);
@@ -503,7 +503,7 @@ async function makeQNAform() {
     submitButton.innerText = 'Create';
     submitButton.classList.add('btn', 'btn-outline-primary');
     submitButton.addEventListener('click', async () => {
-        if(input.value === ''){
+        if (input.value === '') {
             alert('Please ask a question');
             return;
         }
@@ -539,7 +539,7 @@ async function makeQNAform() {
 }
 
 //functions for attaching photo
-function createAttachPhoto(){
+function createAttachPhoto() {
     const attachPhoto = document.createElement('div');
     attachPhoto.classList.add('attach-photo');
     attachPhoto.innerText = 'Attach a photo';
@@ -559,10 +559,10 @@ function createAttachPhoto(){
 
     return attachPhoto;
 }
-function showChoosenPhoto(photo){
+function showChoosenPhoto(photo) {
     const imageDiv = document.createElement('div');
     imageDiv.classList.add('selected-photo');
-    
+
     const photoDiv = document.createElement('div');
     photoDiv.classList.add('photo');
     photoDiv.style.backgroundImage = `url(${URL.createObjectURL(photo)})`;
@@ -585,10 +585,10 @@ function showChoosenPhoto(photo){
 
 
 
-async function createQNA(question, file){
-    console.log("crateing qna with file "+file);
-    console.log("crateing qna with question "+question);
-    console.log("crateing qna with userid "+userid);
+async function createQNA(question, file) {
+    console.log("crateing qna with file " + file);
+    console.log("crateing qna with question " + question);
+    console.log("crateing qna with userid " + userid);
 
     const data = new FormData();
     data.append('userid', userid);
@@ -596,13 +596,13 @@ async function createQNA(question, file){
     data.append('file', file);
 
     let response;
-    if(file){
+    if (file) {
         // If the file exists, make a POST request with the file
         response = await fetch('/userQNA/createQNA', {
             method: 'POST',
             body: data
         });
-    }else{
+    } else {
         const data2 = {
             userid: userid,
             question: question
@@ -617,18 +617,18 @@ async function createQNA(question, file){
         });
     }
     // Check if the request was successful
-    if(response.ok){
+    if (response.ok) {
         alert('QNA created successfully');
         await makeQNAdiv();
     }
-    else{
+    else {
         alert('QNA creation failed');
         await makeQNAdiv();
     }
 }
 
 // 3
-async function makeShowQNAdiv(){
+async function makeShowQNAdiv() {
     const showQNAdiv = document.createElement('div');
     showQNAdiv.classList.add('show-qna-div');
 
@@ -641,8 +641,8 @@ async function makeShowQNAdiv(){
     return showQNAdiv;
 }
 
-async function makeOneDiv(qna){
-    console.log("making one div for qna: ",qna);
+async function makeOneDiv(qna) {
+    console.log("making one div for qna: ", qna);
 
     const div = document.createElement('div');
     div.classList.add('one-qna-div');
@@ -663,8 +663,8 @@ async function makeOneDiv(qna){
     questionDiv.appendChild(question);
     div.appendChild(questionDiv);
 
-    console.log("the photo is ",qna.PHOTO);
-    if(qna.PHOTO !== null){
+    console.log("the photo is ", qna.PHOTO);
+    if (qna.PHOTO !== null) {
         const photoDiv = document.createElement('div');
         photoDiv.classList.add('photo-div');
         const photo = await getPhoto(qna.PHOTO);
@@ -677,14 +677,14 @@ async function makeOneDiv(qna){
     //if there is an answer , create a div that contains that answer
     const answers = qna.ANSWERS;
 
-    console.log("answers for qnaid "+qna.QNAID+" is ",answers);
-    console.log("answers length for qnaid "+qna.QNAID+" is ",answers.length);
+    console.log("answers for qnaid " + qna.QNAID + " is ", answers);
+    console.log("answers length for qnaid " + qna.QNAID + " is ", answers.length);
 
-    if(answers.length > 0){
+    if (answers.length > 0) {
         const moreAnswersDiv = await makeMoreAnswersDiv(answers);
         answersDiv.appendChild(moreAnswersDiv);
     }
-    else{
+    else {
         const noAnswerDiv = document.createElement('div');
         noAnswerDiv.classList.add('no-answer-div');
         const noAnswerP = document.createElement('p');
@@ -706,7 +706,7 @@ async function makeOneDiv(qna){
     answerButton.innerText = 'Add';
     answerButton.classList.add('answer-button');
     answerButton.addEventListener('click', async () => {
-        if(answerInput.value === ''){
+        if (answerInput.value === '') {
             alert('Please add an answer');
             return;
         }
@@ -721,8 +721,8 @@ async function makeOneDiv(qna){
     return div;
 }
 
-async function answerToQuestion(qnaid, answer){
-    console.log("answering to qnaid "+qnaid+" with answer"+answer);
+async function answerToQuestion(qnaid, answer) {
+    console.log("answering to qnaid " + qnaid + " with answer" + answer);
     const data = {
         qnaid: qnaid,
         userid: userid,
@@ -735,11 +735,11 @@ async function answerToQuestion(qnaid, answer){
         },
         body: JSON.stringify(data)
     });
-    if(response.ok){
+    if (response.ok) {
         alert('Answered successfully');
         await makeQNAdiv();
     }
-    else{
+    else {
         alert('Answering failed');
         await makeQNAdiv();
     }
@@ -747,14 +747,14 @@ async function answerToQuestion(qnaid, answer){
 
 
 
-async function makeMoreAnswersDiv(answers){
+async function makeMoreAnswersDiv(answers) {
     console.log("making more answers div");
-    console.log("answers are ",answers);
+    console.log("answers are ", answers);
 
     const moreAnswersDiv = document.createElement('div');
     moreAnswersDiv.classList.add('more-answers-div');
 
- 
+
     //make a div containing the first answer
     const answerDiv = document.createElement('div');
     answerDiv.classList.add('answer-div');
@@ -794,9 +794,9 @@ async function makeMoreAnswersDiv(answers){
     return moreAnswersDiv;
 }
 
-async function makeAllAnswersDiv(answers){
+async function makeAllAnswersDiv(answers) {
     console.log("making all answers div");
-    console.log("answers are ",answers);
+    console.log("answers are ", answers);
 
 
     const allAnswersDiv = document.createElement('div');
@@ -841,7 +841,7 @@ async function makeAllAnswersDiv(answers){
     return allAnswersDiv;
 }
 
-async function getQNA(){
+async function getQNA() {
     //send userid parameter as query parameter
     const response = await fetch(`/userQNA/getQNA?userid=${userid}`);
     const qna = await response.json();
@@ -854,4 +854,4 @@ async function getQNA(){
 
 
 
-setInterval(checkDonationStatusAndNotify,1000*60*10); //10 minutes
+setInterval(checkDonationStatusAndNotify, 1000 * 60 * 10); //10 minutes

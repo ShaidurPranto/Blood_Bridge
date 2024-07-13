@@ -7,8 +7,8 @@ async function initialState() {
     mainContent.innerHTML = "";
     const pendingBankRequestsDiv = await makePendingBankRequestsDiv();
     mainContent.appendChild(pendingBankRequestsDiv);
-    //const donorsReportedByBankDiv = await makeDonorsReportedByBankDiv();
-    //mainContent.appendChild(donorsReportedByBankDiv);
+    const donorsReportedByBankDiv = await makeDonorsReportedByBankDiv();
+    mainContent.appendChild(donorsReportedByBankDiv);
 }
 
 async function makeDonorsReportedByBankDiv() {
@@ -278,20 +278,20 @@ async function makeOnePendingBankRequestDiv(bankRequest) {
 
         const termsButton = document.createElement('button');
         termsButton.innerHTML = "Show More";
-        let isExpanded = false; // Keep track of whether terms are expanded or not
+        let isExpanded = false; 
 
         termsButton.onclick = () => {
             if (isExpanded) {
-                terms.innerHTML = termsLines; // Show only the first three lines
+                terms.innerHTML = termsLines;
                 termsButton.innerHTML = "Show More";
             } else {
-                terms.innerHTML = termsText; // Show full terms and conditions
+                terms.innerHTML = termsText;
                 termsButton.innerHTML = "Show Less";
             }
-            isExpanded = !isExpanded; // Toggle the state
+            isExpanded = !isExpanded;
         };
 
-        termsDiv.appendChild(termsButton);
+        //termsDiv.appendChild(termsButton);
 
     }
 

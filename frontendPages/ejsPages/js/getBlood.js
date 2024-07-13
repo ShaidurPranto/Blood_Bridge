@@ -1,4 +1,6 @@
 console.log("getBlood.js loaded");
+console.log("userid : " + userid);
+console.log("name : " + name);
 
 var Division;
 var Area;

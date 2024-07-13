@@ -45,7 +45,9 @@ async function showUpdate() {
 
             if (required_date) {
                 const p3 = document.createElement('p');
-                p3.textContent = `Required Date: ${required_date}`;
+                const date = new Date(required_date);
+                const formattedDate = date.toISOString().split('T')[0]; 
+                p3.textContent = `Required Date: ${formattedDate}`;
                 div2.appendChild(p3);
             }
 
@@ -115,7 +117,9 @@ async function showUpdate() {
 
             if (donation_date) {
                 const p5 = document.createElement('p');
-                p5.textContent = `Donation Date: ${donation_date}`;
+                const date = new Date(donation_date);
+                const formattedDate = date.toISOString().split('T')[0];  
+                p5.textContent = `Donation Date: ${formattedDate}`;
                 div2.appendChild(p5);
             }
 

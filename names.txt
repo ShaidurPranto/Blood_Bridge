@@ -1,0 +1,13 @@
+Home for non Donor               : userNotDonorHPage.ejs , usd.js  
+         Donor                   : userHomePage.ejs , userDonorHomePage.js
+
+Blood duties to fill             : userDonationUpdate.ejs , user.js , user.css
+
+Blood calls                      : pendingRequests.ejs , pendingR.js 
+
+Donate Blood to Blood Bank       : bloodRequest.ejs , bloodRequest.js 
+
+Request blood from blood banks   : getBlood.ejs , getBlood.js
+              from donors        : getBloodFromDonorToDonor.ejs , getBloodFromDonorToDonor.js 
+
+Updates of your request          : yourRequests.ejs , yourRequests.js

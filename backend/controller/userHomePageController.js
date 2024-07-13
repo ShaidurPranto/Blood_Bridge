@@ -28,7 +28,7 @@ async function getAppointmentDataU(req, res) {
                 JOIN USERS U ON U.USERID = UR.USERID
                 WHERE DUA.DONORID = :donorid AND 
                       DUA.STATUS = 'CONFIRMED' AND 
-                      BR.REQUIRED_DATE >= SYSDATE
+                      TRUNC(BR.REQUIRED_DATE) >= TRUNC(SYSDATE)
             `;
             const binds1 = { donorid: donorid };
             const result1 = (await databaseConnection.execute(query1, binds1)).rows;
@@ -71,7 +71,7 @@ FROM DONOR D JOIN DONOR_DONATES DD ON D.DONORID = DD.DONORID
 						 JOIN BLOOD_BANK BB ON BDA.BANKID = BB.BANKID
 						 JOIN BANK_SIGNUP_REQEUSTS BSR ON BSR.REQUESTID = BB.REQUESTID
 WHERE BDA.STATUS = 'ACCEPTED' AND 
-			BDA.DONATION_DATE >= SYSDATE AND
+			TRUNC(BDA.DONATION_DATE) >= TRUNC(SYSDATE) AND
 			D.DONORID = :donorid
             `;
             const binds1 = { donorid: donorid };

@@ -1,4 +1,6 @@
 console.log("pendingR.js loaded");
+console.log("name is: ", name);
+console.log("userid is: ", userid);
 
 window.onload = function () {
     getDonors();

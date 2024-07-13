@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="ejsPages/css/userhomepage.css">
     <script>
         const userid = '<%= userid %>';
+        const name = '<%= name %>';
     </script>
     <script type="text/javascript" src="/ejsPages/js/usd.js" defer></script>
 </head>
@@ -51,7 +52,7 @@
                
 
                 <ul>
-                    <li><a href="/donorSignup?userid=<%= encodeURIComponent(userid) %>"><span class="las la-tint">
+                    <li><a href="/donorSignup?userid=<%= encodeURIComponent(userid) %> &name=<%= encodeURIComponent(name) %>"><span class="las la-tint">
                         <span>Become A Donor! To Donate and Request Blood</span>
                     </span></a></li>
                     
@@ -176,7 +177,7 @@
 
                     <p id="noAppointmentMessage" style="display: none;"><i class="las la-exclamation-circle"></i>
                         Currently you have no appointment!<br><a class="donate-link"
-                            href="/bloodRequest?userid=<%= encodeURIComponent(userid) %>"> Donate now!</a>
+                            href="/bloodRequest?userid=<%= encodeURIComponent(userid) %> &name=<%= encodeURIComponent(name) %>"> Donate now!</a>
                         </a></p>
                     <p id="pendingMessage" style="display: none;"><i class="las la-exclamation-circle"></i> Plase wait!
                         Your appointment is currently pending! </p>

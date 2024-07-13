@@ -57,13 +57,15 @@ app.get('/NonDonorUserHomePage', (req, res) => {
 
 app.get('/donorSignup', (req, res) => {
   const userid = req.query.userid;
-  res.render('donorSignup', { userid: userid });
+  const name = req.query.name;
+  res.render('donorSignup', { userid: userid , name: name});
 
 });
 
 app.get('/bloodRequest', (req, res) => {
   const userid = req.query.userid;
-  res.render('bloodRequest', { userid: userid });
+  const name = req.query.name;
+  res.render('bloodRequest', { userid: userid, name: name });
 
 });
 
@@ -86,16 +88,21 @@ app.get('/myAppointments', (req, res) => {
 
 app.get('/DonorProfile', (req, res) => {
   const userid = req.query.userid;
-  res.render('profile', { userid: userid });
+  const name = req.query.name;
+  res.render('profile', { userid: userid , name: name});
 
 });
 
 app.get('/getBlood', (req, res) => { 
-  const userid = req.query.userid; res.render('getBlood', { userid: userid });
+  const userid = req.query.userid;
+  const name = req.query.name;
+  res.render('getBlood', { userid: userid , name: name});
 });
 
 app.get('/getbloodFromDonor', (req, res) => { 
-  const userid = req.query.userid; res.render('getBloodFromDonorToDonor', { userid: userid });
+  const userid = req.query.userid; 
+  const name = req.query.name;
+  res.render('getBloodFromDonorToDonor', { userid: userid , name: name});
 });
 
 
@@ -117,30 +124,31 @@ app.get('/userViewDonorProfile', (req, res) => {
 
 app.get('/yourRequests', (req, res) => {
   const userid = req.query.userid;
-  res.render('yourRequests', { userid: userid });
+  const name = req.query.name;
+  res.render('yourRequests', { userid: userid , name: name});
 
 });
 
 
 app.get('/pendingRequests', (req, res) => {
   const userid = req.query.userid;
-  res.render('pendingRequests', { userid: userid });
-
+  const name = req.query.name;
+  res.render('pendingRequests', { userid: userid, name: name });
 });
 
 ///donationHistory   /userVisit
 
 app.get('/donationHistory', (req, res) => {
   const userid = req.query.userid;
-  res.render('donationHistory', { userid: userid });
+  const name = req.query.name;
+  res.render('donationHistory', { userid: userid , name: name});
 });
-
-
 
 
 app.get('/userDonationUpdate', (req, res) => {
   const userid = req.query.userid;
-  res.render('userDonationUpdate', { userid: userid });
+  const name = req.query.name;
+  res.render('userDonationUpdate', { userid: userid , name: name});
 });
 
 

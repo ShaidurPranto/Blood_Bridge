@@ -1,4 +1,6 @@
 console.log("usd.js loaded");
+console.log("userid is ",userid);
+console.log("name is ",name);
 
 /////////////////////////////////qna part starts
 

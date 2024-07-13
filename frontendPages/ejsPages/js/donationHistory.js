@@ -1,4 +1,6 @@
 console.log("donationHistory.js loaded");
+console.log("userid: "+userid);
+console.log("name: "+name);
 
 // Function to populate the blood bank table
 async function populateBloodBankTable() {

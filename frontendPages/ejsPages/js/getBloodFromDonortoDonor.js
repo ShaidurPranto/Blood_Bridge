@@ -106,7 +106,4 @@ function extractFormValues() {
         console.error('Error:', error);
         alert("Submission failed due to an error"); 
     }
-
-
-
 }
