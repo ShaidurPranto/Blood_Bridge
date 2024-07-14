@@ -1,4 +1,7 @@
 console.log("user.js loaded");
+console.log("userid: "+userid);
+console.log("name: "+name);
+
 
 window.onload = function () {
     showUpdate();

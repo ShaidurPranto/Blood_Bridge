@@ -846,8 +846,8 @@ main {
     margin-top: 30px;
 }
 .one-qna-div .maker-div{
-    position: absolute;
-    background-color: var(--main-color);
+    /* position: absolute; */
+    /* background-color: var(--main-color); */
     color: white;
     padding: 10px;
     border-radius: 5px;
@@ -856,7 +856,7 @@ main {
     text-align: center;
     top: 0;
     left: 0;
-
+    background-color: var(--main-color);
 }
 .add-answer-div{
     display: flex;

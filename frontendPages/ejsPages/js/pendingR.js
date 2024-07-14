@@ -212,7 +212,7 @@ function displayDonorsArea(users) {
 
     //in case of no users in the area show a messsage in the div with id bloodBankResults
     if(users.length === 0){
-        bloodBankResultsDiv.innerHTML = '<h1><i class="las la-exclamation"></i>No user in your area requested Blood at this moment!</h1>';
+        bloodBankResultsDiv.innerHTML = '<h3><i class="las la-exclamation"></i>No user in your area requested Blood at this moment!</h3>';
     }
 }
 
@@ -308,7 +308,7 @@ function displayDonorsDistrict(users) {
 
     //in case of no users in the district show a messsage in the div with id bloodBankResults2
     if(users.length === 0){
-        bloodBankResultsDiv.innerHTML = '<h1><i class="las la-exclamation"></i>No user in your district requested Blood at this moment!</h1>';
+        bloodBankResultsDiv.innerHTML = '<h3><i class="las la-exclamation"></i>No user in your district requested Blood at this moment!</h3>';
     }
 }
 
@@ -360,9 +360,6 @@ async function displayDonorsAsc1() {
         p.style.display = 'block';
         p.innerHTML = '<h1><i class="las la-exclamation"></i>No users requested Blood at this moment!</h1>';
     }
-
-
-
 }
 
 async function displayDonorsDesc1() {

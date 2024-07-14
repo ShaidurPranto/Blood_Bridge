@@ -1,4 +1,6 @@
 console.log("yourRequests.js loaded");
+console.log("userid: " + userid);
+console.log("name: " + name);
 
 let lastStatus = '';
 window.onload = function () {

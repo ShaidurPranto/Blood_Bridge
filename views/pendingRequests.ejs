@@ -31,7 +31,7 @@
     <div class="sidebar-menu">
       <ul>
         <li>
-          <a href="/DonorProfile?userid=<%= encodeURIComponent(userid) %>">
+          <a href="/DonorProfile?userid=<%= encodeURIComponent(userid) %> &name=<%= encodeURIComponent(name) %>">
             <span class="las la-user-circle">
               <span>Profile</span>
             </span>
@@ -41,7 +41,8 @@
 
       <ul>
         <li>
-          <a href="/UserHomePageForDonor?userid=<%= encodeURIComponent(userid) %>&name=<%= encodeURIComponent(name) %>">
+          <a
+            href="/UserHomePageForDonor?userid=<%= encodeURIComponent(userid) %> &name=<%= encodeURIComponent(name) %>">
             <span class="material-symbols-outlined">Home</span>
             <span>Home</span>
             </span>
@@ -50,7 +51,8 @@
       </ul>
       <ul>
         <li>
-          <a href="/pendingRequests?userid=<%= encodeURIComponent(userid) %>">
+          <a href="/pendingRequests?userid=<%= encodeURIComponent(userid) %> &name=<%= encodeURIComponent(name) %>"
+            class="active">
             <span class="las la-bell">
               <span>Blood Calls</span>
             </span>
@@ -60,7 +62,7 @@
 
       <ul>
         <li>
-          <a href="/bloodRequest?userid=<%= encodeURIComponent(userid) %>">
+          <a href="/bloodRequest?userid=<%= encodeURIComponent(userid) %> &name=<%= encodeURIComponent(name) %>">
             <span class="las la-tint">
               <span>Donate Blood to Blood Bank</span>
             </span>
@@ -79,7 +81,7 @@
       </ul>
       <ul id="bloodBankLists" style="display: none;">
         <li style="margin-left: 55px;">
-          <a href="/getblood?userid=<%= encodeURIComponent(userid) %>">
+          <a href="/getblood?userid=<%= encodeURIComponent(userid) %> &name=<%= encodeURIComponent(name) %>">
             <span class="las la-handshake">
               <span style="font-size: 20px;">From Blood Banks</span>
             </span>
@@ -89,7 +91,7 @@
 
       <ul id="donorLists" style="display: none;">
         <li style="margin-left: 55px;">
-          <a href="/getbloodFromDonor?userid=<%= encodeURIComponent(userid) %>">
+          <a href="/getbloodFromDonor?userid=<%= encodeURIComponent(userid) %> &name=<%= encodeURIComponent(name) %>">
             <span class="las la-handshake">
               <span style="font-size: 20px;">From Donors</span>
             </span>
@@ -99,7 +101,7 @@
 
       <ul>
         <li>
-          <a href="/yourRequests?userid=<%= encodeURIComponent(userid) %>">
+          <a href="/yourRequests?userid=<%= encodeURIComponent(userid) %> &name=<%= encodeURIComponent(name) %>">
             <span class="las la-file-medical-alt">
               <span>Updates of your Request</span>
             </span>
@@ -109,7 +111,7 @@
 
       <ul>
         <li>
-          <a href="/donationHistory?userid=<%= encodeURIComponent(userid) %>">
+          <a href="/donationHistory?userid=<%= encodeURIComponent(userid) %> &name=<%= encodeURIComponent(name) %>">
             <span class="las la-file-medical-alt">
               <span>Donation History</span>
             </span>
@@ -133,18 +135,16 @@
     </header>
 
     <div class="container">
-      <div class="reviews" id="qnaDiv"></div>
       <div class="navbar">
-        <h2>Donate Blood Immediately to Help</h2>
+        <h2>Donation saves life!</h2>
       </div>
 
       <div id="hii"></div>
       <div class="content">
-        <div class="sidebar">
-        </div>
-        <div class="main-content">
-          <h2>Users in your Area!</h2>
-          <p id="urgent">~Help by donating blood!</p>
+        <!-- <div class="sidebar">
+        </div> -->
+        <div class="main-content2">
+          <h2>Donation requests from your area!</h2>
           <button class="rounded-button" onclick="displayDonorsAsc()">VIEW OLD REQUESTS</button>
           <button class="rounded-button1" onclick="displayDonorsDesc()">VIEW LATEST REQUESTS</button>
 
@@ -155,7 +155,7 @@
 
         </div>
         <div class="other-content">
-          <h2>Users in your Division!</h2>
+          <h2>Donation requests from your Division!</h2>
           <!-- <p id="urgent">~You can always help needy people !</p> -->
           <button class="rounded-button2" onclick="displayDonorsAsc1()">VIEW OLD REQUESTS</button>
           <button class="rounded-button3" onclick="displayDonorsDesc1()">VIEW LATEST REQUESTS</button>

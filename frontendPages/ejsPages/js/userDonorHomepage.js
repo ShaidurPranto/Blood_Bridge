@@ -656,6 +656,8 @@ async function makeOneDiv(qna) {
     makerDiv.appendChild(maker);
     div.appendChild(makerDiv);
 
+    console.log("maker is ", name);
+
     const questionDiv = document.createElement('div');
     questionDiv.classList.add('question-div');
     const question = document.createElement('p');

@@ -1,60 +1,63 @@
+.container {
+    background-color: #dbd1d1;
+    display: flex;
+    flex-direction: column;
+    border: rgb(10, 247, 53);
+    width: 100%;
+}
+
 
 .navbar {
-    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 80px; /* Adjusted height */
-    background-color: #550011;
-    color: white;
+    height: 40px;
+    /* Adjusted height */
+    background-color: #eff3ec;
+    color: rgb(157, 47, 47);
     text-align: center;
-    line-height: 40px; /* Center vertically */
+    line-height: 40px;
+    /* Center vertically */
     z-index: 1000;
+    margin-bottom: 20px;
 }
 
 .content {
-    position: fixed;
-    top: 80px; /* Adjusted top position based on navbar height */
     left: 0;
     width: 100%;
-    height: calc(100% - 80px); /* Subtract navbar height */
+    height: calc(100% - 80px);
     display: flex;
     flex-direction: row;
 }
 
-/* Rest of your CSS */
 
-/* Rest of your CSS */
-
-  /* Style for the sidebar */
-  .sidebar {
-    width: 20%;
+.main-content2 {
+    width: 48%;
     height: 100%;
-    background-color: #f2f2f2;
+    background-color: #ffffff;
     overflow: auto;
-  }
+    display: flex;
+    flex-direction: column;
+    margin-right: 4%;
+}
 
-  /* Style for the main content area */
-  .main-content {
-    width: 40%;
+/* Style for the other content area */
+.other-content {
+    width: 48%;
     height: 100%;
-    background-color: #e6e6e6;
+    background-color: #ffffff;
     overflow: auto;
-  }
+    display: flex;
+    flex-direction: column;
+}
 
-  /* Style for the other content area */
-  .other-content {
-    width: 40%;
-    height: 100%;
-    background-color: #cccccc;
-    overflow: auto;
-  }
-
-  #bloodBankResults {
+#bloodBankResults {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px; /* Adds space between the cards */
+    gap: 20px;
+    /* Adds space between the cards */
 }
+
 .card {
     background: #c3d6eb;
     color: #333;
@@ -70,8 +73,7 @@
     overflow: hidden;
 }
 
-.bloodBankCard.card-header
-{
+.bloodBankCard.card-header {
     margin-bottom: 0;
 }
 
@@ -82,34 +84,42 @@
     box-shadow: 3px 2px 10px rgba(159, 85, 85, 0.3);
     padding: 6px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 100%; /* Set the width to 100% */
-    height: 350px; /* Allow the height to adjust based on content */
-    height: auto; /* Change to auto height to fit content */
+    width: 100%;
+    /* Set the width to 100% */
+    height: 350px;
+    /* Allow the height to adjust based on content */
+    height: auto;
+    /* Change to auto height to fit content */
     max-width: 500px;
-    margin-left: 45px; /* Optionally, set a maximum width */
+    margin-left: 45px;
+    /* Optionally, set a maximum width */
     margin-bottom: 5px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-.bloodBankCard.card-header
-{
+
+.bloodBankCard.card-header {
     margin-bottom: 5px;
 }
 
 @media (max-width: 768px) {
     .blood-bank-card {
-        flex: 0 0 calc(50% - 20px); /* Two cards per row on medium screens */
+        flex: 0 0 calc(50% - 20px);
+        /* Two cards per row on medium screens */
     }
 }
 
 @media (max-width: 480px) {
     .blood-bank-card {
-        flex: 0 0 100%; /* One card per row on small screens */
+        flex: 0 0 100%;
+        /* One card per row on small screens */
     }
 }
+
 .donor-name {
-    margin-bottom: 0px; /* Adjust the value as needed */
+    margin-bottom: 0px;
+    /* Adjust the value as needed */
 }
 
 
@@ -117,8 +127,10 @@
 #bloodBankResults2 {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px; /* Adds space between the cards */
+    gap: 20px;
+    /* Adds space between the cards */
 }
+
 .card2 {
     background: #c3d6eb;
     color: #4d5c80;
@@ -134,8 +146,7 @@
     overflow: hidden;
 }
 
-.bloodBankCard2.card-header2
-{
+.bloodBankCard2.card-header2 {
     margin-bottom: 0;
 }
 
@@ -146,33 +157,42 @@
     box-shadow: 3px 2px 10px rgba(159, 85, 85, 0.3);
     padding: 6px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 100%; /* Set the width to 100% */
-    height: 350px; /* Allow the height to adjust based on content */
-    height: auto; /* Change to auto height to fit content */
+    width: 100%;
+    /* Set the width to 100% */
+    height: 350px;
+    /* Allow the height to adjust based on content */
+    height: auto;
+    /* Change to auto height to fit content */
     max-width: 500px;
-    margin-left: 45px; /* Optionally, set a maximum width */
+    margin-left: 45px;
+    /* Optionally, set a maximum width */
     margin-bottom: 5px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-.bloodBankCard2.card-header2
-{
+
+.bloodBankCard2.card-header2 {
     margin-bottom: 5px;
 }
 
 @media (max-width: 768px) {
     .blood-bank-card2 {
-        flex: 0 0 calc(50% - 20px); /* Two cards per row on medium screens */
+        flex: 0 0 calc(50% - 20px);
+        /* Two cards per row on medium screens */
     }
 }
 
 @media (max-width: 480px) {
     .blood-bank-card2 {
-        flex: 0 0 100%; /* One card per row on small screens */
+        flex: 0 0 100%;
+        /* One card per row on small screens */
     }
-}#hii {
-    background-color: #d9d6d6; /* Your desired background color */
+}
+
+#hii {
+    background-color: #d9d6d6;
+    /* Your desired background color */
     color: #550011;
     padding: 100px;
     border-radius: 5px;
@@ -183,16 +203,21 @@
     height: 100%;
     z-index: 999;
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    flex-direction: column; /* Align text vertically */
-    text-align: center; /* Align text horizontally */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    flex-direction: column;
+    /* Align text vertically */
+    text-align: center;
+    /* Align text horizontally */
 }
 
 #ho {
     text-align: center;
-    margin-top: 240px; /* Adjust as needed */
-    margin-right:160px;
+    margin-top: 240px;
+    /* Adjust as needed */
+    margin-right: 160px;
 }
 
 
@@ -202,17 +227,19 @@
     background-color: #67609a;
     color: white;
     border: none;
-    border-radius: 20px; /* Adjust the value as needed */
+    border-radius: 20px;
+    /* Adjust the value as needed */
     padding: 10px 20px;
     margin: 5px;
     cursor: pointer;
     outline: none;
-    margin-left: 95px;
-    margin-bottom: 50px;
+    /* margin-left: 95px;
+    margin-bottom: 50px; */
 }
 
 .rounded-button:hover {
-    background-color: #442931; /* Darker shade for hover effect */
+    background-color: #442931;
+    /* Darker shade for hover effect */
 }
 
 
@@ -220,17 +247,19 @@
     background-color: #67609a;
     color: white;
     border: none;
-    border-radius: 20px; /* Adjust the value as needed */
+    border-radius: 20px;
+    /* Adjust the value as needed */
     padding: 10px 20px;
     margin: 5px;
     cursor: pointer;
     outline: none;
-    margin-left: 95px;
-    margin-bottom: 50px;
+    /* margin-left: 95px;
+    margin-bottom: 50px; */
 }
 
 .rounded-button2:hover {
-    background-color: #442931; /* Darker shade for hover effect */
+    background-color: #442931;
+    /* Darker shade for hover effect */
 }
 
 
@@ -238,7 +267,8 @@
     background-color: #799b6d;
     color: white;
     border: none;
-    border-radius: 20px; /* Adjust the value as needed */
+    border-radius: 20px;
+    /* Adjust the value as needed */
     padding: 10px 20px;
     margin: 5px;
     cursor: pointer;
@@ -246,7 +276,8 @@
 }
 
 .rounded-button1:hover {
-    background-color: #442931; /* Darker shade for hover effect */
+    background-color: #442931;
+    /* Darker shade for hover effect */
 }
 
 
@@ -254,7 +285,8 @@
     background-color: #799b6d;
     color: white;
     border: none;
-    border-radius: 20px; /* Adjust the value as needed */
+    border-radius: 20px;
+    /* Adjust the value as needed */
     padding: 10px 20px;
     margin: 5px;
     cursor: pointer;
@@ -262,29 +294,33 @@
 }
 
 .rounded-button3:hover {
-    background-color: #442931; /* Darker shade for hover effect */
+    background-color: #442931;
+    /* Darker shade for hover effect */
 }
 
 
-:root{
 
-    --main-color:#550011;
+/*                                   starts                                                */
+
+
+:root {
+
+    --main-color: #550011;
     --color-dark: #1D2231;
-    --text-grey:#8390A2;
+    --text-grey: #8390A2;
 
 }
 
-*{
+* {
     padding: 0;
     margin: 0;
-    box-sizing: border-box ;
+    box-sizing: border-box;
     list-style-type: none;
     text-decoration: none;
     font-family: Arial;
 }
 
-.sidebar
-{
+.sidebar {
     width: 345px;
     position: fixed;
     left: 0;
@@ -295,156 +331,131 @@
     transition: width 300ms;
 }
 
-.sidebar-brand
-{
+.sidebar-brand {
     height: 90px;
     padding: 1 rem 0 rem 1 rem 2 rem;
     color: #fff;
 }
-.sidebar-brand span{
+
+.sidebar-brand span {
     display: inline-block;
     padding-right: 1rem;
 
 }
-.sidebar-menu
-{
+
+.sidebar-menu {
     margin-top: 1rem;
 }
 
-.sidebar-menu li
-{
+.sidebar-menu li {
     width: 100%;
     margin-bottom: 1.7rem;
     padding-left: 2rem;
 }
 
-.sidebar-menu a.active
-{
+.sidebar-menu a.active {
     background: #fff;
     padding-top: 1rem;
     padding-bottom: 1rem;
     color: var(--main-color);
-    border-radius: 30px 0px 0px 30px ;
+    border-radius: 30px 0px 0px 30px;
 }
 
-.sidebar-menu a
-{
+.sidebar-menu a {
     display: block;
     color: #fff;
     font-size: 1.1 rem;
 }
 
-.sidebar-menu a span:first-child
-{
+.sidebar-menu a span:first-child {
     font-size: 1rem;
     padding-right: 1 rem;
 }
 
 
-header h2{
+header h2 {
     color: #222;
 }
 
-header label span
-{
-    font-size:1.7rem ;
-    padding-left: 1rem ;
+header label span {
+    font-size: 1.7rem;
+    padding-left: 1rem;
 }
 
 
-#nav-toggle:checked+ .sidebar
-{
-   width: 70px;
-    
-}
-
-#nav:checked
-{
+#nav-toggle:checked+.sidebar {
     width: 70px;
-    
+
+}
+
+#nav:checked {
+    width: 70px;
+
 }
 
 
-#nav-toggle:checked+.sidebar .sidebar-brand
-#nav-toggle:checked+ .sidebar li a
-{
-   padding-left: 1rem;
-   text-align: center;
-    
+#nav-toggle:checked+.sidebar .sidebar-brand #nav-toggle:checked+.sidebar li a {
+    padding-left: 1rem;
+    text-align: center;
+
 }
 
-#nav-toggle:checked+ .sidebar li a
-{
-   padding-left: 0rem;
-    
+#nav-toggle:checked+.sidebar li a {
+    padding-left: 0rem;
+
 }
 
 
 
-#nav-toggle:checked+ .sidebar .sidebar-brand h2 span:last-child,
-#nav-toggle:checked+ .sidebar li a span:last-child
-{
-  display: none;
-    
+#nav-toggle:checked+.sidebar .sidebar-brand h2 span:last-child,
+#nav-toggle:checked+.sidebar li a span:last-child {
+    display: none;
+
 }
 
 
-#nav-toggle:checked- .main-content
-{  transition: margin-left 300ms;
-   margin-left: 345px;
-    
+#nav-toggle:checked- .main-content {
+    transition: margin-left 300ms;
+    margin-left: 345px;
+
 }
 
-#nav-toggle:checked- .main-content header
-{  width: calc(100%-70px);
-    
+#nav-toggle:checked- .main-content header {
+    width: calc(100%-70px);
+
 }
 
 
-.main-content
-{
-    margin-left:345px;
+.main-content {
+    margin-left: 345px;
 }
 
-header
-{   background: #fff;
+header {
+    background: #fff;
     display: flex;
-    justify-content: space-between ;
+    justify-content: space-between;
     padding: 1rem 1.5rem;
-    box-shadow: 2px 4px 5px rgba(0,0,0,0.3);
-   
-    left:345 px;
+    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3);
+
+    left: 345 px;
     width: calc(100%-345px);
     top: 0;
     z-index: 100;
     transition: left 300ms;
-   
-    
+
+
 }
 
-#nav-toggle
-{
+#nav-toggle {
     display: none;
-}
-
-.user-wrapper
-{
-    display:flex;
-    align-items: center;
-
-}
-.user-wrapper img{
-    border-radius: 50%;
-    margin-right: 1rem;
-
 }
 
 main {
     margin-top: 85px;
     padding: 2 rem 1.5 rem;
     background: #f1f5f9;
-    min-height: calc(100vh - 90px) ;
-    
+    min-height: calc(100vh - 90px);
+
 }
 
 /* Dropdown Button */
@@ -454,7 +465,8 @@ main {
     font-size: 17px;
     border: none;
     cursor: pointer;
-    margin-right: 10px; /* Add margin to create a gap */
+    margin-right: 10px;
+    /* Add margin to create a gap */
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -463,7 +475,7 @@ main {
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -489,675 +501,28 @@ main {
 .dropdown:hover .dropbtn {
     background-color: #ddd;
 }
+
 .nav-option {
     color: #333;
     padding: 12px 16px;
     font-size: 18px;
     text-decoration: none;
     display: inline-block;
-    
-    position: relative; /* Add relative positioning */
-    left: -10px; /* Move it 10 pixels to the left */
+
+    position: relative;
+    /* Add relative positioning */
+    left: -10px;
+    /* Move it 10 pixels to the left */
 }
 
 .nav-option:hover {
-    color: #550011; /* Text color on hover */
-    text-decoration: underline; /* Add underline on hover */
-}.container {
+    color: #550011;
+    /* Text color on hover */
+    text-decoration: underline;
+    /* Add underline on hover */
+}
+
+.container {
     display: flex;
     height: 100vh;
-}
-
-.reviews {
-    flex: 3; /* Larger part takes 75% of the width */
-    background-color: #f1f1f1;
-    padding: 20px;
-}
-
-.card-wrapper {
-    display: flex;
-    justify-content: space-between; /* Space items evenly */
-    align-items: flex-start; /* Align items to the start of the cross axis */
-    flex-wrap: wrap; /* Allow flex items to wrap */
-    padding-top: 0;
-    margin-top: 0;
-    position: relative; 
-    flex: 1; /* Smaller part takes 25% of the width */
-    padding: 20px;
-    display: flex;
-    align-items: flex-start; /* Align items to the start of the cross axis */
-    justify-content: center;
-    align-items: center;
-    max-width: 600px; /* or whatever the width of your card is */
-    margin: 0 auto; /* Center the wrapper in the available flex area */
-    flex-direction: column; /* Stack children vertically */
-}
-
-
-.background-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    z-index: 1; /* Ensure the background image appears behind other content */
-    opacity: 0.5; /* Adjust opacity as needed */
-}
-
-.card-container {
-    max-width: 600px; /* Set maximum width for review cards */
-    margin: 0 auto; /* Center the container horizontally */
-}
-
-.card {
-    width: 100%; /* Take full width of the container */
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    margin-top: 0;
-    
-}
-
-
-
-
-.card-header {
-    background-color: #550011;
-    color: #fff;
-    padding: 15px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.card-body p {
-    margin: 10px 0;
-}
-
-.card-body p strong {
-    font-weight: bold;
-}
-
-.comment-section {
-    margin-top: 20px;
-}
-
-.comment-input {
-    width: calc(100% - 20px); /* Adjust width to account for padding */
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.comment-btn {
-    background-color: #550011;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-/* Initial state of the profile card - hidden */
-.profile-card {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.5s linear;
-    position: fixed;
-    top: -100%; /* Move the card above the viewport */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%; /* Adjust width as needed */
-    max-width: 400px; /* Limit maximum width */
-    background-color: rgba(85, 0, 17, 0.9); /* Red color with opacity */
-    padding: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    z-index: 1000; /* Ensure it's above other content */
-    color: white;
-    backdrop-filter: blur(100px); /* Apply blur effect to background */
-}
-
-/* State of the profile card when it should be shown */
-.show {
-    visibility: visible;
-    opacity: 1;
-    top: 50%; /* Move the card to the center of the viewport */
-}
-
-/* Additional styling for the profile card */
-.profile-card h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-.notification-section {
-    position: absolute;
-   
-    top: 0; /* This will position it right at the top of the card-wrapper */
-    width: 100%; /* Ensure it spans the full width of the card-wrapper */
-    
-    width: 100%; /* Take full width of the card-wrapper */
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 40px; /* Spacing between the notification section and the card below */
-}
-.card-wrapper:nth-child(2) {
-    transition: right 0.5s; 
-    display: none;
-   
-    top: 0;
-  
-}
-
-.card-wrapper.show {
-   display: flex;
-   transition: right 0.5s; 
-}
-
-.icon-button {
-   
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    color: #333333;
-    background: #dddddd;
-    border: none;
-    outline: none;
-    border-radius: 50%;
-  }
-  
-  .icon-button:hover {
-    cursor: pointer;
-  }
-  
-  .icon-button:active {
-    background: #cccccc;
-  }
-  
-  .icon-button__badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    width: 25px;
-    height: 25px;
-    background: red;
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-  }
-  #noAppointmentMessage {
-    background-color:   #f8a5b6;
-    color:white;
-    
-    /* background-color: yellow; */
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 15px;
-}
-
-#pendingMessage {
-    background-color:  #f8a5b6;
-    color:white;
-    
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 15px;
-    margin-bottom: 50px;
-}
-
-#acceptMessage {
-    background-color:  #f8a5b6;
-    color:white;
-    
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 4px;
-    margin-bottom: 10px;
-}
-
-
-#successMessage {
-    background-color:  #f8a5b6;
-        color:white;
-    
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 35px;
-    margin-bottom: 17px;
-}
-
-.donate-link {
-    
-    color:wheat;
-
-    text-decoration: underline; /* Add underline */
-}
-/* successful*/
-.bank-message {
-    margin-top: 10px;
-    color: #333; /* Adjust text color as needed */
-    font-size: 16px; /* Adjust font size as needed */
-    animation: highlight 1.5s infinite alternate; /* Animation properties */
-    margin-bottom: 10px;
-   
-}
-
-@keyframes highlight {
-    0% { background-color: #e84062; } /* Initial background color */
-    100% { background-color: #f78548; } /* Highlighted background color */
-}
-.rating-review select,
-.rating-review textarea {
-    margin-top: 10px;
-    margin-bottom: 5px;
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    color: rgb(199, 96, 96);
-    background-color: rgb(244, 225, 225);
-    transition: border-color 0.3s, background-color 0.3s;
-    margin-bottom: 2px;
-}
-
-.rating-review button {
-    background-color: #550011; /* Green background */
-    color: white; /* White text */
-    padding: 10px 20px;
-    margin: 10px 0;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-#cancelAppointmentButton {
-    background-color: #550011;
-    color: white;
-    padding: 10px 20px;
-    margin: 10px auto; /* Set left and right margins to auto */
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    display: block; /* Ensure the button takes up full width */
-    width: fit-content; /* Adjust width to fit its content */
-}
-#viewprofile
-{
-    background-color: #550011;
-    color: white;
-    padding: 10px 20px;
-    margin: 10px auto; /* Set left and right margins to auto */
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    display: block; /* Ensure the button takes up full width */
-    width: fit-content; /* Adjust width to fit its content */
-
-
-}
-#cancelAppointmentButton2 {
-    background-color: #550011;
-    color: white;
-    padding: 10px 20px;
-    margin: 10px auto; /* Set left and right margins to auto */
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    display: block; /* Ensure the button takes up full width */
-    width: fit-content; /* Adjust width to fit its content */
-}
-
-
-.rating-review button:hover {
-    background-color:  #f8a5b6;
-}
-
-#bs
-{
-    margin-top: 5px;
-}
-
-#bankname {
-    margin-top: 40px;
-   text-align: center;
-   color:#550011;
-}
-.confirmation-box {
-    display: none;
-    position: fixed;
-    top: 43%;
-    font-size: large;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    left: 90%; /* Adjust left position */
-    transform: translate(-50%, -50%);
-    background-color:#3f5474; /* New background color */
-     color: #ccc;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    z-index: 999; /* Ensure it's above other content */
-    height: 150px; /* Adjust width */
-    width: 300px;
-    text-align: center;
-}
-
-
-.confirmation-box button {
-    margin: 10px; /* Add some space around the buttons */
-    padding: 12px 24px; /* Increase padding for bigger buttons */
-    font-size: 16px; /* Increase font size */
-}
-
-
-
-.confirmation-box2 {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    max-width: 300px;
-    margin: 20px auto;
-}
-
-.confirmation-message {
-    font-size: 18px;
-    margin-bottom: 15px;
-}
-
-.select-container {
-    margin-bottom: 15px;
-}
-
-.cancel-reason {
-   
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    color: rgb(199, 96, 96);
-    background-color: rgb(244, 225, 225);
-    transition: border-color 0.3s, background-color 0.3s;
-    margin-bottom: 2px;
-}
-
-.button-container {
-    text-align: center;
-}
-
-.confirm-button, .cancel-button {
-    padding: 10px 20px;
-    margin: 10px auto; /* Set left and right margins to auto */
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    display: block; /* Ensure the button takes up full width */
-    width: fit-content; /* Adjust width to fit its content */
-}
-
-.confirm-button {
-    background-color: #adfbaf;
-    color: rgb(109, 106, 106);
-}
-
-.cancel-button {
-    background-color: #feb4af;
-    color: rgb(109, 106, 106);
-}
-
-/* //////////////qna/////////////////  */
-
-.qna-div{
-    background-color: #dbd9d9;
-    overflow: auto; /* or overflow: scroll; */
-}
-
-.your-questions-state1{
-    padding: 20px;
-    width: 100%;
-    background-color: #f9f4f4;
-    margin-bottom : 30px;
-    border-radius: 10px;
-}
-.your-questions-state1 p{
-    font-size: 20px;
-    color: #550011;
-    align-self: center;
-}
-
-.your-questions-state2{
-    padding: 20px;
-    width: 100%;
-    background-color: #c4c0c0;
-    margin-bottom : 30px;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.close-button-div{
-    display: flex;
-    justify-content: flex-end;
-}
-
-.questions-div{
-    display: flex;
-    flex-direction: column;
-}
-
-.one-qna-div{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    border-bottom: 2px solid black;
-    background-color: #f9f4f4;
-    padding : 20px;
-}
-
-.one-qna-div .question-div{
-    background-color: #dbe2dd;
-    color: #030303;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom : 5px;
-}
-
-.one-qna-div .photo-div-your-questions{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-
-    width: 400px;
-    height: 300px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-color: #3f5474;
-}
-
-.one-qna-div .answers-div{
-    background-color: #121211;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom : 5px;
-    margin-left: 20px;
-}
-
-.one-qna-div .answers-div .answer-div{
-    background-color: #dbe2dd;
-    color: #030303;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom : 5px;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.user-div{
-    background-color: white;
-    padding: 10px;
-    width: 100%;
-    margin-bottom: 5px;
-    border-radius: 5px;
-}
-
-.no-answer-div p{
-    font-size: 20px;
-    color: #ffffff;
-    align-self: center;
-}
-
-
-
-
-
-.create-qna{
-    padding: 20px;
-    width: 100%;
-    background-color: #f9f4f4;
-}
-.create-qna p{
-    font-size: 20px;
-    color: #550011;
-    align-self: center;
-}
-
-.create-qna-form{
-    background-color: #f9f4f4;
-    display: flex;
-    flex-direction: column;
-    min-height: 200px;
-    width: 100%;
-    padding: 20px;
-}
-
-.question-div{
-    background-color: #d8d8d8;
-}
-
-.qna-input{
-    min-height: 100px;
-    resize: vertical;
-}
-
-.attach-photo{
-    margin-top: 5px;
-    background-color: #550011;
-    color: white;
-    width: 100px;
-    margin-bottom: 10px;
-    padding : 5px;
-}
-.selected-photo{
-    margin-top: 5px;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-}
-.photo{
-    width: 500px;
-    height: 400px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-}
-
-.make-qna-button-div{ 
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    padding: 10px;
-}
-
-
-.show-qna-div{
-    margin-top: 20px;
-    position: relative;
-    border-radius: 5px;
-}
-.one-qna-div{
-    border-radius: 10px;
-}
-.one-qna-div .photo-div{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-
-    width: 400px;
-    height: 300px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-color: #3f5474;
-}
-.one-qna-div .question-div{
-    margin-top: 30px;
-}
-.one-qna-div .maker-div{
-    position: absolute;
-    background-color: var(--main-color);
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom : 5px;
-    width: 50%;
-    text-align: center;
-    top: 0;
-    left: 0;
-
-}
-.add-answer-div{
-    display: flex;
-    flex-direction: row;
-    background-color: #f9f4f4;
-}
-
-.add-answer-div textarea{
-    width: 60%;
-    height: 40px;
-    resize: vertical;
-    border-radius: 5px;
-    padding: 10px;
-}
-
-.add-answer-div button{
-    /* background-color: #0e6606f7; */
-    color: rgb(226, 2, 2);
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-left: 10px;
-    border : 1px solid #0e6606f7;
-}
-.add-answer-div button:hover{
-    background-color: var(--main-color);
-    color: white;
-}
-
-.no-answer-div p {
-    font-size: 12px;
-    color: #ffffff;
-    align-self: center;
-    opacity: 0.5;
 }
